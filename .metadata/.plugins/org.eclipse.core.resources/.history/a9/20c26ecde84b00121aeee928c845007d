@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="GameView" 
+		creationComplete="creationCompleteHandler(event)" actionBarVisible="false" xmlns:components="components.*" >
+	<s:layout>
+		<s:VerticalLayout paddingTop="10" paddingBottom="5" paddingLeft="5" paddingRight="5" gap="80" 
+						  horizontalAlign="center" verticalAlign="top"/>
+	</s:layout>
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import components.CheckGameEndPopUp;
+			
+			import events.EndGamePopUpButtonEvent;
+			import events.GameCompleteEvent;
+			
+			import model.GameModel;
+			
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			[Bindable]
+			public var gameModel:GameModel = new GameModel();
+			
+			[Bindable]
+			protected var halfInning:String = RefConstants.INNING_TOP;
+			
+			private var _endPop:CheckGameEndPopUp;
+			
+			protected function undoButtonClickHandler(event:MouseEvent):void{
+			}
+
+			protected function foulBtnClickHandler(event:MouseEvent):void{
+				gameModel.fouls++;
+				
+			}
+			
+			protected function strikeBtnClickHandler(event:MouseEvent):void{
+				gameModel.strikes++;
+			}
+			
+			protected function ballBtnClickHandler(event:MouseEvent):void{				
+				gameModel.balls++;
+			}
+			
+			protected function awayBtnClickHandler(event:MouseEvent):void{
+				gameModel.awayTeamScore++;
+			}
+			
+			protected function homeBtnClickHandler(event:MouseEvent):void{				
+				gameModel.homeTeamScore++;			
+			}
+			
+			protected function creationCompleteHandler(event:FlexEvent):void{
+				gameModel=GameModel(data);
+				gameModel.dispatcher.addEventListener( GameCompleteEvent.GAME_COMPLETE, handleGameComplete );
+				invalidateDisplayList();
+				
+			}
+			
+			protected function handleGameComplete(event:GameCompleteEvent):void{
+				_endPop = new CheckGameEndPopUp();
+				_endPop.setStyle("modalTransparency", .75);
+				_endPop.setStyle("modalTransparencyBlur", .75);
+				_endPop.addEventListener(EndGamePopUpButtonEvent.END_CLICK,goToEndView);
+				_endPop.addEventListener(EndGamePopUpButtonEvent.CONTINUE_CLICK,continueGame);
+				PopUpManager.addPopUp(_endPop,this,true);
+				PopUpManager.centerPopUp(_endPop);
+			}
+			
+			protected function continueGame(evt:EndGamePopUpButtonEvent):void{
+				PopUpManager.removePopUp(CheckGameEndPopUp(evt.target));				
+				_endPop=null;
+			}
+			
+			protected function goToEndView(evt:EndGamePopUpButtonEvent):void{
+				PopUpManager.removePopUp(CheckGameEndPopUp(evt.target));
+				_endPop=null;
+				navigator.pushView(EndView, gameModel);				
+			}
+			
+			protected function safeBtnClickHandler(event:MouseEvent):void{
+				gameModel.kickerSafe();
+				
+			}
+			
+			protected function outBtnClickHandler(event:MouseEvent):void{
+				gameModel.kickerOut();
+				halfInning = gameModel.halfInning;
+			}			
+			
+		]]>
+	</fx:Script>
+	
+	<s:VGroup height="100%" width="100%" gap="10">
+		<s:HGroup width="100%" >
+			<components:TeamButton id="homeBtn" teamName="{gameModel.homeTeam}" score="{gameModel.homeTeamScore}"  
+					  click="homeBtnClickHandler(event)" teamColor="{gameModel.homeTeamColor}" />
+			<components:TeamButton id="awayBtn" teamName="{gameModel.awayTeam}" score="{gameModel.awayTeamScore}" 
+					  click="awayBtnClickHandler(event)" teamColor="{gameModel.awayTeamColor}"   />
+		</s:HGroup>
+		<s:HGroup width="100%" >
+			<s:Label id="outLbl" text="{gameModel.outs} out" styleName="statusLabel" />
+			<s:Label id="inningLbl" text="{halfInning} of " styleName="statusLabel" />	
+			<s:Label id="inningLbl2" text="{gameModel.inning}" styleName="statusLabel" />				
+		</s:HGroup>
+		<s:HGroup width="100%" >
+			<components:ResultButton id="safeBtn" label="SAFE" click="safeBtnClickHandler(event)" color="{RefConstants.GREEN}" />
+			<components:ResultButton id="outBtn" label="OUT" click="outBtnClickHandler(event)" color="{RefConstants.RED}" />
+		</s:HGroup>
+		<s:HGroup width="100%" >
+			<components:PitchButton id="ballBtn" label="BALL" count="{gameModel.balls}" 
+									click="ballBtnClickHandler(event)" />
+			<components:PitchButton id="strikeBtn" label="STRIKE" count="{gameModel.strikes}" 
+									click="strikeBtnClickHandler(event)" />
+			<components:PitchButton id="foulBtn" label="FOUL" count="{gameModel.fouls}" 
+									click="foulBtnClickHandler(event)" />
+		</s:HGroup>
+		<components:UndoButton id="undoButton" label="UNDO" 
+							   click="undoButtonClickHandler(event)" bottom="10" />
+	</s:VGroup>
+</s:View>

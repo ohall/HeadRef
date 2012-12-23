@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="NewGameView">
+	<fx:Declarations>
+		<s:ArrayCollection id="teamsList">
+			<fx:Object name="Add Team"/>
+		</s:ArrayCollection>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			
+			private var homeOrAway:String = "Home";
+			
+		]]>
+	</fx:Script>
+	
+	
+	
+	<s:VGroup>
+		<s:Label text="Choose"/>
+		<s:SpinnerListContainer width="220">
+			<s:SpinnerList id="list" width="20%">
+				<s:dataProvider>
+					<s:NumericDataProvider minimum="0" maximum="5" stepSize="1"/>
+				</s:dataProvider>
+			</s:SpinnerList>
+			<s:SpinnerList id="supplyList" width="80%" labelField="name" dataProvider="{suppliesAC}" selectedIndex="{list.selectedItem}"/>                    
+		</s:SpinnerListContainer>
+	</s:VGroup>        
+	
+	
+	
+</s:View>

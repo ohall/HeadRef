@@ -1,0 +1,11 @@
+package model{
+	import mx.collections.ArrayCollection;
+
+	public class TeamsListModel{
+		
+		
+		public var teams:ArrayCollection = new ArrayCollection;
+		
+		public function TeamsListModel(){}
+	}
+}

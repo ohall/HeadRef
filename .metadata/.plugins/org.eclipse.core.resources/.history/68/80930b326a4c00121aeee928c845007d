@@ -1,0 +1,13 @@
+package model
+{
+	public class LeagueModel{
+		
+		
+
+		
+		public var leagueRules:LeagueRules;
+		
+		
+		public function LeagueModel(){}
+	}
+}

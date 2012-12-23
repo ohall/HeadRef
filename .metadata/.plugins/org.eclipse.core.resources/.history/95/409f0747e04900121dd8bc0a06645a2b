@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark">
+	
+	<fx:Script>
+		<![CDATA[
+			protected function endButtonClickHandler(event:TouchEvent):void{
+				// TODO Auto-generated method stub
+				
+			}
+			
+			protected function continueButtonClickHandler(event:TouchEvent):void{
+				
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	
+	
+	
+	<s:Label text="End or coninue game?" />
+	<s:HGroup>
+		<s:Button label="End" touchBegin="endButtonClickHandler(event)" />
+		<s:Button label="Continue" touchBegin="continueButtonClickHandler(event)" />
+	</s:HGroup>
+</s:TitleWindow>

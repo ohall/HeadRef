@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="EndView" 
+		creationComplete="creationCompleteHandler(event)" 
+		actionBarVisible="false" >
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import model.GameModel;
+			
+			import mx.events.FlexEvent;
+
+			
+			public var gameModel:GameModel;
+
+			protected function creationCompleteHandler(event:FlexEvent):void{
+				navigator.hideActionBar(true);
+				gameModel=GameModel(data);
+			}
+			
+			protected function emailButtonclickHandler(event:MouseEvent):void{
+				var s:String = "";
+				s += "mailto:";
+				s+= gameModel.leagueRules.leagueManagerEmail;
+				s+= "?";
+				s+= "subject=" ;
+				s+= gameModel.homeTeam+": "+gameModel.homeTeamScore+" - ";
+				s+= gameModel.awayTeam+": "+gameModel.awayTeamScore;
+				s+= "&";
+				s+= "body=";
+				s+= gameModel.homeTeam+": "+gameModel.homeTeamScore+" ";
+				s+= gameModel.awayTeam+": "+gameModel.awayTeamScore+" ";
+				navigateToURL( new URLRequest(s));
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:VGroup>
+		<s:Button label="Send Scores Email" click="emailButtonclickHandler(event)" />
+	</s:VGroup>
+</s:View>

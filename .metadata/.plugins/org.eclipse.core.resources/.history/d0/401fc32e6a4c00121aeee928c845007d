@@ -1,0 +1,14 @@
+package model
+{
+	public class LeagueModel{
+		
+		
+		public var leagueManagerEmail : String;
+		public var leagueName		: String;
+		
+		public var leagueRules:LeagueRules;
+		
+		
+		public function LeagueModel(){}
+	}
+}

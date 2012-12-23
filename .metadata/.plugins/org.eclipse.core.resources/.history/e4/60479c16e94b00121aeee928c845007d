@@ -1,0 +1,9 @@
+package model
+{
+	public class TeamModel
+	{
+		public function TeamModel()
+		{
+		}
+	}
+}

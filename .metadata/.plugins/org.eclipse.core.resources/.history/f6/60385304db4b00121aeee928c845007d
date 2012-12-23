@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("components.TeamButton")]
+	</fx:Metadata>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="disabled" />
+		<s:State name="down" />
+		<s:State name="over" />
+		<s:State name="up" />
+	</s:states>
+	
+	<s:Rect height="100%" width="100%" radiusX="2"
+			top="1" right="1" bottom="1" left="1">
+		<s:fill>
+			<s:SolidColor color="{hostComponent.teamColor}"
+						  color.down="#8AE000"
+						  alpha=".75"
+						  alpha.down="1"/>
+		</s:fill>
+	</s:Rect>
+	
+	<!-- layer 8: text --> 
+	<s:Rect height="50%"  width="75%"  horizontalCenter="0" verticalCenter="0" radiusX="2" radiusY="2">
+		<s:fill>
+			<s:SolidColor color="#000000" alpha=".5" />
+		</s:fill>		
+	</s:Rect>
+	<s:VGroup horizontalCenter="0" verticalCenter="0" width="100%" horizontalAlign="center" >			
+		<s:Label id="teamName" text="{hostComponent.teamName}"
+				 textAlign="center"  styleName="teamLabel"
+				 verticalAlign="middle" 
+				 maxDisplayedLines="1" width="75%"
+				 /> 
+			
+		<s:Label id="score" textAlign="center" 
+				 verticalAlign="middle" text="{hostComponent.score}"/> 
+	</s:VGroup>
+</s:Skin>

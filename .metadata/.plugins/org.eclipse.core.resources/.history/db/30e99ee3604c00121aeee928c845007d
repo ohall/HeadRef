@@ -1,0 +1,12 @@
+package events
+{
+	import flash.events.Event;
+	
+	public class LongPressEvent extends Event
+	{
+		public function LongPressEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
+		{
+			super(type, bubbles, cancelable);
+		}
+	}
+}

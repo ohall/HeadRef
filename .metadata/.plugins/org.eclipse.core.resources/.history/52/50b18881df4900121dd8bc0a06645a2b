@@ -1,0 +1,12 @@
+package events
+{
+	import flash.events.Event;
+	
+	public class EndGamePopUpButtonEvent extends Event
+	{
+		public function EndGamePopUpButtonEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
+		{
+			super(type, bubbles, cancelable);
+		}
+	}
+}

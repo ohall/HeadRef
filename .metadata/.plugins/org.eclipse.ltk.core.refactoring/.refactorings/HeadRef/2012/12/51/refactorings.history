@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;HeadRef/src/Events&apos; to &apos;events&apos;" description="Rename resource &apos;Events&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/Events" name="events" stamp="1355921510397" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;HeadRef/src/style/BankGothic Bold.ttf&apos; to &apos;BankGothic.ttf&apos;" description="Rename resource &apos;BankGothic Bold.ttf&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/style/BankGothic Bold.ttf" name="BankGothic.ttf" stamp="1355965837982" updateReferences="true"/>
+</session>

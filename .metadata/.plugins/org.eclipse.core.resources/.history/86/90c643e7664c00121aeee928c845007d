@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="HomeView" xmlns:model="model.*" actionBarVisible="false" >
+	<s:layout>
+		<s:VerticalLayout gap="80" horizontalAlign="center" paddingBottom="5" paddingLeft="5"
+						  paddingRight="5" paddingTop="10" verticalAlign="top"/>
+	</s:layout>
+	<fx:Declarations>
+		<s:ArrayCollection id="suppliesAC">
+			<fx:Object name="Circuit" />
+
+		</s:ArrayCollection>
+		
+		<fx:Script>
+			<![CDATA[
+				protected function newGameButtonClickHandler(event:MouseEvent):void
+				{
+					// TODO Auto-generated method stub
+					
+				}
+			]]>
+		</fx:Script>
+		
+		
+	</fx:Declarations>
+
+	
+	<fx:Script>
+		<![CDATA[
+			import model.GameModel;
+			import model.LeagueRules;
+
+
+			
+			protected function addTeamButtonClickHandler(event:MouseEvent):void{
+				navigator.pushView(EditTeamView);
+				
+			}
+			
+			
+			protected function ruleListClickHandler(event:MouseEvent):void{
+				var rules:LeagueRules = new LeagueRules();
+				rules.strikesAllowed=3;
+				rules.ballsAllowed=4;
+				rules.foulsAllowed=3;
+				rules.foulsAreStrikes=false;
+				rules.walkOnBalls = true;
+				rules.numberOfInnings = 1;
+				
+				rules.leagueManagerEmail = "oakley349@gmail.com";
+				
+//				gameModel.awayTeam = "MEATBALLS";
+//				gameModel.awayTeamColor = 0x000000;
+//				gameModel.homeTeam = "NYSH";
+//				gameModel.leagueRules = rules;
+//				gameModel.homeTeamColor= 0x3A70D2;
+//				
+//				navigator.pushView(GameView, gameModel);
+//				
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Button id="newGameButton" label="New Game" click="newGameButtonClickHandler(event)"
+	
+	
+   
+
+</s:View>

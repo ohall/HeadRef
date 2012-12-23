@@ -1,0 +1,13 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+
+s|ViewNavigatorApplication
+{
+	color:blue;
+	backgroundColor: red;
+	backgroundImage:url('../skins/greenPaperBG.jpg');
+}
+
+s|Button{
+	color:green;
+}

@@ -1,0 +1,12 @@
+package Events
+{
+	import flash.events.Event;
+	
+	public class GameCompleteEvent extends Event
+	{
+		public function GameCompleteEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
+		{
+			super(type, bubbles, cancelable);
+		}
+	}
+}

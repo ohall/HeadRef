@@ -1,0 +1,9 @@
+package
+{
+	public class RefConstants
+	{
+		public function RefConstants()
+		{
+		}
+	}
+}

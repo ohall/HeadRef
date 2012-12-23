@@ -1,0 +1,27 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+
+@font-face {
+	src: url("BankGothic.ttf");
+	fontFamily: bg;
+	fontStyle: normal;
+	fontWeight: bold;
+	advancedAntiAliasing: true;
+}
+
+s|ViewNavigatorApplication
+{
+	color:#8AE000;
+	fontFamily:bg;
+	fontWeight:bold;
+}
+
+s|View{
+	fontFamily:bg;
+	skinClass: ClassReference("skinClasses.HeadRefViewSkin")
+}	
+
+s|Button{
+	fontFamily:bg;
+	color:#8AE000;
+}

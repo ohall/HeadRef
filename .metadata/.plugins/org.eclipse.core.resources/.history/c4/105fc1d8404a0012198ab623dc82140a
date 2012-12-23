@@ -1,0 +1,17 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+
+s|ViewNavigatorApplication
+{
+	color:blue;
+	backgroundImage:url('../skins/greenPaperBG.jpg');
+}
+
+s|View{
+	backgroundColor: red;
+	skinClass: ClassReference("skinClasses.HeadRefViewSkin")
+}	
+
+s|Button{
+	color:green;
+}

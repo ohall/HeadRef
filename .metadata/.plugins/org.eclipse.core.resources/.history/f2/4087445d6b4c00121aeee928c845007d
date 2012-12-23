@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<views:AbstractRefView xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="HomeView" xmlns:model="model.*" actionBarVisible="false" xmlns:views="views.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import model.GameModel;
+			import model.LeagueRules;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			
+			protected function newGameButtonClickHandler(event:MouseEvent):void{
+				goToView(NewGameView);
+				
+				
+			}
+			
+			protected function ruleListClickHandler(event:MouseEvent):void{
+				var rules:LeagueRules = new LeagueRules();
+				rules.strikesAllowed=3;
+				rules.ballsAllowed=4;
+				rules.foulsAllowed=3;
+				rules.foulsAreStrikes=false;
+				rules.walkOnBalls = true;
+				rules.numberOfInnings = 1;
+				
+		//		rules.leagueManagerEmail = "oakley349@gmail.com";
+				
+//				gameModel.awayTeam = "MEATBALLS";
+//				gameModel.awayTeamColor = 0x000000;
+//				gameModel.homeTeam = "NYSH";
+//				gameModel.leagueRules = rules;
+//				gameModel.homeTeamColor= 0x3A70D2;
+//				
+//				navigator.pushView(GameView, gameModel);
+//				
+			}
+			
+			
+		]]>
+	</fx:Script>
+	
+	<s:Button id="newGameButton" label="New Game" click="newGameButtonClickHandler(event)" />
+
+</views:AbstractRefView>

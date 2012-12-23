@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009" viewActivate="viewActivateHandler(event)" 
+		xmlns:s="library://ns.adobe.com/flex/spark" title="AbstractRefView">
+	<fx:Script>
+		<![CDATA[
+			import model.GameModel;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			[Bindable]
+			public var gameModel:GameModel;
+			
+			protected function viewActivateHandler(event:ViewNavigatorEvent):void{
+				if (data != null) {
+					gameModel = data as GameModel;
+				}
+				
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+</s:View>

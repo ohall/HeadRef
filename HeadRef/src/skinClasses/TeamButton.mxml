@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark">
+	<!-- host component -->
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")]
+	</fx:Metadata>
+	
+	<!-- states -->
+	<s:states>
+		<s:State name="disabled" />
+		<s:State name="down" />
+		<s:State name="over" />
+		<s:State name="up" />
+	</s:states>
+	
+
+	
+	<!-- SkinParts
+	name=iconDisplay, type=spark.primitives.BitmapImage, required=false
+	name=labelDisplay, type=spark.core.IDisplayText, required=false
+	-->
+	
+<!--	<s:BitmapImage source="@Embed('assets/images/close_button_up.png')" 
+				   source.over="@Embed('assets/images/close_button_over.png')" 
+				   source.down="@Embed('assets/images/close_button_down.png')" /> -->
+	
+	<!-- inner fill -->
+	<s:Rect height="100%" width="100%" radiusX="5"
+			top="1" right="1" bottom="1" left="1">
+		<s:fill>
+			<!-- gradient fill colors - default ratios are 0,1 -->
+			<s:LinearGradient rotation="90">
+				<s:GradientEntry color="#ff9900"
+								 color.over="#fabe00"
+								 color.down="#cc6600"/>
+				<s:GradientEntry color="#cc6600"
+								 color.over="#e17b00"
+								 color.down="#ff9900"/>
+			</s:LinearGradient>
+		</s:fill>
+	</s:Rect>
+	
+	<!-- layer 8: text --> 
+	<s:Label id="labelDisplay" 
+			 textAlign="center"  styleName="teamLabel"
+			 verticalAlign="middle" 
+			 maxDisplayedLines="3" 
+			 horizontalCenter="0" verticalCenter="0"/> 
+	
+</s:Skin>

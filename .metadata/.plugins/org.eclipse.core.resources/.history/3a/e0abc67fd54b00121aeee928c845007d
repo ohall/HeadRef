@@ -1,0 +1,41 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+
+@font-face {
+	src: url("BankGothic.ttf");
+	fontFamily: bg;
+	fontStyle: normal;
+	fontWeight: bold;
+	advancedAntiAliasing: true;
+}
+
+s|ViewNavigatorApplication
+{
+	color:#8AE000;
+	fontFamily:bg;
+	fontWeight:bold;
+}
+
+s|View{
+	fontFamily:bg;
+	skinClass: ClassReference("skinClasses.HeadRefViewSkin")
+}	
+
+s|Label{
+	fontSize:28;	
+}
+
+s|Button{
+	fontFamily:bg;
+	color:#8AE000;
+}
+
+.teamLabel{
+	fontSize:16;
+	color:#8AE000;
+}
+
+.scoreLabel{
+	fontSize:28;
+	color:#8AE000;
+}
