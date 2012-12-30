@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <views:AbstractRefView xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		xmlns:s="library://ns.adobe.com/flex/spark" title="GameView" 
-		creationComplete="creationCompleteHandler(event)"  
+		xmlns:s="library://ns.adobe.com/flex/spark" title="GameView"  
 		xmlns:components="components.*" xmlns:views="views.*" >
 	<views:layout>
 		<s:VerticalLayout paddingTop="10" paddingBottom="5" paddingLeft="5" paddingRight="5" gap="80" 
@@ -22,10 +21,18 @@
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			
+			import spark.events.ViewNavigatorEvent;
+			
 			[Bindable]
 			protected var halfInning:String = RefConstants.INNING_TOP;
 			
 			private var _endPop:CheckGameEndPopUp;
+			
+			
+			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{
+				super.viewActivateHandler(event);
+				headRefModel.gameModel.dispatcher.addEventListener( GameCompleteEvent.GAME_COMPLETE, handleGameComplete );
+			}
 			
 			protected function undoButtonClickHandler(event:MouseEvent):void{
 			}
@@ -51,11 +58,7 @@
 				headRefModel.gameModel.homeTeamScore++;			
 			}
 			
-			protected function creationCompleteHandler(event:FlexEvent):void{
-				headRefModel.gameModel.addEventListener( GameCompleteEvent.GAME_COMPLETE, handleGameComplete );
-				//invalidateDisplayList();
-				
-			}
+
 			
 			protected function handleGameComplete(event:GameCompleteEvent):void{
 				_endPop = new CheckGameEndPopUp();
