@@ -15,7 +15,7 @@
 	</s:states>
 	
 	
-	<s:Rect height="100%" width="100%" radiusX="2"
+	<s:Rect height="100%" width="100%" radiusX="{RefConstants.BUTTON_CORNER_RADII}"
 			top="1" right="1" bottom="1" left="1">
 		<s:fill>
 			<s:SolidColor color="{RefConstants.BABYBLUE}"

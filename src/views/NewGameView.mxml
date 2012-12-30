@@ -24,20 +24,7 @@
 				// TODO Auto-generated method stub
 			}				
 			
-//			protected function teamsListClickHandler(event:MouseEvent):void{	
-//				
-//				if(	TeamModel(teamsList.selectedItem).teamName == RefConstants.ADDTEAM){	
-//					goToView(EditTeamView);//we're adding a new team
-//				}else if(selectingHomeOrAway == RefConstants.HOME){
-//					headRefModel.gameModel.homeTeam = TeamModel(teamsList.selectedItem).teamName;
-//					selectingHomeOrAway = RefConstants.AWAY;
-//				}else if(selectingHomeOrAway == RefConstants.AWAY) {
-//					headRefModel.gameModel.awayTeam = TeamModel(teamsList.selectedItem).teamName;
-//					selectingHomeOrAway = RefConstants.HOME;
-//				}
-//				
-//				
-//			}
+
 
 			protected function ruleListClickHandler(event:MouseEvent):void{
 				headRefModel.gameModel.leagueRules =  LeagueRules(ruleList.selectedItem);		
@@ -56,30 +43,25 @@
 			}
 			
 			
+			protected function neRulesButtonClickHandler(event:MouseEvent):void{
+				headRefModel.rulesSelectedForEditing = "";
+				goToView(EditRuleSetView);
+				
+			}
+			
 		]]>
 	</fx:Script>
 	
 	
 	<s:VGroup width="100%">
-		
-<!--		<s:VGroup width="100%">
-			<s:Label text="Choose {selectingHomeOrAway} Team [ Long Press to Edit ]" styleName="newGameViewLabel"/>
-			<s:SpinnerListContainer  width="100%">
-				<components:HeadRefSpinnerList id="teamsList" width="100%" longPress="teamsListLongPressHandler(event)" 
-											   labelField="teamName" click="teamsListClickHandler(event)"  
-							   				   dataProvider="{headRefModel.teams}"/>                    
-			</s:SpinnerListContainer>
-		</s:VGroup>  -->      
-		
 		<s:VGroup width="100%">
 			<s:Label text="Choose a Rule Set [Long Press to Edit]" styleName="newGameViewLabel"/>
 			<s:SpinnerListContainer width="100%">
 				<components:HeadRefSpinnerList id="ruleList" width="100%" longPress="ruleListLongPressHandler(event)" 
-											   click="ruleListClickHandler(event)"
+											   click="ruleListClickHandler(event)" styleName="newRulesButton"
 											   dataProvider="{headRefModel.leagues}" labelField="leagueName" />                    
 			</s:SpinnerListContainer>		
 		</s:VGroup>    
-		
-		<!--<s:Button label="Start Game" click="startGameButtonClickHandler(event)" />-->
+		<s:Button width="100%" label="Add New Rule Set" click="neRulesButtonClickHandler(event)" styleName="newRulesButton" />
 	</s:VGroup>
 </views:AbstractRefView>

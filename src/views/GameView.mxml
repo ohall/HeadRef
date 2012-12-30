@@ -2,6 +2,17 @@
 <views:AbstractRefView xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" title="GameView"  
 		xmlns:components="components.*" xmlns:views="views.*" >
+	
+	<fx:Script>
+		<![CDATA[
+			protected function homeTeamListClickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+		]]>
+	</fx:Script>
+	
 	<views:layout>
 		<s:VerticalLayout paddingTop="10" paddingBottom="5" paddingLeft="5" paddingRight="5" gap="80" 
 						  horizontalAlign="center" verticalAlign="top"/>
@@ -17,6 +28,7 @@
 			
 			import events.EndGamePopUpButtonEvent;
 			import events.GameCompleteEvent;
+			import events.LongPressEvent;
 			
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
@@ -91,27 +103,50 @@
 				halfInning = headRefModel.gameModel.halfInning;
 			}			
 			
+			protected function awayBtnLongPressHandler(event:LongPressEvent):void{
+								
+			}
+			
+			protected function homeBtnLongPressHandler(event:LongPressEvent):void{
+				
+			}
+			
 		]]>
 	</fx:Script>
 	<s:VGroup height="100%" width="100%" gap="0">
 		<s:Label text="{headRefModel.gameModel.leagueRules.leagueName} Rules" styleName="ruleTypeLabel" width="100%"/>
-		<s:HGroup width="100%" >
-			<components:TeamButton id="homeBtn" teamName="{headRefModel.gameModel.homeTeam}" score="{headRefModel.gameModel.homeTeamScore}"  
-					  click="homeBtnClickHandler(event)" teamColor="{headRefModel.gameModel.homeTeamColor}" />
-			<components:TeamButton id="awayBtn" teamName="{headRefModel.gameModel.awayTeam}" score="{headRefModel.gameModel.awayTeamScore}" 
-					  click="awayBtnClickHandler(event)" teamColor="{headRefModel.gameModel.awayTeamColor}"   />
+		<s:HGroup width="100%" gap="0"  >
+			<components:TeamButton 	id="homeBtn" 
+								   	teamName="{headRefModel.gameModel.homeTeam}" 
+								   	score="{headRefModel.gameModel.homeTeamScore}"  
+					  				click="homeBtnClickHandler(event)" 
+									longPress="homeBtnLongPressHandler(event)"
+									teamColor="{headRefModel.gameModel.homeTeamColor}">
+				<components:calloutContent>
+					<components:AddTeamList dataProvider="{headRefModel.teams}" />
+				</components:calloutContent>
+			
+			</components:TeamButton>
+				
+				
+			<components:TeamButton 	id="awayBtn" 
+								   	teamName="{headRefModel.gameModel.awayTeam}" 
+									score="{headRefModel.gameModel.awayTeamScore}" 
+					  				click="awayBtnClickHandler(event)"
+									longPress="awayBtnLongPressHandler(event)"
+									teamColor="{headRefModel.gameModel.awayTeamColor}"   />
 		</s:HGroup>
-		<s:HGroup width="100%" >
+		<s:HGroup width="100%" gap="0" >
 			<s:Label id="outLbl" text="{headRefModel.gameModel.outs} out  " styleName="statusLabel" />
 			<s:Spacer width="100%" />
 			<s:Label id="inningLbl" text="{halfInning} of " styleName="statusLabel" />	
 			<s:Label id="inningLbl2" text="{headRefModel.gameModel.inning}" styleName="statusLabel" />				
 		</s:HGroup>
-		<s:HGroup width="100%" >
+		<s:HGroup width="100%" gap="0"  >
 			<components:ResultButton id="safeBtn" label="SAFE" click="safeBtnClickHandler(event)" color="{RefConstants.GREEN}" />
 			<components:ResultButton id="outBtn" label="OUT" click="outBtnClickHandler(event)" color="{RefConstants.RED}" />
 		</s:HGroup>
-		<s:HGroup width="100%" >
+		<s:HGroup width="100%" gap="0"  >
 			<components:PitchButton id="ballBtn" label="BALL" count="{headRefModel.gameModel.balls}" 
 									click="ballBtnClickHandler(event)" />
 			<components:PitchButton id="strikeBtn" label="STRIKE" count="{headRefModel.gameModel.strikes}" 

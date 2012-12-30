@@ -4,7 +4,7 @@
 		title="EditRuleSetView" 
 		xmlns:views="views.*">
 	<views:layout>
-		<s:VerticalLayout paddingTop="5" paddingBottom="5" paddingLeft="5" paddingRight="5" />
+		<s:VerticalLayout gap="3"/>
 	</views:layout>
 	
 	<fx:Declarations>
@@ -17,6 +17,7 @@
 			
 			import mx.collections.ArrayCollection;
 			
+			import spark.components.ButtonBarButton;
 			import spark.events.ViewNavigatorEvent;
 			
 			[Bindable]
@@ -24,6 +25,9 @@
 			
 			[Bindable]
 			private var _buttonNumsList:ArrayCollection = new ArrayCollection([1,2,3,4,5]);
+			
+			[Bindable]
+			private var _buttonText:String = "";			
 			
 			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{
 				super.viewActivateHandler(event);
@@ -45,11 +49,32 @@
 						return;
 					}
 				}
-				
-				headRefModel.leagues.addItem(_curRuleSet);
+				if(rulesAdded()){
+					headRefModel.leagues.addItem(_curRuleSet);
+				}
 				goToView(NewGameView);
 				return;
 				
+			}
+			
+			protected function foulsAllowBarClickHandler(event:MouseEvent):void{
+				_curRuleSet.foulsAllowed = event.target.data as Number;
+			}
+			
+			protected function strikesAllowBarClickHandler(event:MouseEvent):void{
+				_curRuleSet.strikesAllowed = event.target.data as Number;
+			}
+			
+			protected function ballsAllowBarClickHandler(event:MouseEvent):void{
+				_curRuleSet.ballsAllowed = event.target.data as Number;
+			}
+			
+			private function rulesAdded():Boolean{
+				return nameInput.text != ""; 
+			}
+			
+			protected function nameInputKeyDownHandler(event:KeyboardEvent):void{
+				if(rulesAdded()){ _buttonText = " and Save"; }
 			}
 			
 		]]>
@@ -57,31 +82,43 @@
 	<!--public var leagueName		: String;-->
 
 	<s:Label text="League Name:" styleName="editRulesLabel" />
-	<s:TextInput id="nameInput" text="@{_curRuleSet.leagueName}" right="20" />
+	<s:TextInput id="nameInput" text="@{_curRuleSet.leagueName}" right="20" keyDown="nameInputKeyDownHandler(event)" />
 
 	<!--public var leagueManagerEmail : String;-->
 	<s:Label text="League Manager's Email:" styleName="editRulesLabel" />
 	<s:TextInput id="emailInput"  text="@{_curRuleSet.leagueManagerEmail}" right="20" />
 	
+	<s:Spacer height="100%"/>
+	
 	<!--public var strikesAllowed	: Number;-->
 	<s:Label text="Strikes Allowed" styleName="editRulesLabel" />
-	<s:ButtonBar id="strikesAllowBar" dataProvider="{_buttonNumsList}" requireSelection="true" 
+	<s:ButtonBar id="strikesAllowBar" dataProvider="{_buttonNumsList}" requireSelection="true"
+				 click="strikesAllowBarClickHandler(event)"
 				 right="20" height="20" width="100%" selectedItem="{_curRuleSet.strikesAllowed}"  />
 	
 	<!--public var ballsAllowed		: Number;-->
 	<s:Label text="Balls Allowed" styleName="editRulesLabel" />
 	<s:ButtonBar id="ballsAllowBar" dataProvider="{_buttonNumsList}" requireSelection="true" 
+				 click="ballsAllowBarClickHandler(event)"
 				 right="20" height="20" width="100%" selectedItem="{_curRuleSet.ballsAllowed}"  />
 	
 	<!--public var foulsAllowed		: Number;-->
 	<s:Label text="Fouls Allowed" styleName="editRulesLabel" />
-	<s:ButtonBar id="foulsAllowBar" dataProvider="{_buttonNumsList}" requireSelection="true" 
+	<s:ButtonBar id="foulsAllowBar" dataProvider="{_buttonNumsList}" requireSelection="true"
+				 click="foulsAllowBarClickHandler(event)"
 				 right="20" height="20" width="100%" selectedItem="{_curRuleSet.foulsAllowed}"  />
+	
+	
+	<s:Spacer height="100%"/>
+	
 	
 	<!--public var numberOfInnings	: Number;-->
 	<s:Label text="Number of Innings: {_curRuleSet.numberOfInnings}" styleName="editRulesLabel" />
 	<s:HSlider id="inningsSlider" minimum="1" maximum="16" value="@{_curRuleSet.numberOfInnings}" /> 
-		
+	
+
+	<s:Spacer height="100%"/>
+	
 	<!--public var allowsTies		: Boolean;-->
 	<s:HGroup width="100%" verticalAlign="middle" >	
 		<s:Label text="Allow Ties" styleName="editRulesLabel" />
@@ -102,6 +139,10 @@
 		<s:Spacer width="100%" />
 		<s:ToggleSwitch id="ballsToggle" selected="@{_curRuleSet.walkOnBalls}"/>
 	</s:HGroup>
-	<s:Button id="saveBtn" label="Save" width="100%" mouseDown="saveBtnMouseDownHandler(event)" />
+	
+	<s:Spacer height="100%"/>
+
+	<s:Button id="saveBtn" label="Exit{_buttonText}" 
+			  width="100%" mouseDown="saveBtnMouseDownHandler(event)" />
 	
 </views:AbstractRefView>

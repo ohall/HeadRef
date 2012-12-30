@@ -21,8 +21,9 @@ s|View{
 
 
 s|Button{
+	chromeColor:#575757;
+	color:#E98300;
 	fontFamily:bg;
-	color:#8AE000;
 }
 
 s|ButtonBar{
@@ -89,7 +90,12 @@ s|TextInput{
 }
 
 .editRulesLabel{
-	fontSize:18;
+	fontSize:16;
 	color:#8AE000;
+}
+
+.newRulesButton{
+	chromeColor:#575757;
+	color:#E98300;
 }
 
