@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:SpinnerList xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   touchBegin="touchBeginHandler(event)" 
-			   touchEnd="touchEndHandler(event)" >
+			   mouseDown="mouseDownHandler(event)"
+			   mouseUp="mouseUpHandler(event)" >
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
@@ -16,9 +16,10 @@
 
 			private var _longPressTimer:Timer;
 			
-			protected function touchBeginHandler(event:TouchEvent):void{
+//			protected function touchBeginHandler(event:TouchEvent):void{
+			protected function mouseDownHandler(event:MouseEvent):void{
 				_longPressTimer = new Timer(RefConstants.LONGPRESSDELAY,1);
-				_longPressTimer.addEventListener(TimerEvent.TIMER_COMPLETE, handleLongPressTimeComplete );
+				_longPressTimer.addEventListener(TimerEvent.TIMER, handleLongPressTimeComplete );
 				_longPressTimer.start()
 			}
 			
@@ -27,7 +28,8 @@
 				stopAndDisposeTimer();
 			}
 			
-			protected function touchEndHandler(event:TouchEvent):void{
+//			protected function touchEndHandler(event:TouchEvent):void{
+			protected function mouseUpHandler(event:MouseEvent):void{
 				stopAndDisposeTimer();
 			}
 			
@@ -38,6 +40,7 @@
 					_longPressTimer = null;
 				}
 			}
+			
 			
 		]]>
 	</fx:Script>

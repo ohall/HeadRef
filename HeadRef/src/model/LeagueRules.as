@@ -2,18 +2,18 @@ package model{
 	
 	
 	public class LeagueRules{
-		public var leagueManagerEmail : String;
-		public var leagueName		: String;
+		[Bindable] public var leagueManagerEmail 	: String = "";
+		[Bindable] public var leagueName			: String = "";
 		
-		public var strikesAllowed	: Number;
-		public var ballsAllowed		: Number;
-		public var foulsAllowed		: Number;
-		public var numberOfInnings	: Number;
+		[Bindable] public var strikesAllowed	: Number = 3;
+		[Bindable] public var ballsAllowed		: Number = 4;
+		[Bindable] public var foulsAllowed		: Number = 3;
+		[Bindable] public var numberOfInnings	: Number = 5;
 		
-		public var allowsTies		: Boolean;
+		[Bindable] public var allowsTies		: Boolean = true;
 		
-		public var foulsAreStrikes	: Boolean;
-		public var walkOnBalls		: Boolean;
+		[Bindable] public var foulsAreStrikes	: Boolean = false;
+		[Bindable] public var walkOnBalls		: Boolean = true;
 		
 		public function LeagueRules(){}
 	}

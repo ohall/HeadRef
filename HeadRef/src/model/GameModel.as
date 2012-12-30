@@ -19,11 +19,11 @@ package model{
 		[Bindable] private var _homeTeamScore	: Number = 0;
 		[Bindable] private var _awayTeamScore	: Number = 0;
 		
-		[Bindable] private var _homeTeam : String;
-		[Bindable] private var _awayTeam : String;
+		[Bindable] private var _homeTeam : String = "Home";
+		[Bindable] private var _awayTeam : String = "Away";
 
-		[Bindable] private var _homeTeamColor : uint;
-		[Bindable] private var _awayTeamColor : uint;
+		[Bindable] private var _homeTeamColor : uint = RefConstants.GENERIC_HOME_COLOR;
+		[Bindable] private var _awayTeamColor : uint = RefConstants.GENERIC_AWAY_COLOR;
 
 		private var _halfInning : String = RefConstants.INNING_TOP;
 		

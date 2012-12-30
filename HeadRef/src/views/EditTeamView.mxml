@@ -34,29 +34,27 @@
 
 			protected function saveButtonClickHandler(event:MouseEvent):void{
 				curTeamModel.captainEmail = emailInput.text;
-				curTeamModel.teamName = emailInput.text;
+				curTeamModel.teamName = teamNameInput.text;
+				
 				
 			}
 			
 			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{
-				if (data != null) {
-					createOrEditTeam( data as TeamModel);	
-				}
+				super.viewActivateHandler(event);
+				createOrEditTeam();
 			}
 			
 			
-			private function createOrEditTeam(pTeam:TeamModel):void{
-				if(pTeam.teamName == ""){//create
+			private function createOrEditTeam():void{
+				if(headRefModel.teamSelectedForEditing == ""){//create
 					curTeamModel = new TeamModel();
 				}else{//edit
 					for each(var team:TeamModel in headRefModel.teams){
-						if(team.teamName == pTeam.teamName){
+						if(team.teamName == headRefModel.teamSelectedForEditing){
 							curTeamModel = team;
 						}
 					}
 				}
-				
-				
 			}
 			
 		]]>

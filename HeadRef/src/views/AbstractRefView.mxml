@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" viewActivate="viewActivateHandler(event)" 
-		xmlns:s="library://ns.adobe.com/flex/spark" title="AbstractRefView">
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		actionBarVisible="false">
 	<fx:Script>
 		<![CDATA[
 			import model.GameModel;
@@ -11,15 +12,17 @@
 			[Bindable]
 			public var headRefModel:HeadRefModel;
 			
+			//we've arrived in a new view, let's check on the model
 			protected function viewActivateHandler(event:ViewNavigatorEvent):void{
-				if (data != null) {
-					headRefModel = data as HeadRefModel;
-				}else{
+				if (data) {
+					headRefModel = HeadRefModel(data);
+				}else if(headRefModel == null){
 					headRefModel = new HeadRefModel();
 				}
 				
 			}
 			
+			//we're leaving this view.  Take the model with us
 			protected function goToView(pNextViewClass:Class):void{
 				navigator.pushView(pNextViewClass, headRefModel);
 			}

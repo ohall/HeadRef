@@ -1,0 +1,20 @@
+package model{
+	
+	
+	public class LeagueRules{
+		[Bindable] public var leagueManagerEmail : String;
+		[Bindable] public var leagueName		: String;
+		
+		[Bindable] public var strikesAllowed	: Number;
+		[Bindable] public var ballsAllowed		: Number;
+		[Bindable] public var foulsAllowed		: Number;
+		[Bindable] public var numberOfInnings	: Number;
+		
+		[Bindable] public var allowsTies		: Boolean;
+		
+		[Bindable] public var foulsAreStrikes	: Boolean;
+		[Bindable] public var walkOnBalls		: Boolean;
+		
+		public function LeagueRules(){}
+	}
+}

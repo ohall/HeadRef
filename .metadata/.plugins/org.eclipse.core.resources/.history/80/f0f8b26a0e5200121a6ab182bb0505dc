@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<views:AbstractRefView xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		title="EditRuleSetView" 
+		xmlns:views="views.*">
+	<views:layout>
+		<s:VerticalLayout paddingTop="10" paddingBottom="5" paddingLeft="5" paddingRight="5" gap="10"/>
+	</views:layout>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import model.LeagueRules;
+			
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.ViewNavigatorEvent;
+			
+			[Bindable]
+			private var _curRuleSet:LeagueRules = new LeagueRules();
+			
+			[Bindable]
+			private var _buttonNumsList:ArrayCollection = new ArrayCollection([1,2,3,4,5]);
+			
+			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{
+				super.viewActivateHandler(event);
+				
+				for each(var rules:LeagueRules in headRefModel.leagues){
+					if(rules.leagueName == headRefModel.rulesSelectedForEditing){
+						_curRuleSet = rules;
+					}
+				}
+								
+			}
+			
+			
+			
+		]]>
+	</fx:Script>
+	<!--public var leagueName		: String;-->
+
+	<s:Label text="League Name:" styleName="editRulesLabel" />
+	<s:TextInput id="nameInput" text="@{_curRuleSet.leagueName}" right="20" />
+
+	<!--public var leagueManagerEmail : String;-->
+	<s:Label text="League Manager's Email:" styleName="editRulesLabel" />
+	<s:TextInput id="emailInput"  text="@{_curRuleSet.leagueManagerEmail}" right="20" />
+	
+	<!--public var strikesAllowed	: Number;-->
+	<s:Label text="Strikes Allowed" styleName="editRulesLabel" />
+	<s:ButtonBar id="strikesAllowBar" dataProvider="{_buttonNumsList}" requireSelection="true" 
+				 right="20" height="20" width="100%" selectedItem="{_curRuleSet.strikesAllowed}"  />
+	
+	<!--public var ballsAllowed		: Number;-->
+	<s:Label text="Balls Allowed" styleName="editRulesLabel" />
+	<s:ButtonBar id="strikesAllowBar" dataProvider="{_buttonNumsList}" requireSelection="true" 
+				 right="20" height="20" width="100%" selectedItem="{_curRuleSet.ballsAllowed}"  />
+	
+	<!--public var foulsAllowed		: Number;-->
+	<s:Label text="Fouls Allowed" styleName="editRulesLabel" />
+	<s:ButtonBar id="foulsAllowBar" dataProvider="{_buttonNumsList}" requireSelection="true" 
+				 right="20" height="20" width="100%" selectedItem="{_curRuleSet.strikesAllowed}"  />
+	
+	<!--public var numberOfInnings	: Number;-->
+	<s:Label text="Strikes Allowed" styleName="editRulesLabel" />
+	<s:ButtonBar id="strikesAllowBar" dataProvider="{_buttonNumsList}" requireSelection="true" 
+				 right="20" height="20" width="100%" selectedItem="{_curRuleSet.strikesAllowed}"  />
+	
+	<!--public var allowsTies		: Boolean;-->
+	<s:Label text="Allow Ties" styleName="editRulesLabel" />
+	<s:ToggleSwitch id="tiesToggle" selected="@{_curRuleSet.allowsTies}" right="20" /> 
+
+	<!--public var foulsAreStrikes	: Boolean;-->
+	<s:Label text="Fouls Count as Strikes" styleName="editRulesLabel" />
+	<s:ToggleSwitch id="foulsToggle" selected="@{_curRuleSet.foulsAreStrikes}" right="20"  />
+
+	<!--public var walkOnBalls		: Boolean;-->
+	<s:Label text="Walk on Balls" styleName="editRulesLabel" />
+	<s:ToggleSwitch id="ballsToggle" selected="@{_curRuleSet.walkOnBalls}" right="20" />
+	
+</views:AbstractRefView>

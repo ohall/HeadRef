@@ -25,6 +25,18 @@ s|Button{
 	color:#8AE000;
 }
 
+s|ButtonBar{
+	fontSize:10;
+}
+
+s|ButtonBarButton{
+
+}
+
+s|TextInput{
+	
+}
+
 .teamLabel{
 	fontSize:16;
 	color:#8AE000;
@@ -51,6 +63,11 @@ s|Button{
 	color:#000000;
 }
 
+.ruleTypeLabel{
+	fontSize:16;
+	color:#8AE000;		
+}
+
 .statusLabel{
 	fontSize:28;
 	color:#8AE000;		
@@ -65,3 +82,14 @@ s|Button{
 	fontSize:16;
 	color:#8AE000;
 }
+
+.newGameViewLabel{
+	fontSize:12;
+	color:#8AE000;
+}
+
+.editRulesLabel{
+	fontSize:18;
+	color:#8AE000;
+}
+
