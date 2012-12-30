@@ -1,9 +1,0 @@
-package model
-{
-	public class TeamsListModel
-	{
-		public function TeamsListModel()
-		{
-		}
-	}
-}

@@ -1,9 +1,0 @@
-package{
-	public class RefConstants{
-		
-		public static const INNING_TOP:String = "Top";
-		public static const INNING_BOT:String = "Bottom";
-		
-		public function RefConstants(){}
-	}
-}
