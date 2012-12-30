@@ -1,3 +1,3 @@
-.metadata/
-HeadRef/bin-debug
-HeadRed/.settings
+.metadata
+bin-debug
+.settings
