@@ -35,7 +35,13 @@
 			}
 			
 			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{
+				
 				super.viewActivateHandler(event);
+				
+				//////////////////
+				// TEST DATA DELETE ME!!
+				///////////////////
+				
 				var rules:LeagueRules = new LeagueRules();
 				rules.strikesAllowed=3;
 				rules.ballsAllowed=4;
@@ -47,26 +53,25 @@
 				
 				rules.leagueManagerEmail = "oakley349@gmail.com";
 				headRefModel.leagues.addItem(rules);
+				
+				var nysh:TeamModel = new TeamModel();
+				nysh.teamName = "NYSH";
+				nysh.teamColor = 0x4090D0;
+				nysh.captainEmail = "oakley349@gmail.com";
+
+				var mbs:TeamModel = new TeamModel();
+				mbs.teamName = "MEATBALLS";
+				mbs.teamColor = 0x000000;
+				mbs.captainEmail = "fuck@gmail.com";
+
+				headRefModel.teams.addItem(nysh);
+				headRefModel.teams.addItem(mbs);
 			}
 			
 			protected function creationCompleteHandler(event:FlexEvent):void{
 				
 
 				//Test Team data
-//				headRefModel = new HeadRefModel();
-//				
-//				var nysh:TeamModel = new TeamModel();
-//				nysh.teamName = "NYSH";
-//				nysh.teamColor = 0x4090D0;
-//				nysh.captainEmail = "oakley349@gmail.com";
-//
-//				var mbs:TeamModel = new TeamModel();
-//				mbs.teamName = "MEATBALLS";
-//				mbs.teamColor = 0x000000;
-//				mbs.captainEmail = "fuck@gmail.com";
-//
-//				headRefModel.teams.addItem(nysh);
-//				headRefModel.teams.addItem(mbs);
 //				
 //				var rules:LeagueRules = new LeagueRules();
 //				rules.leagueName = "Circuit";

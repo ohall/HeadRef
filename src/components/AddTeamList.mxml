@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		  xmlns:s="library://ns.adobe.com/flex/spark" width="400" height="300" xmlns:components="components.*">
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:components="components.*" creationComplete="creationCompleteHandler(event)">
 	
 	<fx:Metadata>
 		[Event(name="addTeam", 		type="events.AddTeamEvent")] 
@@ -10,11 +11,13 @@
 	<fx:Script>
 		<![CDATA[
 			import events.AddTeamEvent;
+			import events.LongPressEvent;
 			import events.TeamSelectedEvent;
 			
 			import model.TeamModel;
 			
 			import mx.collections.IList;
+			import mx.events.FlexEvent;
 			
 			[Bindable]
 			public var dataProvider:IList;
@@ -22,13 +25,31 @@
 			[Bindable]
 			public var labelField:String = "teamName";
 			
-			protected function AddTeamButtonClickHandler(event:MouseEvent):void{
+			private var _teams:Object = new Object();
+			
+			protected function addTeamHandler(event:MouseEvent):void{
 				dispatchEvent( new AddTeamEvent() ); 
 				
 			}
 			
-			protected function teamListClickHandler(event:MouseEvent):void{
-				dispatchEvent( new TeamSelectedEvent(teamList.selectedItem as TeamModel ));
+			protected function teamButtonClickHandler(event:MouseEvent):void{
+				dispatchEvent( new TeamSelectedEvent( _teams[Button(event.target).id] )  );
+			}
+			
+			protected function editTeam(event:LongPressEvent):void{
+				
+			}
+			
+			protected function creationCompleteHandler(event:FlexEvent):void{
+				for each(var team:TeamModel in dataProvider){
+					_teams[team.teamName] = team;
+					var btn:HeadRefButton = new HeadRefButton();
+					btn.label = team.teamName;
+					btn.id = team.teamName;
+					btn.setStyle("chromeColor",team.teamColor);
+					btn.addEventListener(MouseEvent.CLICK,teamButtonClickHandler);
+					teamButtonGroup.addElement(btn);
+				}
 			}
 			
 		]]>
@@ -37,11 +58,10 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	
-	
-	
-	<components:HeadRefSpinnerList id="teamList" click="teamListClickHandler(event)" 
-								   dataProvider="{dataProvider}" labelField="{labelField}"/>
-	<s:Button width="100%" label="Add New Team" click="AddTeamButtonClickHandler(event)" />
+	<s:Label text="Long Press Team to Edit" />
+	<s:VGroup id="teamButtonGroup">
+		
+	</s:VGroup>
+	<s:Button width="100%" label="Add New Team" click="addTeamHandler(event)" />
 	
 </s:VGroup>
