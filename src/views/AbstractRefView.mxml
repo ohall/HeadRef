@@ -8,9 +8,12 @@
 			import model.HeadRefModel;
 			
 			import spark.events.ViewNavigatorEvent;
+			import spark.managers.PersistenceManager;
 			
 			[Bindable]
 			public var headRefModel:HeadRefModel;
+			
+			public var persistenceManager:PersistenceManager;
 			
 			//we've arrived in a new view, let's check on the model
 			protected function viewActivateHandler(event:ViewNavigatorEvent):void{
@@ -24,6 +27,12 @@
 			
 			//we're leaving this view.  Take the model with us
 			protected function goToView(pNextViewClass:Class):void{
+				//we'll save data on every view change
+				if(!persistenceManager){
+					persistenceManager = new PersistenceManager();
+					persistenceManager.setProperty(RefConstants.REF_DATA_KEY,headRefModel);
+				}
+				persistenceManager.save();
 				navigator.pushView(pNextViewClass, headRefModel);
 			}
 			

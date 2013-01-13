@@ -23,6 +23,15 @@ package{
 		public static const GENERIC_AWAY_COLOR:uint = 0xE2520E;
 		
 		public static const SIMPLE_GRAY:uint = 0x575757;
+		public static const BKGND_COLOR:uint = 0x041423;
+		
+		public static const COLLEGE_NAVY:uint = 0x041423;
+		public static const ACTION_GREEN:uint = 0x3D9F36;
+		
+		public static const TEAM_BTN_LABEL:uint = 0x041423;
+		
+		public static const REF_DATA_KEY:String = "rdkey";
+		
 		
 		public static const BUTTON_CORNER_RADII:Number = 0;
 		

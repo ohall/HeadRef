@@ -1,6 +1,9 @@
 /* CSS file */
 @namespace s "library://ns.adobe.com/flex/spark";
 
+
+/*#3D9F36 action green*/
+/*#041423 college navy*/
 @font-face {
 	src: url("BankGothic.ttf");
 	fontFamily: bg;
@@ -38,14 +41,18 @@ s|TextInput{
 	
 }
 
+s|Label{
+	color:#3D9F36;
+}
+
 .teamLabel{
 	fontSize:16;
-	color:#8AE000;
+	
 }
 
 .scoreLabel{
 	fontSize:28;
-	color:#8AE000;
+	
 }
 
 .pitchButtonLabel{
@@ -66,32 +73,32 @@ s|TextInput{
 
 .ruleTypeLabel{
 	fontSize:16;
-	color:#8AE000;		
+			
 }
 
 .statusLabel{
 	fontSize:28;
-	color:#8AE000;		
+			
 }
 
 .undoLabel{
 	fontSize:28;
-	color:#8AE000;	
+		
 }
 
 .editTeamLabel{
 	fontSize:16;
-	color:#8AE000;
+	
 }
 
 .newGameViewLabel{
 	fontSize:12;
-	color:#8AE000;
+	
 }
 
 .editRulesLabel{
 	fontSize:16;
-	color:#8AE000;
+	
 }
 
 .newRulesButton{

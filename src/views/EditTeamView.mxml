@@ -35,6 +35,8 @@
 			protected function saveButtonClickHandler(event:MouseEvent):void{
 				curTeamModel.captainEmail = emailInput.text;
 				curTeamModel.teamName = teamNameInput.text;
+				headRefModel.teams.addItem(curTeamModel);
+				goToView(GameView);
 				
 				
 			}

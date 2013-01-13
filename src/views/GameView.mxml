@@ -2,44 +2,35 @@
 <views:AbstractRefView xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" title="GameView"  
 		xmlns:components="components.*" xmlns:views="views.*" >
-	
-	<fx:Script>
-		<![CDATA[
-			protected function homeTeamListClickHandler(event:MouseEvent):void
-			{
-				// TODO Auto-generated method stub
-				
-			}
-		]]>
-	</fx:Script>
-	
 	<views:layout>
 		<s:VerticalLayout paddingTop="10" paddingBottom="5" paddingLeft="5" paddingRight="5" gap="80" 
 						  horizontalAlign="center" verticalAlign="top"/>
 	</views:layout>
-
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	
 	<fx:Script>
 		<![CDATA[
 			import components.CheckGameEndPopUp;
 			
+			import events.AddTeamEvent;
 			import events.EndGamePopUpButtonEvent;
 			import events.GameCompleteEvent;
-			import events.LongPressEvent;
 			
-			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			
 			import spark.events.ViewNavigatorEvent;
-			
+
 			[Bindable]
-			protected var halfInning:String = RefConstants.INNING_TOP;
+			protected var halfInning:String = RefConstants.INNING_TOP;	
+			
+			// stack and vals for undo button
+			private var _undoStack:Array = new Array();
+			private static const BALL		: String = "ball";
+			private static const STRIKE		: String = "strike";
+			private static const FOUL		: String = "foul";
+			private static const OUT		: String = "out";
+			private static const HOMESCORE	: String = "home";
+			private static const AWAYSCORE	: String = "away";
 			
 			private var _endPop:CheckGameEndPopUp;
-			
 			
 			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{
 				super.viewActivateHandler(event);
@@ -47,30 +38,41 @@
 			}
 			
 			protected function undoButtonClickHandler(event:MouseEvent):void{
+				switch(_undoStack.pop()){
+					case BALL: 	headRefModel.gameModel.balls--; 	break;
+					case STRIKE:headRefModel.gameModel.strikes--; 	break;
+					case FOUL: 	headRefModel.gameModel.fouls--;		break;
+					case OUT: 	headRefModel.gameModel.outs--;		break;
+					case HOMESCORE:headRefModel.gameModel.homeTeamScore--;break;
+					case AWAYSCORE:headRefModel.gameModel.awayTeamScore--;break;
+					default:break;
+				}
 			}
 
 			protected function foulBtnClickHandler(event:MouseEvent):void{
 				headRefModel.gameModel.fouls++;
-				
+				_undoStack.push(FOUL);
 			}
 			
 			protected function strikeBtnClickHandler(event:MouseEvent):void{
 				headRefModel.gameModel.strikes++;
+				_undoStack.push(STRIKE);
 			}
 			
 			protected function ballBtnClickHandler(event:MouseEvent):void{				
 				headRefModel.gameModel.balls++;
+				_undoStack.push(BALL);
 			}
 			
-			protected function awayBtnClickHandler(event:MouseEvent):void{
+			protected function awayBtnClickHandler():void{
 				headRefModel.gameModel.awayTeamScore++;
+				_undoStack.push(AWAYSCORE);
 			}
 			
-			protected function homeBtnClickHandler(event:MouseEvent):void{				
-				headRefModel.gameModel.homeTeamScore++;			
+			protected function homeBtnClickHandler():void{				
+				headRefModel.gameModel.homeTeamScore++;
+				_undoStack.push(HOMESCORE);
 			}
-			
-
 			
 			protected function handleGameComplete(event:GameCompleteEvent):void{
 				_endPop = new CheckGameEndPopUp();
@@ -95,20 +97,16 @@
 			
 			protected function safeBtnClickHandler(event:MouseEvent):void{
 				headRefModel.gameModel.kickerSafe();
-				
 			}
 			
 			protected function outBtnClickHandler(event:MouseEvent):void{
 				headRefModel.gameModel.kickerOut();
 				halfInning = headRefModel.gameModel.halfInning;
+				_undoStack.push(OUT);
 			}			
 			
-			protected function awayBtnLongPressHandler(event:LongPressEvent):void{
-								
-			}
-			
-			protected function homeBtnLongPressHandler(event:LongPressEvent):void{
-				
+			protected function addTeamHandler(event:AddTeamEvent):void{
+				goToView(EditTeamView);
 			}
 			
 		]]>
@@ -119,22 +117,20 @@
 			<components:TeamButton 	id="homeBtn" 
 								   	teamName="{headRefModel.gameModel.homeTeam}" 
 								   	score="{headRefModel.gameModel.homeTeamScore}"  
-					  				click="homeBtnClickHandler(event)" 
-									longPress="homeBtnLongPressHandler(event)"
-									teamColor="{headRefModel.gameModel.homeTeamColor}">
-				<components:calloutContent>
-					<components:AddTeamList dataProvider="{headRefModel.teams}" />
-				</components:calloutContent>
+									scoreClick="homeBtnClickHandler()" 
+									teamColor="{headRefModel.gameModel.homeTeamColor}"
+									dataProvider="{headRefModel.teams}"
+									addTeam="addTeamHandler(event)"
+									/>
 			
-			</components:TeamButton>
-				
-				
 			<components:TeamButton 	id="awayBtn" 
 								   	teamName="{headRefModel.gameModel.awayTeam}" 
 									score="{headRefModel.gameModel.awayTeamScore}" 
-					  				click="awayBtnClickHandler(event)"
-									longPress="awayBtnLongPressHandler(event)"
-									teamColor="{headRefModel.gameModel.awayTeamColor}"   />
+					  				scoreClick="awayBtnClickHandler()"
+									teamColor="{headRefModel.gameModel.awayTeamColor}"
+									dataProvider="{headRefModel.teams}"
+									addTeam="addTeamHandler(event)"
+									/>
 		</s:HGroup>
 		<s:HGroup width="100%" gap="0" >
 			<s:Label id="outLbl" text="{headRefModel.gameModel.outs} out  " styleName="statusLabel" />

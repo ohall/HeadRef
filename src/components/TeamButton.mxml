@@ -1,31 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:CalloutButton xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:Button xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		  xmlns:s="library://ns.adobe.com/flex/spark"
 		  height="150" width="50%" 
 		  skinClass="skinClasses.TeamButtonSkin"			   
 		  mouseDown="mouseDownHandler(event)"
-		  mouseUp="mouseUpHandler(event)" xmlns:components="components.*" >
+		  mouseUp="mouseUpHandler(event)" 
+		  xmlns:components="components.*">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Metadata>
+		[Event(name="addTeam", type="events.AddTeamEvent")] 
 		[Event(name="longPress", type="events.LongPressEvent")] 
+		[Event(name="scoreClick", type="events.ScoreClickEvent")]
+		[Event(name="teamSelected", type="events.TeamSelectedEvent")]
 	</fx:Metadata>
 	<fx:Script>
 		<![CDATA[
-			import events.LongPressEvent;			
+			import events.AddTeamEvent;
+			import events.LongPressEvent;
+			import events.ScoreClickEvent;
+			import events.TeamSelectedEvent;
+			
+			import mx.collections.IList;
+			import mx.events.FlexEvent;
+			
+			import spark.components.supportClasses.DropDownController;
+			import spark.events.DropDownEvent;			
 			
 			private var _longPressTimer:Timer;
+			private var _isLongPressed:Boolean = false;
 			
 			[Bindable]
 			public var teamColor:uint = 0xFFFFFF;//default to white			
 			[Bindable]
 			public var teamName:String = "";
-			
 			[Bindable]
 			public var score:int = 0;
+
+			[Bindable]
+			public var dataProvider:IList;		
 			
-			//			protected function touchBeginHandler(event:TouchEvent):void{
 			protected function mouseDownHandler(event:MouseEvent):void{
 				_longPressTimer = new Timer(RefConstants.LONGPRESSDELAY,1);
 				_longPressTimer.addEventListener(TimerEvent.TIMER, handleLongPressTimeComplete );
@@ -33,13 +48,33 @@
 			}
 			
 			private function handleLongPressTimeComplete(evt:TimerEvent):void{
-				dispatchEvent(new LongPressEvent() );
+				dispatchEvent( new LongPressEvent() );
 				stopAndDisposeTimer();
+				_isLongPressed = true;
+				var callout:SelectTeamCallout = new SelectTeamCallout();
+				callout.teamList = dataProvider;
+				callout.addEventListener(TeamSelectedEvent.TEAM_SELECTED,teamSelected );
+				callout.addEventListener(AddTeamEvent.ADD_TEAM,addTeam );
+				callout.open(this,true);
 			}
 			
-			//			protected function touchEndHandler(event:TouchEvent):void{
+			protected function addTeam(event:AddTeamEvent):void{
+				dispatchEvent( event as AddTeamEvent );
+			}
+			
+			protected function teamSelected(event:TeamSelectedEvent):void{
+				teamColor = event.teamSelected.teamColor;
+				teamName = event.teamSelected.teamName;
+				dispatchEvent(event as TeamSelectedEvent );
+				
+			}
+			
 			protected function mouseUpHandler(event:MouseEvent):void{
 				stopAndDisposeTimer();
+				if(!_isLongPressed){
+					dispatchEvent( new ScoreClickEvent() );
+				}
+				_isLongPressed = false;				
 			}
 			
 			private function stopAndDisposeTimer():void{
@@ -50,8 +85,8 @@
 				}
 			}
 			
-			
+
 			
 		]]>
 	</fx:Script>
-</s:CalloutButton>
+</s:Button>

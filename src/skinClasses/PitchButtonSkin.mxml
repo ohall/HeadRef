@@ -19,9 +19,7 @@
 			top="1" right="1" bottom="1" left="1">
 		<s:fill>
 			<s:SolidColor color="{RefConstants.BABYBLUE}"
-						  color.down="{RefConstants.FLASHGREEN}"
-						  alpha=".75"
-						  alpha.down="1"/>
+						  color.down="{RefConstants.FLASHGREEN}"/>
 		</s:fill>
 	</s:Rect>
 	
