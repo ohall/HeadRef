@@ -1,0 +1,17 @@
+<app>
+	<teams>
+		
+	
+	</teams>
+	<leagues>
+		<leagueRules>
+			leagueManagerEmail
+			leagueName
+			strikesAllowed
+			ballsAllowed
+			foulsAllowed
+			numberOfInnings
+		</leagueRules>
+	
+	</leagues>
+</app>
