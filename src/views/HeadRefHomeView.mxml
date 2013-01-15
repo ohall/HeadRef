@@ -25,30 +25,30 @@
 				// TEST DATA DELETE ME!!
 				///////////////////
 				
-				var rules:LeagueRules = new LeagueRules();
-				rules.strikesAllowed=3;
-				rules.ballsAllowed=4;
-				rules.foulsAllowed=3;
-				rules.foulsAreStrikes=false;
-				rules.walkOnBalls = true;
-				rules.numberOfInnings = 1;
-				rules.leagueName="Circuit Tournament";
-				
-				rules.leagueManagerEmail = "oakley349@gmail.com";
-				headRefModel.leagues.addItem(rules);
-				
-				var nysh:TeamModel = new TeamModel();
-				nysh.teamName = "NYSH";
-				nysh.teamColor = 0x4090D0;
-				nysh.captainEmail = "nyshkickball@gmail.com";
-
-				var mbs:TeamModel = new TeamModel();
-				mbs.teamName = "MEATBALLS";
-				mbs.teamColor = 0x000000;
-				mbs.captainEmail = "oakley349@gmail.com";
-
-				headRefModel.teams.addItem(nysh);
-				headRefModel.teams.addItem(mbs);
+//				var rules:LeagueRules = new LeagueRules();
+//				rules.strikesAllowed=3;
+//				rules.ballsAllowed=4;
+//				rules.foulsAllowed=3;
+//				rules.foulsAreStrikes=false;
+//				rules.walkOnBalls = true;
+//				rules.numberOfInnings = 1;
+//				rules.leagueName="Circuit Tournament";
+//				
+//				rules.leagueManagerEmail = "oakley349@gmail.com";
+//				headRefModel.leagues.addItem(rules);
+//				
+//				var nysh:TeamModel = new TeamModel();
+//				nysh.teamName = "NYSH";
+//				nysh.teamColor = 0x4090D0;
+//				nysh.captainEmail = "nyshkickball@gmail.com";
+//
+//				var mbs:TeamModel = new TeamModel();
+//				mbs.teamName = "MEATBALLS";
+//				mbs.teamColor = 0x000000;
+//				mbs.captainEmail = "oakley349@gmail.com";
+//
+//				headRefModel.teams.addItem(nysh);
+//				headRefModel.teams.addItem(mbs);
 			}
 		]]>
 	</fx:Script>

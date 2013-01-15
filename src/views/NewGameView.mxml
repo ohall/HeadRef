@@ -27,7 +27,7 @@
 
 
 			protected function ruleListClickHandler(event:MouseEvent):void{
-				headRefModel.gameModel.leagueRules =  LeagueRules(ruleList.selectedItem);		
+				headRefModel.gameModel.leagueRules =  ruleList.selectedItem as LeagueRules;		
 				goToView(GameView);
 			
 			}
