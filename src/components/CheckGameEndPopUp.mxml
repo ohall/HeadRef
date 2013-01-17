@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
-			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   width="300" height="300" creationComplete="creationCompleteHandler(event)">
+			   xmlns:s="library://ns.adobe.com/flex/spark" backgroundColor="{RefConstants.COLLEGE_NAVY}"  
+			   width="100%" height="50%" 
+			   chromeColor="{RefConstants.COLLEGE_NAVY}" 
+			   creationComplete="creationCompleteHandler(event)">
 	
 	<fx:Script>
 		<![CDATA[
@@ -23,11 +25,12 @@
 			
 		]]>
 	</fx:Script>	
-	<s:VGroup gap="75" horizontalAlign="center" verticalCenter="0" >		
-		<s:Label text="End or coninue game?" fontSize="28" />
-		<s:HGroup gap="50">
-			<s:Button label="End" click="endButtonClickHandler(event)" />
-			<s:Button label="Continue" click="continueButtonClickHandler(event)" />
+	<s:VGroup gap="75" horizontalAlign="center" verticalCenter="0" width="100%" 
+			  paddingLeft="20" paddingRight="20" paddingBottom="50" >		
+		<s:Label text="End game or continue?" fontSize="20" />
+		<s:HGroup gap="0" width="100%">
+			<s:Button label="End" width="100%" click="endButtonClickHandler(event)" />
+			<s:Button label="Continue"  width="100%" click="continueButtonClickHandler(event)" />
 		</s:HGroup>
 	</s:VGroup>
 </s:TitleWindow>

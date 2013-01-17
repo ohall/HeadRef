@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <views:AbstractRefView xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" title="GameView"  
-		xmlns:components="components.*" xmlns:views="views.*">
+		xmlns:components="components.*" xmlns:views="views.*">	
 	<views:layout>
-		<s:VerticalLayout paddingTop="10" paddingBottom="5" paddingLeft="5" paddingRight="5" gap="80" 
-						  horizontalAlign="center" verticalAlign="top"/>
+		<s:VerticalLayout gap="0" horizontalAlign="center" verticalAlign="top"/>
 	</views:layout>
 	<fx:Script>
 		<![CDATA[
@@ -30,7 +29,6 @@
 			private static const HOMESCORE	: String = "home";
 			private static const AWAYSCORE	: String = "away";
 			
-			private var _endPop:CheckGameEndPopUp;
 			
 			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{
 				super.viewActivateHandler(event);
@@ -74,25 +72,27 @@
 				_undoStack.push(HOMESCORE);
 			}
 			
+			protected function endButtonClickHandler(event:MouseEvent):void{
+				dispatchEvent(new GameCompleteEvent() );
+			}
+			
 			protected function handleGameComplete(event:GameCompleteEvent):void{
-				_endPop = new CheckGameEndPopUp();
-				_endPop.setStyle("modalTransparency", .75);
-				_endPop.setStyle("modalTransparencyBlur", .75);
-				_endPop.addEventListener(EndGamePopUpButtonEvent.END_CLICK,goToEndView);
-				_endPop.addEventListener(EndGamePopUpButtonEvent.CONTINUE_CLICK,continueGame);
-				PopUpManager.addPopUp(_endPop,this,true);
-				PopUpManager.centerPopUp(_endPop);
+				var endPop:CheckGameEndPopUp = new CheckGameEndPopUp();
+				endPop.setStyle("modalTransparency", .75);
+				endPop.setStyle("modalTransparencyBlur", .75);
+				endPop.addEventListener(EndGamePopUpButtonEvent.END_CLICK,goToEndView);
+				endPop.addEventListener(EndGamePopUpButtonEvent.CONTINUE_CLICK,continueGame);
+				PopUpManager.addPopUp(endPop,this,true);
+				PopUpManager.centerPopUp(endPop);
 			}
 			
 			protected function continueGame(evt:EndGamePopUpButtonEvent):void{
 				PopUpManager.removePopUp(CheckGameEndPopUp(evt.target));				
-				_endPop=null;
 			}
 			
 			protected function goToEndView(evt:EndGamePopUpButtonEvent):void{
-				PopUpManager.removePopUp(CheckGameEndPopUp(evt.target));
-				_endPop=null;
 				goToView(EndView);
+				PopUpManager.removePopUp(CheckGameEndPopUp(evt.target));
 			}
 			
 			protected function safeBtnClickHandler(event:MouseEvent):void{
@@ -111,46 +111,50 @@
 			
 		]]>
 	</fx:Script>
-	<s:VGroup height="100%" width="100%" gap="0">
+	<s:HGroup width="100%">
 		<s:Label text="{headRefModel.gameModel.leagueRules.leagueName} Rules" styleName="ruleTypeLabel" width="100%"/>
-		<s:HGroup width="100%" gap="0"  >
-			<components:TeamButton 	id="homeBtn" 
-								   	teamName="{headRefModel.gameModel.homeTeam}" 
-								   	score="{headRefModel.gameModel.homeTeamScore}"  
-									scoreClick="homeBtnClickHandler()" 
-									teamColor="{headRefModel.gameModel.homeTeamColor}"
-									dataProvider="{headRefModel.teams}"
-									addTeam="addTeamHandler(event)"
-									/>
-			
-			<components:TeamButton 	id="awayBtn" 
-								   	teamName="{headRefModel.gameModel.awayTeam}" 
-									score="{headRefModel.gameModel.awayTeamScore}" 
-					  				scoreClick="awayBtnClickHandler()"
-									teamColor="{headRefModel.gameModel.awayTeamColor}"
-									dataProvider="{headRefModel.teams}"
-									addTeam="addTeamHandler(event)"
-									/>
-		</s:HGroup>
-		<s:HGroup width="100%" gap="0" >
-			<s:Label id="outLbl" text="{headRefModel.gameModel.outs} out  " styleName="statusLabel" />
-			<s:Spacer width="100%" />
-			<s:Label id="inningLbl" text="{halfInning} of " styleName="statusLabel" />	
-			<s:Label id="inningLbl2" text="{headRefModel.gameModel.inning}" styleName="statusLabel" />				
-		</s:HGroup>
-		<s:HGroup width="100%" gap="0"  >
+		<s:Spacer width="100%" />
+		<s:Button id="endButton" label="END" click="endButtonClickHandler(event)" styleName="endGameButton" height="18"/>
+	</s:HGroup>
+	<s:HGroup width="100%" gap="0"  >
+		<components:TeamButton 	id="homeBtn" 
+							   	teamName="{headRefModel.gameModel.homeTeam}" 
+							   	score="{headRefModel.gameModel.homeTeamScore}"  
+								scoreClick="homeBtnClickHandler()" 
+								teamColor="{headRefModel.gameModel.homeTeamColor}"
+								dataProvider="{headRefModel.teams}"
+								addTeam="addTeamHandler(event)"
+								/>
+		
+		<components:TeamButton 	id="awayBtn" 
+							   	teamName="{headRefModel.gameModel.awayTeam}" 
+								score="{headRefModel.gameModel.awayTeamScore}" 
+				  				scoreClick="awayBtnClickHandler()"
+								teamColor="{headRefModel.gameModel.awayTeamColor}"
+								dataProvider="{headRefModel.teams}"
+								addTeam="addTeamHandler(event)"
+								/>
+	</s:HGroup>
+	<s:HGroup width="100%" gap="0" >
+		<s:Label id="outLbl" text="{headRefModel.gameModel.outs} out  " styleName="statusLabel" />
+		<s:Spacer width="100%" />
+		<s:Label id="inningLbl" text="{halfInning} of  " styleName="statusLabel" />	
+		<s:Label id="inningLbl2" text="{headRefModel.gameModel.inning}" styleName="statusLabel" />				
+	</s:HGroup>
+	<s:HGroup width="100%" gap="0" height="100%">
+		<s:VGroup width="100%" gap="0"  >
 			<components:ResultButton id="safeBtn" label="SAFE" click="safeBtnClickHandler(event)" color="{RefConstants.GREEN}" />
 			<components:ResultButton id="outBtn" label="OUT" click="outBtnClickHandler(event)" color="{RefConstants.RED}" />
-		</s:HGroup>
-		<s:HGroup width="100%" gap="0"  >
+		</s:VGroup>
+		<s:VGroup width="100%" gap="0"  >
 			<components:PitchButton id="ballBtn" label="BALL" count="{headRefModel.gameModel.balls}" 
 									click="ballBtnClickHandler(event)" />
 			<components:PitchButton id="strikeBtn" label="STRIKE" count="{headRefModel.gameModel.strikes}" 
 									click="strikeBtnClickHandler(event)" />
 			<components:PitchButton id="foulBtn" label="FOUL" count="{headRefModel.gameModel.fouls}" 
 									click="foulBtnClickHandler(event)" />
-		</s:HGroup>
-		<components:UndoButton id="undoButton" label="UNDO" 
-							   click="undoButtonClickHandler(event)" bottom="10" />
-	</s:VGroup>
+		</s:VGroup>
+	</s:HGroup>
+	<components:UndoButton id="undoButton" label="UNDO" 
+						   click="undoButtonClickHandler(event)" bottom="10" />
 </views:AbstractRefView>
