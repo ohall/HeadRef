@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <views:AbstractRefView xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		xmlns:s="library://ns.adobe.com/flex/spark" title="AddTeamView" xmlns:components="components.*" xmlns:views="views.*">
-	
-	<fx:Script>
-		<![CDATA[
-		]]>
-	</fx:Script>
-	
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	
-	
+		xmlns:s="library://ns.adobe.com/flex/spark" title="AddTeamView" 
+		xmlns:components="components.*" 
+		xmlns:views="views.*">
 	<fx:Script>
 		<![CDATA[
 			import components.ColorPicker;
@@ -36,6 +27,11 @@
 				curTeamModel.captainEmail = emailInput.text;
 				curTeamModel.teamName = teamNameInput.text;
 				headRefModel.teams.addItem(curTeamModel);
+				if(headRefModel.homeOrAwayAdded == RefConstants.HOME){
+					headRefModel.gameModel.homeTeam = curTeamModel;
+				}else if(headRefModel.homeOrAwayAdded == RefConstants.AWAY){
+					headRefModel.gameModel.awayTeam = curTeamModel;
+				}
 				goToView(GameView);
 				
 				
@@ -49,7 +45,7 @@
 			
 			private function createOrEditTeam():void{
 				if(headRefModel.teamSelectedForEditing == ""){//create
-					curTeamModel = new TeamModel();
+					curTeamModel = new TeamModel("",0x000000);
 				}else{//edit
 					for each(var team:TeamModel in headRefModel.teams){
 						if(team.teamName == headRefModel.teamSelectedForEditing){

@@ -11,8 +11,11 @@ package model{
 		[Bindable]
 		public var gameModel:GameModel = new GameModel();
 		
-		public var teamSelectedForEditing:String = "";
-		public var rulesSelectedForEditing:String = "";
+		public var teamSelectedForEditing	: String = "";
+		public var rulesSelectedForEditing	: String = "";
+		public var homeOrAwayAdded			: String = "";
+		
+		public var undoStack:Array = new Array();
 		
 		public function HeadRefModel(){}
 	

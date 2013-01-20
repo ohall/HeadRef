@@ -19,11 +19,9 @@ package model{
 		[Bindable] private var _homeTeamScore	: Number = 0;
 		[Bindable] private var _awayTeamScore	: Number = 0;
 		
-		[Bindable] private var _homeTeam : String = "Home";
-		[Bindable] private var _awayTeam : String = "Away";
+		[Bindable] private var _homeTeam : TeamModel = new TeamModel("HOME", RefConstants.GENERIC_HOME_COLOR);
+		[Bindable] private var _awayTeam : TeamModel = new TeamModel("AWAY", RefConstants.GENERIC_AWAY_COLOR);
 
-		[Bindable] private var _homeTeamColor : uint = RefConstants.GENERIC_HOME_COLOR;
-		[Bindable] private var _awayTeamColor : uint = RefConstants.GENERIC_AWAY_COLOR;
 
 		private var _halfInning : String = RefConstants.INNING_TOP;
 		
@@ -82,20 +80,12 @@ package model{
 		
 		//team names
 		[Bindable]
-		public function get homeTeam():String{ return _homeTeam;}
-		public function set homeTeam(pVal:String):void{_homeTeam = pVal;}
+		public function get homeTeam():TeamModel{ return _homeTeam;}
+		public function set homeTeam(pVal:TeamModel):void{_homeTeam = pVal;}
 		
 		[Bindable]
-		public function get awayTeam():String{ return _awayTeam;}
-		public function set awayTeam(pVal:String):void{_awayTeam = pVal;}
-		
-		//jeresey colors
-		[Bindable]
-		public function get homeTeamColor():uint{ return _homeTeamColor;}
-		public function set homeTeamColor(pVal:uint):void{_homeTeamColor = pVal;}
-		[Bindable]
-		public function get awayTeamColor():uint{ return _awayTeamColor;}
-		public function set awayTeamColor(pVal:uint):void{_awayTeamColor = pVal;}
+		public function get awayTeam():TeamModel{ return _awayTeam;}
+		public function set awayTeam(pVal:TeamModel):void{_awayTeam = pVal;}
 		
 		//team scores
 		[Bindable]
@@ -140,7 +130,7 @@ package model{
 					leagueRules.allowsTies );
 		}
 		
-		private function getWinner():String{
+		private function getWinner():TeamModel{
 			return( awayTeamScore > homeTeamScore)?awayTeam:homeTeam;
 		}
 		
