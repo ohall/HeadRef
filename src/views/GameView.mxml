@@ -67,7 +67,7 @@
 			}
 			
 			protected function endButtonClickHandler(event:MouseEvent):void{
-				dispatchEvent(new GameCompleteEvent() );
+				headRefModel.gameModel.endGame();
 			}
 			
 			protected function handleGameComplete(event:GameCompleteEvent):void{
@@ -106,10 +106,9 @@
 			
 		]]>
 	</fx:Script>
-	<s:HGroup width="100%">
+	<s:HGroup width="100%" verticalAlign="middle">
 		<s:Label text="{headRefModel.gameModel.leagueRules.leagueName} Rules" styleName="ruleTypeLabel" width="100%"/>
-		<s:Spacer width="100%" />
-		<s:Button id="endButton" label="END" click="endButtonClickHandler(event)" styleName="endGameButton" height="18"/>
+		<s:Button mouseDown="endButtonClickHandler(event)" skinClass="skinClasses.EndGameBtnSkin"/>
 	</s:HGroup>
 	<s:HGroup width="100%" gap="0"  >
 		<components:TeamButton 	id="homeBtn" 
@@ -130,26 +129,27 @@
 								addTeam="addTeamHandler(event)"
 								/>
 	</s:HGroup>
-	<s:HGroup width="100%" gap="0" >
-		<s:Label id="outLbl" text="{headRefModel.gameModel.outs} out  " styleName="statusLabel" />
+	<s:HGroup width="80%" height="30" gap="0" verticalAlign="middle" >
+		<s:Label id="outLbl" text="{headRefModel.gameModel.outs} OUT  " styleName="statusLabel" />
 		<s:Spacer width="100%" />
 		<s:Label id="inningLbl" text="{halfInning} of  " styleName="statusLabel" />	
+		<s:Spacer width="10" />
 		<s:Label id="inningLbl2" text="{headRefModel.gameModel.inning}" styleName="statusLabel" />				
 	</s:HGroup>
 	<s:HGroup width="100%" gap="0" height="100%">
 		<s:VGroup width="100%" gap="0"  >
-			<components:ResultButton id="safeBtn" label="SAFE" click="safeBtnClickHandler(event)" color="{RefConstants.GREEN}" />
-			<components:ResultButton id="outBtn" label="OUT" click="outBtnClickHandler(event)" color="{RefConstants.RED}" />
+			<components:ResultButton id="safeBtn" label="SAFE" click="safeBtnClickHandler(event)" color="{RefConstants.GREEN}" skinClass="skinClasses.SafeButtonSkin" />
+			<components:ResultButton id="outBtn" label="OUT" click="outBtnClickHandler(event)" color="{RefConstants.RED}" skinClass="skinClasses.OutButtonSkin"  />
 		</s:VGroup>
 		<s:VGroup width="100%" gap="0"  >
-			<components:PitchButton id="ballBtn" label="BALL" count="{headRefModel.gameModel.balls}" 
-									click="ballBtnClickHandler(event)" />
-			<components:PitchButton id="strikeBtn" label="STRIKE" count="{headRefModel.gameModel.strikes}" 
-									click="strikeBtnClickHandler(event)" />
-			<components:PitchButton id="foulBtn" label="FOUL" count="{headRefModel.gameModel.fouls}" 
-									click="foulBtnClickHandler(event)" />
+			<components:PitchButton id="ballBtn" count="{headRefModel.gameModel.balls}" 
+									click="ballBtnClickHandler(event)" skinClass="skinClasses.BallButtonSkin"  />
+			<components:PitchButton id="strikeBtn" count="{headRefModel.gameModel.strikes}" 
+									click="strikeBtnClickHandler(event)" skinClass="skinClasses.StrikeButtonSkin" />
+			<components:PitchButton id="foulBtn" count="{headRefModel.gameModel.fouls}" 
+									click="foulBtnClickHandler(event)" skinClass="skinClasses.FoulButtonSkin" />
 		</s:VGroup>
 	</s:HGroup>
 	<components:UndoButton id="undoButton" label="UNDO" 
-						   click="undoButtonClickHandler(event)" bottom="10" />
+						   click="undoButtonClickHandler(event)" bottom="2" />
 </views:AbstractRefView>

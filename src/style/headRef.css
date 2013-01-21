@@ -4,45 +4,47 @@
 
 /*#3D9F36 action green*/
 /*#041423 college navy*/
-@font-face {
+/*@font-face {
 	src: url("BankGothic.ttf");
 	fontFamily: bg;
 	fontStyle: normal;
 	fontWeight: bold;
 	advancedAntiAliasing: true;
-}
+}*/
 
 s|ViewNavigatorApplication{
-	fontFamily:bg;
-	fontWeight:bold;
+	fontFamily:Arial;
 }
 
 s|View{
-	fontFamily:bg;
+	fontFamily:Arial;
 	skinClass: ClassReference("skinClasses.HeadRefViewSkin")
 }	
 
 
 s|Button{
-	chromeColor:#575757;
-	color:#E98300;
-	fontFamily:bg;
+	background-color:#ededed;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	color:#041423;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
 }
 
-s|ButtonBar{
-	fontSize:10;
-}
-
-s|ButtonBarButton{
-
-}
 
 s|TextInput{
 	
 }
 
 s|Label{
-	color:#3D9F36;
+	color:#EDB000
+/*	color:#3D9F36;*/
 }
 
 .teamLabel{
@@ -72,12 +74,12 @@ s|Label{
 }
 
 .ruleTypeLabel{
-	fontSize:16;
+	fontSize:12;
 			
 }
 
 .statusLabel{
-	fontSize:28;
+	fontSize:24;
 			
 }
 
@@ -98,17 +100,5 @@ s|Label{
 
 .editRulesLabel{
 	fontSize:16;
-	
-}
-
-.newRulesButton{
-	chromeColor:#575757;
-	color:#E98300;
-}
-
-.endGameButton{
-	height:10px;
-	chromeColor:#575757;
-	color:#3D9F36;
 	
 }

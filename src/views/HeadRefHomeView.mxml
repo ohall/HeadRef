@@ -3,8 +3,10 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		title="HomeView" xmlns:model="model.*" 
 		actionBarVisible="false" 
-		xmlns:views="views.*" >
-	
+		xmlns:views="views.*" mouseDown="newGameButtonClickHandler()" >
+	<fx:Declarations>
+		<fx:XML id="defaults" source="defaults.xml" />
+	</fx:Declarations>	
 	<fx:Script>
 		<![CDATA[
 			import model.LeagueRules;
@@ -13,44 +15,33 @@
 			import spark.events.ViewNavigatorEvent;
 			
 			
-			protected function newGameButtonClickHandler(event:MouseEvent):void{
+			protected function newGameButtonClickHandler():void{
 				goToView(NewGameView);
 			}
 			
-			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{
-				
+			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{				
 				super.viewActivateHandler(event);
-				
-				//////////////////
-				// TEST DATA DELETE ME!!
-				///////////////////
-				
-//				var rules:LeagueRules = new LeagueRules();
-//				rules.strikesAllowed=3;
-//				rules.ballsAllowed=4;
-//				rules.foulsAllowed=3;
-//				rules.foulsAreStrikes=false;
-//				rules.walkOnBalls = true;
-//				rules.numberOfInnings = 1;
-//				rules.leagueName="Circuit Tournament";
-//				
-//				rules.leagueManagerEmail = "oakley349@gmail.com";
-//				headRefModel.leagues.addItem(rules);
-//				
-//				var nysh:TeamModel = new TeamModel();
-//				nysh.teamName = "NYSH";
-//				nysh.teamColor = 0x4090D0;
-//				nysh.captainEmail = "nyshkickball@gmail.com";
-//
-//				var mbs:TeamModel = new TeamModel();
-//				mbs.teamName = "MEATBALLS";
-//				mbs.teamColor = 0x000000;
-//				mbs.captainEmail = "oakley349@gmail.com";
-//
-//				headRefModel.teams.addItem(nysh);
-//				headRefModel.teams.addItem(mbs);
+				parseDefaultValues();
 			}
+			
+			private function parseDefaultValues():void{
+				for each(var rulexml:XML in defaults..leagueRules){
+					var rules:LeagueRules 	= new LeagueRules();
+					rules.strikesAllowed	= rulexml.strikesAllowed;
+					rules.ballsAllowed		= rulexml.ballsAllowed;
+					rules.foulsAllowed		= rulexml.foulsAllowed;
+					rules.foulsAreStrikes	= rulexml.foulsAreStrikes;
+					rules.walkOnBalls 		= rulexml.walkOnBalls;
+					rules.numberOfInnings 	= rulexml.numberOfInnings;
+					rules.leagueName		= rulexml.leagueName;
+					rules.leagueManagerEmail= rulexml.leagueManagerEmail;
+					headRefModel.leagues.addItem(rules);
+				}	
+				
+			}
+			
+			
 		]]>
 	</fx:Script>
-	<s:Button id="newGameButton" label="New Game" click="newGameButtonClickHandler(event)" />
+	<s:Image source="@Embed('../style/skins/splash.png')" height="100%" width="100%" />
 </views:AbstractRefView>

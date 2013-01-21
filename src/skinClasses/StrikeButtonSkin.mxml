@@ -3,7 +3,7 @@
 		xmlns:s="library://ns.adobe.com/flex/spark">
 	<!-- host component -->
 	<fx:Metadata>
-		[HostComponent("components.UndoButton")]
+		[HostComponent("components.PitchButton")]
 	</fx:Metadata>
 	
 	<!-- states -->
@@ -14,17 +14,20 @@
 		<s:State name="up" />
 	</s:states>
 	
+	
 	<s:Rect height="100%" width="100%" radiusX="{RefConstants.BUTTON_CORNER_RADII}"
 			top="1" right="1" bottom="1" left="1">
 		<s:fill>
-			<s:SolidColor color="{RefConstants.SIMPLE_GRAY}"
-						  color.down="{RefConstants.FLASHGREEN}" />
+			<s:SolidColor color="{RefConstants.BABYBLUE}"
+						  color.down="{RefConstants.FLASHGREEN}"/>
 		</s:fill>
 	</s:Rect>
 	
-	<!-- SkinParts
-	name=iconDisplay, type=spark.primitives.BitmapImage, required=false
-	name=labelDisplay, type=spark.core.IDisplayText, required=false
-	-->
-	<s:BitmapImage source="@Embed('../style/skins/undo.png')" horizontalCenter="0" verticalCenter="0"/>
+	
+	<s:VGroup horizontalCenter="0" verticalCenter="0" width="100%" horizontalAlign="center" >			
+		<s:BitmapImage source="@Embed('../style/skins/strike.png')"/> 
+		
+		<s:Label id="score" textAlign="center" styleName="pitchCountLabel" 
+				 verticalAlign="middle" text="{hostComponent.count}"/> 
+	</s:VGroup>
 </s:Skin>

@@ -1,0 +1,30 @@
+<app>
+	<teams>
+		
+	
+	</teams>
+	<leagues>
+		<leagueRules>
+			<leagueManagerEmail>contactus@kickball365.com</leagueManagerEmail>
+			<leagueName>Circuit Pool Play</leagueName>
+			<strikesAllowed>3</strikesAllowed>
+			<ballsAllowed>4</ballsAllowed>
+			<foulsAllowed>3</foulsAllowed>
+			<numberOfInnings>5</numberOfInnings>
+			<allowsTies>true</allowsTies>
+			<foulsAreStrikes>false</foulsAreStrikes>
+			<walkOnBalls>true</walkOnBalls>
+		</leagueRules>
+		<leagueRules>
+			<leagueManagerEmail>contactus@kickball365.com</leagueManagerEmail>
+			<leagueName>Circuit Elim</leagueName>
+			<strikesAllowed>3</strikesAllowed>
+			<ballsAllowed>4</ballsAllowed>
+			<foulsAllowed>3</foulsAllowed>
+			<numberOfInnings>6</numberOfInnings>
+			<allowsTies>false</allowsTies>
+			<foulsAreStrikes>false</foulsAreStrikes>
+			<walkOnBalls>true</walkOnBalls>
+		</leagueRules>
+	</leagues>
+</app>

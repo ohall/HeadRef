@@ -15,9 +15,10 @@
 			
 			protected function emailButtonclickHandler(event:MouseEvent):void{
 				var s:String = "";
-				s += "mailto:";
-				
+				s+= "mailto:";
 				s+= headRefModel.gameModel.leagueRules.leagueManagerEmail
+				s+= headRefModel.gameModel.homeTeam.captainEmail
+				s+= headRefModel.gameModel.awayTeam.captainEmail
 				s+= "?";
 				s+= "subject=" ;
 				s+= headRefModel.gameModel.homeTeam+": "+headRefModel.gameModel.homeTeamScore+" - ";
@@ -31,8 +32,10 @@
 			
 		]]>
 	</fx:Script>
-	
+	<s:Image source="@Embed('../style/skins/splash.png')" height="100%" width="100%" />
 	<s:VGroup>
 		<s:Button label="Send Scores Email" click="emailButtonclickHandler(event)" />
+		<s:Label text="Recipients:"/>
+		<s:TextArea id="emailsDisplayArea" />
 	</s:VGroup>
 </views:AbstractRefView>

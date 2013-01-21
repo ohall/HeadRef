@@ -148,6 +148,9 @@ package model{
 			dispatcher.dispatchEvent( new GameCompleteEvent() );
 		}
 		
+		public function endGame():void{
+			gameOver();
+		}
 		public function GameModel(){}
 	}
 }
