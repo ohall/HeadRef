@@ -8,11 +8,15 @@
 	<fx:Script>
 		<![CDATA[
 			import components.CheckGameEndPopUp;
+			
 			import events.AddTeamEvent;
 			import events.EndGamePopUpButtonEvent;
 			import events.GameCompleteEvent;
+			
 			import model.TeamModel;
+			
 			import mx.managers.PopUpManager;
+			
 			import spark.events.ViewNavigatorEvent;
 
 			[Bindable]
@@ -23,6 +27,8 @@
 			private static const OUT		: String = "out";
 			private static const HOMESCORE	: String = "home";
 			private static const AWAYSCORE	: String = "away";
+			
+			private var _endPop : CheckGameEndPopUp;
 			
 			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{
 				super.viewActivateHandler(event);
@@ -71,22 +77,24 @@
 			}
 			
 			protected function handleGameComplete(event:GameCompleteEvent):void{
-				var endPop:CheckGameEndPopUp = new CheckGameEndPopUp();
-				endPop.setStyle("modalTransparency", .75);
-				endPop.setStyle("modalTransparencyBlur", .75);
-				endPop.addEventListener(EndGamePopUpButtonEvent.END_CLICK,goToEndView);
-				endPop.addEventListener(EndGamePopUpButtonEvent.CONTINUE_CLICK,continueGame);
-				PopUpManager.addPopUp(endPop,this,true);
-				PopUpManager.centerPopUp(endPop);
+				_endPop = new CheckGameEndPopUp();
+				_endPop.setStyle("modalTransparency", .75);
+				_endPop.setStyle("modalTransparencyBlur", .75);
+				_endPop.addEventListener(EndGamePopUpButtonEvent.END_CLICK,goToEndView);
+				_endPop.addEventListener(EndGamePopUpButtonEvent.CONTINUE_CLICK,continueGame);
+				PopUpManager.addPopUp(_endPop,this,true);
+				PopUpManager.centerPopUp(_endPop);
 			}
 			
 			protected function continueGame(evt:EndGamePopUpButtonEvent):void{
-				PopUpManager.removePopUp(CheckGameEndPopUp(evt.target));				
+				PopUpManager.removePopUp(_endPop);
+				_endPop = null;
 			}
 			
 			protected function goToEndView(evt:EndGamePopUpButtonEvent):void{
+				PopUpManager.removePopUp(_endPop);
+				_endPop = null;
 				goToView(EndView);
-				PopUpManager.removePopUp(CheckGameEndPopUp(evt.target));
 			}
 			
 			protected function safeBtnClickHandler(event:MouseEvent):void{

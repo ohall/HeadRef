@@ -43,5 +43,5 @@
 			
 		]]>
 	</fx:Script>
-	<s:Image source="@Embed('../style/skins/splash.png')" height="100%" width="100%" />
+	<s:Image source="@Embed('../style/skins/splash2.png')" height="100%" width="100%" />
 </views:AbstractRefView>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
-			   xmlns:s="library://ns.adobe.com/flex/spark" backgroundColor="{RefConstants.COLLEGE_NAVY}"  
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   backgroundColor="{RefConstants.COLLEGE_NAVY}"  
+			   borderAlpha="0"
 			   width="100%" height="50%" 
 			   creationComplete="creationCompleteHandler(event)">
 	
@@ -19,7 +21,6 @@
 			}
 			
 			protected function creationCompleteHandler(event:FlexEvent):void{
-				closeButton.visible = false;
 			}
 			
 		]]>
@@ -28,9 +29,9 @@
 			  paddingLeft="20" paddingRight="20" paddingBottom="50" >
 		<s:Spacer height="100%" />
 		<s:Label text="End game or continue?" fontSize="20" />
-		<s:HGroup gap="0" width="100%">
+		<s:HGroup width="100%">
 			<s:Button label="End" width="100%" click="endButtonClickHandler(event)" />
 			<s:Button label="Continue"  width="100%" click="continueButtonClickHandler(event)" />
 		</s:HGroup>
 	</s:VGroup>
-</s:TitleWindow>
+</s:BorderContainer>

@@ -10,32 +10,44 @@
 	
 	<fx:Script>
 		<![CDATA[
-			
 			import mx.events.FlexEvent;
 			
+			import spark.events.ViewNavigatorEvent;
+			
+			[Bindable]
+			private var _emails:String;
+			
+			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{
+				super.viewActivateHandler(event);
+				_emails = headRefModel.gameModel.leagueRules.leagueManagerEmail+"\n"
+				_emails+= headRefModel.gameModel.homeTeam.captainEmail+"\n";
+				_emails+= headRefModel.gameModel.awayTeam.captainEmail+"\n";				
+			}			
 			protected function emailButtonclickHandler(event:MouseEvent):void{
 				var s:String = "";
 				s+= "mailto:";
-				s+= headRefModel.gameModel.leagueRules.leagueManagerEmail
-				s+= headRefModel.gameModel.homeTeam.captainEmail
-				s+= headRefModel.gameModel.awayTeam.captainEmail
+				s+= _emails
 				s+= "?";
 				s+= "subject=" ;
-				s+= headRefModel.gameModel.homeTeam+": "+headRefModel.gameModel.homeTeamScore+" - ";
-				s+= headRefModel.gameModel.awayTeam+": "+headRefModel.gameModel.awayTeamScore;
+				s+= headRefModel.gameModel.homeTeam.teamName+": "+headRefModel.gameModel.homeTeamScore+" - ";
+				s+= headRefModel.gameModel.awayTeam.teamName+": "+headRefModel.gameModel.awayTeamScore;
 				s+= "&";
 				s+= "body=";
-				s+= headRefModel.gameModel.homeTeam+": "+headRefModel.gameModel.homeTeamScore+" ";
-				s+= headRefModel.gameModel.awayTeam+": "+headRefModel.gameModel.awayTeamScore+" ";
+				s+= "Final Score  ";
+				s+= headRefModel.gameModel.homeTeam.teamName+": "+headRefModel.gameModel.homeTeamScore+" - ";
+				s+= headRefModel.gameModel.awayTeam.teamName+": "+headRefModel.gameModel.awayTeamScore+"  ";
+				s+= " in the "+headRefModel.gameModel.inning+" inning.";
+				s+= "\n\n\n\n\n\n\n";
+				s+= "Find the Kickball365 HeadRef App in the iTunes App Store or Google Play Market!";
 				navigateToURL( new URLRequest(s));
 			}
 			
 		]]>
 	</fx:Script>
-	<s:Image source="@Embed('../style/skins/splash.png')" height="100%" width="100%" />
-	<s:VGroup>
+	<s:Image source="@Embed('../style/skins/gameoverbk.png')" height="100%" width="100%" />
+	<s:VGroup height="75%" horizontalAlign="center" y="100" horizontalCenter="0">
+		<s:Label text="Email scores to:" styleName="scoresLabel"/>
+		<s:TextArea id="emailsDisplayArea" text="@{_emails}" height="100%" horizontalCenter="0" />
 		<s:Button label="Send Scores Email" click="emailButtonclickHandler(event)" />
-		<s:Label text="Recipients:"/>
-		<s:TextArea id="emailsDisplayArea" />
 	</s:VGroup>
 </views:AbstractRefView>

@@ -102,3 +102,9 @@ s|Label{
 	fontSize:16;
 	
 }
+
+.scoresLabel{
+	fontSize:24;
+	fontWeight:bold;
+	color:#041423;
+}
