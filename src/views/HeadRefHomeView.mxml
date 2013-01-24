@@ -35,6 +35,7 @@
 					rules.numberOfInnings 	= rulexml.numberOfInnings;
 					rules.leagueName		= rulexml.leagueName;
 					rules.leagueManagerEmail= rulexml.leagueManagerEmail;
+					rules.timeLimitInMilliseconds = rulexml.timeLimit;
 					headRefModel.leagues.addItem(rules);
 				}	
 				

@@ -15,6 +15,8 @@ package model{
 		[Bindable] public var foulsAreStrikes	: Boolean = false;
 		[Bindable] public var walkOnBalls		: Boolean = true;
 		
+		[Bindable] public var timeLimitInMilliseconds : Number = -1;
+		
 		public function LeagueRules(){}
 	}
 }

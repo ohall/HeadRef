@@ -158,6 +158,10 @@
 									click="foulBtnClickHandler(event)" skinClass="skinClasses.FoulButtonSkin" />
 		</s:VGroup>
 	</s:HGroup>
-	<components:UndoButton id="undoButton" label="UNDO" 
-						   click="undoButtonClickHandler(event)" bottom="2" />
+	<s:HGroup>
+		<components:UndoButton id="undoButton" label="UNDO" 
+							   click="undoButtonClickHandler(event)" bottom="2" />
+		<components:TimerView id="gameTimer" 
+							  timeLimit="{headRefModel.gameModel.leagueRules.timeLimitInMilliseconds}"/>
+	</s:HGroup>
 </views:AbstractRefView>
