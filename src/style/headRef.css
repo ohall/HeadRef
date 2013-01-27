@@ -110,6 +110,10 @@ s|Label{
 }
 
 .timerLabel{
-	fontSize:54;
+	fontSize:28;
 	fontWeight:bold;
-}	
+}
+
+.timerMetaLabel{
+	fontSize:10;
+}

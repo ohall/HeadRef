@@ -4,37 +4,37 @@
 		actionBarVisible="false">
 	<fx:Script>
 		<![CDATA[
+			import components.SqlConnect;
+			
 			import model.GameModel;
 			import model.HeadRefModel;
 			
 			import mx.core.FlexGlobals;
 			
 			import spark.events.ViewNavigatorEvent;
-			import spark.managers.PersistenceManager;
 			
 			[Bindable]
 			public var headRefModel:HeadRefModel;
 			
-			public var persistenceManager:PersistenceManager;
+
 			
 			//we've arrived in a new view, let's check on the model
 			protected function viewActivateHandler(event:ViewNavigatorEvent):void{
-				persistenceManager = FlexGlobals.topLevelApplication.persistenceManager;
-				persistenceManager.load();
 				if (data) {//if we're coming from another view, use data obj
 					headRefModel = HeadRefModel(data);
-				}else if( persistenceManager.getProperty(RefConstants.REF_DATA_KEY) ){//check if we have persisted HeadRefModel
-					headRefModel = persistenceManager.getProperty(RefConstants.REF_DATA_KEY) as HeadRefModel;					
 				}else if(headRefModel == null){//otherwish, create a new model
 					headRefModel = new HeadRefModel();
 				}
 				
 			}
 			
+			
+			
+			
 			//we're leaving this view.  Take the model with us
 			protected function goToView(pNextViewClass:Class):void{
 				//we'll save data on every view change
-				persistenceManager.save();
+				var sqlCon:SqlConnect = new SqlConnect(headRefModel);
 				navigator.pushView(pNextViewClass, headRefModel);
 			}
 			

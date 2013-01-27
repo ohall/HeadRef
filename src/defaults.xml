@@ -14,7 +14,8 @@
 			<allowsTies>true</allowsTies>
 			<foulsAreStrikes>false</foulsAreStrikes>
 			<walkOnBalls>true</walkOnBalls>
-			<timeLimit>3600000</timeLimit>
+			<timeLimit>3000</timeLimit>
+<!-- 			<timeLimit>3600000</timeLimit> -->
 		</leagueRules>
 		<leagueRules>
 			<leagueManagerEmail>contactus@kickball365.com</leagueManagerEmail>

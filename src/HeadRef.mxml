@@ -5,12 +5,14 @@
 							applicationDPI="160" 
 							navigatorStateSaving="onStateSave(event)"
 							navigatorStateLoading="onStateLoad(event)" 
-							preinitialize="preinitializeHandler(event)" >
+							preinitialize="preinitializeHandler(event)"
+							persistNavigatorState="true">
 	
 	<fx:Style source="style/headRef.css" />
-	
 	<fx:Script>
 		<![CDATA[
+			import components.SqlConnect;
+			
 			import model.GameModel;
 			import model.HeadRefModel;
 			import model.LeagueRules;
@@ -31,11 +33,7 @@
 			}
 			
 			protected function preinitializeHandler(event:FlexEvent):void{
-				flash.net.registerClassAlias("headRefModel", HeadRefModel);
-				flash.net.registerClassAlias("teamModel", TeamModel);
-				flash.net.registerClassAlias("leagueRules", LeagueRules);
-				flash.net.registerClassAlias("gameModel", GameModel);
-				persistenceManager.load();
+				
 			}
 			
 		]]>

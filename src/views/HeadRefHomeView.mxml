@@ -25,20 +25,21 @@
 			}
 			
 			private function parseDefaultValues():void{
-				for each(var rulexml:XML in defaults..leagueRules){
-					var rules:LeagueRules 	= new LeagueRules();
-					rules.strikesAllowed	= rulexml.strikesAllowed;
-					rules.ballsAllowed		= rulexml.ballsAllowed;
-					rules.foulsAllowed		= rulexml.foulsAllowed;
-					rules.foulsAreStrikes	= rulexml.foulsAreStrikes;
-					rules.walkOnBalls 		= rulexml.walkOnBalls;
-					rules.numberOfInnings 	= rulexml.numberOfInnings;
-					rules.leagueName		= rulexml.leagueName;
-					rules.leagueManagerEmail= rulexml.leagueManagerEmail;
-					rules.timeLimitInMilliseconds = rulexml.timeLimit;
-					headRefModel.leagues.addItem(rules);
-				}	
-				
+				if(headRefModel.leagues.length<1){				
+					for each(var rulexml:XML in defaults..leagueRules){
+						var rules:LeagueRules 	= new LeagueRules();
+						rules.strikesAllowed	= rulexml.strikesAllowed;
+						rules.ballsAllowed		= rulexml.ballsAllowed;
+						rules.foulsAllowed		= rulexml.foulsAllowed;
+						rules.foulsAreStrikes	= rulexml.foulsAreStrikes;
+						rules.walkOnBalls 		= rulexml.walkOnBalls;
+						rules.numberOfInnings 	= rulexml.numberOfInnings;
+						rules.leagueName		= rulexml.leagueName;
+						rules.leagueManagerEmail= rulexml.leagueManagerEmail;
+						rules.timeLimitInMilliseconds = rulexml.timeLimit;
+						headRefModel.leagues.addItem(rules);
+					}	
+				}				
 			}
 			
 			

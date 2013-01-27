@@ -40,6 +40,9 @@
 				s+= "\n\n\n\n\n\n\n";
 				s+= "Find the Kickball365 HeadRef App in the iTunes App Store or Google Play Market!";
 				navigateToURL( new URLRequest(s));
+				
+				navigator.popAll();
+				goToView(HeadRefHomeView);
 			}
 			
 		]]>

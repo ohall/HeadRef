@@ -11,6 +11,11 @@
 			import events.EndGamePopUpButtonEvent;
 			
 			import mx.events.FlexEvent;
+			
+			
+			[Bindable]
+			public var optionalMessage:String = "";
+			
 			protected function endButtonClickHandler(event:MouseEvent):void{
 				dispatchEvent( new EndGamePopUpButtonEvent(EndGamePopUpButtonEvent.END_CLICK) );
 				
@@ -28,6 +33,7 @@
 	<s:VGroup gap="75" horizontalAlign="center" verticalCenter="0" width="100%" 
 			  paddingLeft="20" paddingRight="20" paddingBottom="50" >
 		<s:Spacer height="100%" />
+		<s:Label id="optionalText" text="{optionalMessage}" fontSize="20" />
 		<s:Label text="End game or continue?" fontSize="20" />
 		<s:HGroup width="100%">
 			<s:Button label="End" width="100%" click="endButtonClickHandler(event)" />

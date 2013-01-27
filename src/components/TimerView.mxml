@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
-		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 width="100%" height="200" mouseDown="mouseDownHandler(event)">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
+<s:VGroup 	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 	xmlns:s="library://ns.adobe.com/flex/spark" 
+			gap="2" width="75" 
+		 	mouseDown="mouseDownHandler(event)">
+	<fx:Metadata>
+		[Event(name="gameTimeExpired", type="events.GameTimeExpiredEvent")]
+	</fx:Metadata>
 	<fx:Script>
 		<![CDATA[			
-			import flash.events.TimerEvent;
-			import flash.utils.Timer;
+			import events.GameTimeExpiredEvent;
 			
-			import mx.core.RuntimeDPIProvider;
+			private const MIN_MASK		: String = "00";
+			private const SEC_MASK		: String = "00";
+			private const TIMER_INTERVAL: int = 1000;
+
+			[Bindable]
+			private var _timerIsRunning	: Boolean = false;
+			private var _gameTimer		: Timer;
+			private var _timeLimit		: Number;			
 			
-			private const MIN_MASK:String = "00";
-			private const SEC_MASK:String = "00";
-			private const TIMER_INTERVAL:int = 1000;
 			
-			private var t:Timer;
-			private var _running:Boolean = false;
-			
-			private var _timeLimit:Number;			
-			
+			private static const PAUSED_LABEL	: String = "Tap to start";
+			private static const RUNNING_LABEL	: String = "Time Remaining:";
+			private static const RUNNING_LABEL2	: String = "Tap to pause";
+
 			
 			////////////////////////
 			//Interface
@@ -28,7 +31,7 @@
 			
 			public function set timeLimit(pLimit:Number):void{
 				_timeLimit = pLimit;
-				timerLabel.text = getTimeString(_timeLimit);
+				timerLabel.text = getTimeString(_timeLimit,0);
 			}
 			
 			
@@ -37,41 +40,60 @@
 			//////////////////////
 			
 			private function init():void {
-				t = new Timer(TIMER_INTERVAL);
-				t.addEventListener(TimerEvent.TIMER, updateTimer);
+				_gameTimer = new Timer(TIMER_INTERVAL);
+				_gameTimer.addEventListener(TimerEvent.TIMER, updateTimer);
 			}
 			
 			private function updateTimer(evt:TimerEvent):void {
-				timerLabel.text = getTimeString(_timeLimit );
+				var timePassed:int = 0; 
+				if(_gameTimer){
+					timePassed= _gameTimer.currentCount*_gameTimer.delay;
+					if(timePassed >= _timeLimit){
+						_gameTimer.stop();
+						_gameTimer.reset();
+						dispatchEvent( new GameTimeExpiredEvent() );
+					}	
+				}
+				timerLabel.text = getTimeString(_timeLimit, timePassed );
 			}
 			
-			
-			private function getTimeString(pTime:Number):String{
-				var d:Date = new Date( pTime - getTimer() );
+			private function getTimeString(pTimeLimit:Number,pTimeElapsed:Number):String{
+				var d:Date = new Date( pTimeLimit - pTimeElapsed );
 				var min:String = String(MIN_MASK + d.minutes).substr(-MIN_MASK.length);
 				var sec:String = String(SEC_MASK + d.seconds).substr(-SEC_MASK.length);
 				return String(min + ":" + sec);				
 			}
 			
 			private function startTimer():void {
-				t.start();
+				_gameTimer.start();
 			}
 			
 			private function stopTimer():void {
-				t.stop();
+				_gameTimer.stop();
 			}
 			
+			
+			/////////////////
+			//Event Handlers
+			/////////////////
 			protected function mouseDownHandler(event:MouseEvent):void{
-				if(!_running){
-					_running = true;
-					init();
+				if(!_timerIsRunning){
+					if(!_gameTimer){
+						init();
+					}
+					_timerIsRunning = true;
 					startTimer();
-					descriptionLabel.text = "Time Remaining";
+					descriptionLabel.text = RUNNING_LABEL;
+				}else{
+					_timerIsRunning = false;
+					stopTimer();
+					descriptionLabel.text = PAUSED_LABEL;					
 				}
 			}
 			
 		]]>
 	</fx:Script>
-	<s:Label id="descriptionLabel" text="Tap to start Timer" />
+	<s:Label id="descriptionLabel" text="{PAUSED_LABEL}" styleName="timerMetaLabel"/>
 	<s:Label id="timerLabel"  styleName="timerLabel" />
+	<s:Label visible="{_timerIsRunning}" text="{RUNNING_LABEL2}" styleName="timerMetaLabel"/>
 </s:VGroup>

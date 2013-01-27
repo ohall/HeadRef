@@ -1,6 +1,10 @@
 package model{
+	import flash.utils.IDataInput;
+	import flash.utils.IDataOutput;
+	import flash.utils.IExternalizable;
+	
 	import mx.collections.ArrayCollection;
-
+	
 	public class HeadRefModel{
 		
 		[Bindable]
@@ -15,9 +19,11 @@ package model{
 		public var rulesSelectedForEditing	: String = "";
 		public var homeOrAwayAdded			: String = "";
 		
-		public var undoStack:Array = new Array();
+		public var undoStack:Array = new Array();		
 		
 		public function HeadRefModel(){}
 	
+		
+		
 	}
 }
