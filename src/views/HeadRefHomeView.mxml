@@ -39,7 +39,15 @@
 						rules.timeLimitInMilliseconds = rulexml.timeLimit;
 						headRefModel.leagues.addItem(rules);
 					}	
-				}				
+				}
+				
+				if(headRefModel.teams.length<1){				
+					for each(var teamXML:XML in defaults..team){
+						var team:TeamModel 	= new TeamModel(teamXML.teamName,teamXML.teamColor);
+						team.captainEmail	= teamXML.captainEmail;
+						headRefModel.teams.addItem(team);
+					}	
+				}
 			}
 			
 			

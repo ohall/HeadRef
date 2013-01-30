@@ -3,6 +3,7 @@ package components{
 	import flash.data.SQLResult;
 	import flash.data.SQLStatement;
 	import flash.display.Sprite;
+	import flash.errors.SQLError;
 	import flash.events.SQLEvent;
 	import flash.filesystem.File;
 	
@@ -12,8 +13,7 @@ package components{
 	
 	import mx.collections.ArrayCollection;
 	
-	public class SqlConnect extends Sprite
-	{
+	public class SqlConnect extends Sprite{
 		
 		private var sqlConnection:SQLConnection;
 		private var _model:HeadRefModel;
@@ -25,7 +25,6 @@ package components{
 			outputDatabase();
 		}	
 		
-		
 		private function loadDatabase():void{
 			var filePath:String = File.applicationDirectory.resolvePath("refData.db").nativePath;
 			var dbFile:File = new File( filePath );
@@ -33,63 +32,50 @@ package components{
 			if( dbFile.exists ) dbFile.deleteFile();
 			
 			sqlConnection = new SQLConnection();
-			try	
-			{
+			try	{
 				sqlConnection.open(dbFile)
-			}
-			catch(err:Error)
-			{ 
+			}catch(err:Error){ 
 				trace(err.message + "Function: loadDatabase"); 
 			}
 		}
 		
-		
 		private function populateDatabase():void{
-			var createTable:SQLStatement = new SQLStatement();
-			createTable.sqlConnection = sqlConnection;
-			
-			createTable.text = "CREATE TABLE IF NOT EXISTS Teams ( "
-				+"ID INTEGER PRIMARY KEY AUTOINCREMENT, teamName TEXT, teamColor TEXT, captainEmail TEXT )";
+			var createTeamsTable:SQLStatement = new SQLStatement();
+			createTeamsTable.sqlConnection = sqlConnection;			
+			createTeamsTable.text = "CREATE TABLE IF NOT EXISTS Teams " +
+				"(teamName TEXT, " +
+				"teamColor TEXT, " +
+				"captainEmail TEXT)";
 			
 			try {
-				createTable.execute();
-			}catch( err:Error ){
+				createTeamsTable.execute();
+			}catch( err:SQLError ){
 				trace( err.message );
+				trace("Details "+err.details );
 			}
 			
-			createTable.text = "CREATE TABLE IF NOT EXISTS Rules ( "
-				+"leagueManagerEmail TEXT, " +
+			addTeams(_model.teams);
+
+			var createRulesTable:SQLStatement = new SQLStatement();
+			createRulesTable.sqlConnection = sqlConnection;
+			createRulesTable.text = "CREATE TABLE IF NOT EXISTS Rules " +
+					"(leagueManagerEmail TEXT, " +
 					"leagueName TEXT, " +
 					"strikesAllowed INTEGER, " +
 					"foulsAllowed INTEGER, " +
+					"ballsAllowed INTEGER, " +
 					"numberOfInnings INTEGER, " +
 					"allowsTies BOOL, " +
 					"foulsAreStrikes BOOL, " +
 					"walkOnBalls BOOL, " +
 					"timeLimitInMilliseconds INTEGER)";
-			
 			try{
-				createTable.execute();
+				createRulesTable.execute();
 			}catch( err:Error ) {
 				trace( err.message );
 			}
 			
 			addRules(_model.leagues);
-//			addTeams(_model.teams);
-			
-			
-			/*[ {object parameters}, {object parameters}, {etc} ];
-			This creates an Array with Dynamic Objects. */
-//			addItems([
-//				{firstName:"Bob", lastName:"Marshall"},
-//				{firstName:"Ani", lastName:"Mahmud"},
-//				{firstName:"John", lastName:"Shaw"},
-//				{firstName:"Markus", lastName:"Clause"},
-//				{firstName:"Paula", lastName:"Bobson"},
-//				{firstName:"James", lastName:"Bradley"},
-//				{firstName:"Paul", lastName:"Lobbs"},
-//				{firstName:"Benjamin", lastName:"Stall"}
-//			]);
 		}	
 		
 		private function addTeams( items:ArrayCollection ):void{
@@ -97,16 +83,19 @@ package components{
 			sqlStatement.sqlConnection = sqlConnection;
 			
 			for each( var team:TeamModel in items ){
-				sqlStatement.text = "INSERT INTO Teams (teamName, teamColor, captainEmail) "+
-					"VALUES (?, ?)";
+				sqlStatement.text = "INSERT INTO Teams (" +
+					"teamName, " +
+					"teamColor, " +
+					"captainEmail) "+
+					"VALUES (?, ?, ?)";
 				sqlStatement.parameters[0] = team.teamName;
 				sqlStatement.parameters[1] = team.teamColor;
 				sqlStatement.parameters[2] = team.captainEmail;
 				
 				try{
 					sqlStatement.execute();
-				}
-				catch(err:Error){
+				}catch(err:SQLError){
+					var ERROR:SQLError = err;
 					trace(err.message + " Function: addTeams");
 				}
 			}
@@ -121,17 +110,24 @@ package components{
 			
 			for each( var item:LeagueRules in items ){
 				sqlStatement.text = "INSERT INTO Rules " +
-					"(leagueManagerEmail, leagueName, " +
-					"strikesAllowed, foulsAllowed, ballsAllowed " +
-					"numberOfInnings, allowsTies, " +
-					"foulsAreStrikes, walkOnBalls, " +
-					"timeLimitInMilliseconds) "+
+					"(" +
+					"leagueManagerEmail, " +
+					"leagueName, " +
+					"strikesAllowed, " +
+					"foulsAllowed, " +
+					"ballsAllowed, " +
+					"numberOfInnings, " +
+					"allowsTies, " +
+					"foulsAreStrikes, " +
+					"walkOnBalls, " +
+					"timeLimitInMilliseconds" +
+					") "+
 					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 				sqlStatement.parameters[0] = item.leagueManagerEmail;
 				sqlStatement.parameters[1] = item.leagueName;
 				sqlStatement.parameters[2] = item.strikesAllowed;
-				sqlStatement.parameters[3] = item.ballsAllowed;
-				sqlStatement.parameters[4] = item.foulsAllowed;
+				sqlStatement.parameters[3] = item.foulsAllowed;
+				sqlStatement.parameters[4] = item.ballsAllowed;
 				sqlStatement.parameters[5] = item.numberOfInnings;
 				sqlStatement.parameters[6] = item.allowsTies;
 				sqlStatement.parameters[7] = item.foulsAreStrikes;
@@ -142,44 +138,15 @@ package components{
 					sqlStatement.execute();
 				}catch(err:Error){
 					trace(err.message + " Function: addRules");
-					trace(err.name );
 				}
 			}
 			
 			sqlStatement = null;
 		}
 		
-		
-//		private function addItems( items:Array ):void
-//		{
-//			var sqlStatement:SQLStatement = new SQLStatement();
-//			sqlStatement.sqlConnection = sqlConnection;
-//			
-//			for each( var item:Object in items )
-//			{
-//				sqlStatement.text = "INSERT INTO Users (firstName, lastName) "+
-//					"VALUES (?, ?)";
-//				sqlStatement.parameters[0] = item.firstName;
-//				sqlStatement.parameters[1] = item.lastName;
-//				
-//				try
-//				{
-//					sqlStatement.execute();
-//				}
-//				catch(err:Error)
-//				{
-//					trace(err.message + " Function: addItems");
-//				}
-//			}
-//			
-//			sqlStatement = null;
-//		}
-		
-		
 		private function closeDatabase():void{
 			sqlConnection.close();
 		}		
-		
 		
 		private function outputDatabase():void{
 			var sqlStatement:SQLStatement = new SQLStatement();
@@ -194,9 +161,6 @@ package components{
 			sqlStatement.text = "SELECT * FROM Rules";
 			sqlStatement.addEventListener(SQLEvent.RESULT, printLeagueRules);
 			sqlStatement.execute();
-			
-			
-			
 		}	
 		
 		
@@ -212,7 +176,7 @@ package components{
 			
 			for( var i:int = 0; i < numberOfRows; i++ )
 			{
-				var item:TeamModel = result.data[i];
+				var item:Object = result.data[i];
 				
 				trace( item.teamName + fillSpaces(item.teamName, 17) +
 					item.teamColor + fillSpaces(item.teamName, 17) +
@@ -235,9 +199,20 @@ package components{
 				"TIES        FOULSTRIKES        " +
 				"WALKONBALLS        TIMELIMITMS");
 			
-			for( var i:int = 0; i < numberOfRows; i++ )
-			{
-				var item:LeagueRules = result.data[i];
+			for( var i:int = 0; i < numberOfRows; i++ ){
+				
+				var resultObj:Object = result.data[i];
+				var item:LeagueRules = new LeagueRules();
+				item.allowsTies 		= resultObj.allowties;
+				item.ballsAllowed 		= resultObj.ballsAllowed;
+				item.foulsAllowed 		= resultObj.foulsAllowed;
+				item.foulsAreStrikes	= resultObj.foulsAreStrikes;
+				item.leagueManagerEmail = resultObj.leagueManagerEmail;
+				item.leagueName 		= resultObj.leagueName;
+				item.numberOfInnings 	= resultObj.numberOfInnings;
+				item.strikesAllowed		= resultObj.strikesAllowed;
+				item.walkOnBalls 		= resultObj.walkOnBalls;
+				item.timeLimitInMilliseconds = resultObj.timeLimitInMilliseconds;
 				
 				trace(item.leagueManagerEmail + fillSpaces(item.leagueManagerEmail, 17) +
 					item.leagueName + fillSpaces(item.leagueName, 17) +

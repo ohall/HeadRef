@@ -1,7 +1,15 @@
 <app>
 	<teams>
-		
-	
+		<team>
+			<teamName>NYSH</teamName>
+			<teamColor>#4982D9</teamColor>
+			<captainEmail>oakley349@gmail.com</captainEmail>
+		</team>
+		<team>
+			<teamName>LIU</teamName>
+			<teamColor>#E98108</teamColor>
+			<captainEmail>lockitup@gmail.com</captainEmail>
+		</team>	
 	</teams>
 	<leagues>
 		<leagueRules>
