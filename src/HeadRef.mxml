@@ -3,9 +3,6 @@
 							xmlns:s="library://ns.adobe.com/flex/spark" 
 							firstView="views.HeadRefHomeView" 
 							applicationDPI="160" 
-							navigatorStateSaving="onStateSave(event)"
-							navigatorStateLoading="onStateLoad(event)" 
-							preinitialize="preinitializeHandler(event)"
 							persistNavigatorState="true">
 	
 	<fx:Style source="style/headRef.css" />
@@ -13,28 +10,7 @@
 		<![CDATA[
 			import components.SqlConnect;
 			
-			import model.GameModel;
-			import model.HeadRefModel;
-			import model.LeagueRules;
-			import model.TeamModel;
-			
-			import mx.events.FlexEvent;
-			
-			import spark.managers.PersistenceManager;
 						
-			protected function onStateSave(event:FlexEvent):void{
-				// TODO Auto-generated method stub
-				
-			}
-			
-			protected function onStateLoad(event:FlexEvent):void{
-				// TODO Auto-generated method stub
-				
-			}
-			
-			protected function preinitializeHandler(event:FlexEvent):void{
-				
-			}
 			
 		]]>
 	</fx:Script>

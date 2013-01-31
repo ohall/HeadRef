@@ -16,25 +16,21 @@
 			[Bindable]
 			public var headRefModel:HeadRefModel;
 			
-
+			public var sqlConnect:SqlConnect = new SqlConnect();
 			
 			//we've arrived in a new view, let's check on the model
 			protected function viewActivateHandler(event:ViewNavigatorEvent):void{
 				if (data) {//if we're coming from another view, use data obj
 					headRefModel = HeadRefModel(data);
 				}else if(headRefModel == null){//otherwish, create a new model
-					headRefModel = new HeadRefModel();
+					headRefModel = sqlConnect.getSavedModel();
 				}
-				
 			}
-			
-			
-			
 			
 			//we're leaving this view.  Take the model with us
 			protected function goToView(pNextViewClass:Class):void{
 				//we'll save data on every view change
-				var sqlCon:SqlConnect = new SqlConnect(headRefModel);
+				sqlConnect.saveModel(headRefModel);
 				navigator.pushView(pNextViewClass, headRefModel);
 			}
 			
