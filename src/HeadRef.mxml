@@ -2,14 +2,11 @@
 <s:ViewNavigatorApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
 							xmlns:s="library://ns.adobe.com/flex/spark" 
 							firstView="views.HeadRefHomeView" 
-							applicationDPI="160" 
-							persistNavigatorState="true">
+							applicationDPI="160">
 	
 	<fx:Style source="style/headRef.css" />
 	<fx:Script>
-		<![CDATA[
-			import components.SqlConnect;
-			
+		<![CDATA[			
 						
 			
 		]]>

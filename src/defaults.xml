@@ -1,11 +1,13 @@
 <app>
 	<teams>
 		<team>
+			<id>NYSH</id>
 			<teamName>NYSH</teamName>
 			<teamColor>#4982D9</teamColor>
 			<captainEmail>oakley349@gmail.com</captainEmail>
 		</team>
 		<team>
+			<id>LIU</id>
 			<teamName>LIU</teamName>
 			<teamColor>#E98108</teamColor>
 			<captainEmail>lockitup@gmail.com</captainEmail>
@@ -13,8 +15,9 @@
 	</teams>
 	<leagues>
 		<leagueRules>
-			<leagueManagerEmail>contactus@kickball365.com</leagueManagerEmail>
+			<id>CircuitPoolPlay</id>
 			<leagueName>Circuit Pool Play</leagueName>
+			<leagueManagerEmail>contactus@kickball365.com</leagueManagerEmail>
 			<strikesAllowed>3</strikesAllowed>
 			<ballsAllowed>4</ballsAllowed>
 			<foulsAllowed>3</foulsAllowed>
@@ -26,8 +29,9 @@
 <!-- 			<timeLimit>3600000</timeLimit> -->
 		</leagueRules>
 		<leagueRules>
-			<leagueManagerEmail>contactus@kickball365.com</leagueManagerEmail>
+			<id>Circuit Elim</id>
 			<leagueName>Circuit Elim</leagueName>
+			<leagueManagerEmail>contactus@kickball365.com</leagueManagerEmail>
 			<strikesAllowed>3</strikesAllowed>
 			<ballsAllowed>4</ballsAllowed>
 			<foulsAllowed>3</foulsAllowed>

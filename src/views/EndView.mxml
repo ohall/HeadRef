@@ -19,9 +19,11 @@
 			
 			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{
 				super.viewActivateHandler(event);
-				_emails = headRefModel.gameModel.leagueRules.leagueManagerEmail+"\n"
-				_emails+= headRefModel.gameModel.homeTeam.captainEmail+"\n";
-				_emails+= headRefModel.gameModel.awayTeam.captainEmail+"\n";				
+				if(headRefModel){
+					_emails = headRefModel.gameModel.leagueRules.leagueManagerEmail+"\n"
+					_emails+= headRefModel.gameModel.homeTeam.captainEmail+"\n";
+					_emails+= headRefModel.gameModel.awayTeam.captainEmail+"\n";				
+				}
 			}			
 			protected function emailButtonclickHandler(event:MouseEvent):void{
 				var s:String = "";

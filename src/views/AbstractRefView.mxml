@@ -2,12 +2,17 @@
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" viewActivate="viewActivateHandler(event)" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		actionBarVisible="false">
+	<fx:Declarations>
+		<fx:XML id="defaults" source="defaults.xml" />
+	</fx:Declarations>	
 	<fx:Script>
 		<![CDATA[
 			import components.SqlConnect;
 			
 			import model.GameModel;
 			import model.HeadRefModel;
+			import model.LeagueRules;
+			import model.TeamModel;
 			
 			import mx.core.FlexGlobals;
 			
@@ -20,10 +25,12 @@
 			
 			//we've arrived in a new view, let's check on the model
 			protected function viewActivateHandler(event:ViewNavigatorEvent):void{
-				if (data) {//if we're coming from another view, use data obj
+				if (data is HeadRefModel) {//if we're coming from another view, use data obj
 					headRefModel = HeadRefModel(data);
-				}else if(headRefModel == null){//otherwish, create a new model
-					headRefModel = sqlConnect.getSavedModel();
+				}else if( sqlConnect.databaseExists() ){//otherwish, create a new model
+					headRefModel = sqlConnect.getSavedModelFromDatabase();
+				}else{
+					parseDefaultValues();
 				}
 			}
 			
@@ -33,6 +40,34 @@
 				sqlConnect.saveModel(headRefModel);
 				navigator.pushView(pNextViewClass, headRefModel);
 			}
+			
+			private function parseDefaultValues():void{
+				headRefModel = new HeadRefModel();
+				for each(var rulexml:XML in defaults..leagueRules){
+					var rules:LeagueRules 	= new LeagueRules();
+					rules.strikesAllowed	= rulexml.strikesAllowed;
+					rules.ballsAllowed		= rulexml.ballsAllowed;
+					rules.foulsAllowed		= rulexml.foulsAllowed;
+					rules.foulsAreStrikes	= rulexml.foulsAreStrikes;
+					rules.walkOnBalls 		= rulexml.walkOnBalls;
+					rules.numberOfInnings 	= rulexml.numberOfInnings;
+					rules.leagueName		= rulexml.leagueName;
+					rules.leagueManagerEmail= rulexml.leagueManagerEmail;
+					rules.timeLimitInMilliseconds = rulexml.timeLimit;
+					headRefModel.leagues.addItem(rules);
+				}	
+				
+				for each(var teamXML:XML in defaults..team){
+					var team:TeamModel 	= new TeamModel(teamXML.teamName,teamXML.teamColor);
+					team.captainEmail	= teamXML.captainEmail;
+					headRefModel.teams.addItem(team);
+				}	
+				
+				sqlConnect.saveModel(headRefModel);
+			}
+			
+			
+			
 			
 		]]>
 	</fx:Script>

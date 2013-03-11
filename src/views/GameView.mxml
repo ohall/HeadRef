@@ -78,18 +78,15 @@
 			}
 			
 			protected function handleGameComplete(event:GameCompleteEvent):void{
-				_endPop = new CheckGameEndPopUp();
-				deployPopUp(_endPop);			
+				deployPopUp();			
 			}
 			
 			protected function continueGame(evt:EndGamePopUpButtonEvent):void{
 				PopUpManager.removePopUp(_endPop);
-				_endPop = null;
 			}
 			
 			protected function goToEndView(evt:EndGamePopUpButtonEvent):void{
 				PopUpManager.removePopUp(_endPop);
-				_endPop = null;
 				goToView(EndView);
 			}
 			
@@ -109,19 +106,19 @@
 			}
 			
 			protected function gameTimeExpiredHandler(event:GameTimeExpiredEvent):void{
-				_endPop = new CheckGameEndPopUp();
 				_endPop.optionalMessage = "Time's Up!";
-				deployPopUp(_endPop);
+				deployPopUp();
 			}
 			
 			
-			private function deployPopUp(popper:CheckGameEndPopUp):void{
-				popper.setStyle("modalTransparency", .75);
-				popper.setStyle("modalTransparencyBlur", .75);
-				popper.addEventListener(EndGamePopUpButtonEvent.END_CLICK,goToEndView);
-				popper.addEventListener(EndGamePopUpButtonEvent.CONTINUE_CLICK,continueGame);
-				PopUpManager.addPopUp(popper,this,true);
-				PopUpManager.centerPopUp(popper);		
+			private function deployPopUp():void{
+				_endPop = new CheckGameEndPopUp();
+				_endPop.setStyle("modalTransparency", .75);
+				_endPop.setStyle("modalTransparencyBlur", .75);
+				_endPop.addEventListener(EndGamePopUpButtonEvent.END_CLICK,goToEndView);
+				_endPop.addEventListener(EndGamePopUpButtonEvent.CONTINUE_CLICK,continueGame);
+				PopUpManager.addPopUp(_endPop,this,true);
+				PopUpManager.centerPopUp(_endPop);		
 			}
 			
 		]]>

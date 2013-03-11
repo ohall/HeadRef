@@ -3,51 +3,12 @@
 		xmlns:s="library://ns.adobe.com/flex/spark"
 		title="HomeView" xmlns:model="model.*" 
 		actionBarVisible="false" 
-		xmlns:views="views.*" mouseDown="newGameButtonClickHandler()" >
-	<fx:Declarations>
-		<fx:XML id="defaults" source="defaults.xml" />
-	</fx:Declarations>	
+		xmlns:views="views.*" mouseDown="splashClickHandler()" >
+
 	<fx:Script>
-		<![CDATA[
-			import model.LeagueRules;
-			import model.TeamModel;
-			
-			import spark.events.ViewNavigatorEvent;
-			
-			
-			protected function newGameButtonClickHandler():void{
+		<![CDATA[			
+			protected function splashClickHandler():void{
 				goToView(NewGameView);
-			}
-			
-			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{				
-				super.viewActivateHandler(event);
-				parseDefaultValues();
-			}
-			
-			private function parseDefaultValues():void{
-				if(headRefModel.leagues.length<1){				
-					for each(var rulexml:XML in defaults..leagueRules){
-						var rules:LeagueRules 	= new LeagueRules();
-						rules.strikesAllowed	= rulexml.strikesAllowed;
-						rules.ballsAllowed		= rulexml.ballsAllowed;
-						rules.foulsAllowed		= rulexml.foulsAllowed;
-						rules.foulsAreStrikes	= rulexml.foulsAreStrikes;
-						rules.walkOnBalls 		= rulexml.walkOnBalls;
-						rules.numberOfInnings 	= rulexml.numberOfInnings;
-						rules.leagueName		= rulexml.leagueName;
-						rules.leagueManagerEmail= rulexml.leagueManagerEmail;
-						rules.timeLimitInMilliseconds = rulexml.timeLimit;
-						headRefModel.leagues.addItem(rules);
-					}	
-				}
-				
-				if(headRefModel.teams.length<1){				
-					for each(var teamXML:XML in defaults..team){
-						var team:TeamModel 	= new TeamModel(teamXML.teamName,teamXML.teamColor);
-						team.captainEmail	= teamXML.captainEmail;
-						headRefModel.teams.addItem(team);
-					}	
-				}
 			}
 			
 			

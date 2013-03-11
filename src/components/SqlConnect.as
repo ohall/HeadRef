@@ -8,6 +8,7 @@ package components{
 	import flash.errors.SQLError;
 	import flash.events.SQLEvent;
 	import flash.filesystem.File;
+	import flash.text.ReturnKeyLabel;
 	
 	import model.HeadRefModel;
 	import model.LeagueRules;
@@ -19,8 +20,25 @@ package components{
 		
 		private var _sqlConnection 	: SQLConnection;
 		private var _model 			: HeadRefModel;
-		private var _rulesArray 	: ArrayCollection;
-		private var _teamsArray 	: ArrayCollection;
+		
+		private static const DB_NAME 			: String = "refData.db";
+		
+		private static const TABLE_NAME_RULES 	: String = "Rules";
+		private static const TABLE_NAME_TEAMS 	: String = "Teams";		
+		private static const CREATE_TABLE_TEAMS : String = "CREATE TABLE IF NOT EXISTS Teams (id TEXT, teamName TEXT, teamColor TEXT, captainEmail TEXT)";
+		private static const CREATE_TABLE_RULES : String = "CREATE TABLE IF NOT EXISTS Rules (id TEXT, leagueName TEXT, leagueManagerEmail TEXT, " +
+			"strikesAllowed INTEGER, foulsAllowed INTEGER, ballsAllowed INTEGER, numberOfInnings INTEGER, allowsTies BOOL, foulsAreStrikes BOOL, " +
+			"walkOnBalls BOOL, timeLimitInMilliseconds INTEGER)";
+		
+		private static const CREATE_UNIQUE_INDEX_TEAMS : String = "CREATE UNIQUE INDEX `id_UNIQUE` ON `Teams` (`id` ASC)";
+		private static const CREATE_UNIQUE_INDEX_RULES : String = "CREATE UNIQUE INDEX `id_UNIQUE` ON `Rules` (`id` ASC)";
+		
+		private static const INSERT_INTO_TEAMS_IF_NOT_THERE 	: String = "INSERT OR REPLACE INTO Teams (id, teamName, teamColor, captainEmail) VALUES (?, ?, ?, ?)";
+		private static const INSERT_INTO_RULES_IF_NOT_THERE 	: String = "INSERT OR REPLACE INTO Rules (id, leagueName, leagueManagerEmail,  strikesAllowed, foulsAllowed, " +
+			"ballsAllowed, numberOfInnings, allowsTies, foulsAreStrikes, walkOnBalls, timeLimitInMilliseconds) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		private static const GET_TEAMS 			: String = "SELECT * FROM Teams";
+		private static const GET_RULES 			: String = "SELECT * FROM Rules";
 		
 		public function SqlConnect(){}	
 		
@@ -29,18 +47,23 @@ package components{
 		 * */
 		public function saveModel(pModel:HeadRefModel):void{
 			_model = pModel;
-			loadDatabase();
-			populateDatabase();
-			closeDatabase();
+			if(!_sqlConnection){ _sqlConnection = new SQLConnection(); }
+			if( loadDatabase() ){
+				createTableIfDoesntExist(TABLE_NAME_TEAMS);
+				createTableIfDoesntExist(TABLE_NAME_RULES);	
+				addTeamsIfDoesntExist(_model.teams);
+				addRulesIfDoesntExist(_model.leagues);
+			}
 		}
 
 		/**
 		 * Gets saved rules and teams from database adds to new HeadRef
 		 * model and returns.
 		 * */
-		public function getSavedModel():HeadRefModel{
+		public function getSavedModelFromDatabase():HeadRefModel{
 			_model = new HeadRefModel();
-			if(	loadDatabase() ){
+			if(!_sqlConnection){ _sqlConnection = new SQLConnection();}
+			if( loadDatabase() ){
 				_model.teams = getTeams();
 				_model.leagues = getRules();
 				closeDatabase();
@@ -48,182 +71,155 @@ package components{
 			return _model;
 		}
 		
+		public function databaseExists():Boolean{
+			var dbFile:File = new File( "app:/"+DB_NAME );
+			return dbFile.exists;
+		}
 		
 		/////////////////////////
 		// private methods  ////
 		////////////////////////
 
 		private function loadDatabase():Boolean{
-			var filePath:String = File.applicationDirectory.resolvePath("refData.db").nativePath;
-			var dbFile:File = new File( filePath );
-			if( !dbFile.exists ){
-				return false
-			}else{
-				_sqlConnection = new SQLConnection();
-				try	{ _sqlConnection.open(dbFile)
-				}catch(err:Error){ trace(err.message + "Function: loadDatabase"); }
-				return true;
+			var dbFile:File = new File( "app:/"+DB_NAME );
+			var didExist:Boolean = dbFile.exists;
+			try	{ 
+				_sqlConnection.open(dbFile)
+			}catch(err:Error){ 
+				trace(err.message + "Function: loadDatabase"); 
 			}
+			return didExist;
 		}
 		
-		private function populateDatabase():void{
-			
-			var createTeamsTable:SQLStatement = new SQLStatement();
-			createTeamsTable.sqlConnection = _sqlConnection;			
-			createTeamsTable.text = "CREATE TABLE IF NOT EXISTS Teams " +
-				"(teamName TEXT, " +
-				"teamColor TEXT, " +
-				"captainEmail TEXT)";
-			try { createTeamsTable.execute();
-			}catch( err:SQLError ){ trace( err.message );}
-			addTeams(_model.teams);
+		private function createTableIfDoesntExist(pTableName:String):void{
+			var cTable:SQLStatement = new SQLStatement();
+			cTable.sqlConnection = _sqlConnection;
+			cTable.text = ( pTableName==TABLE_NAME_RULES )?CREATE_TABLE_RULES:CREATE_TABLE_TEAMS;
+			try { 
+				cTable.execute();
+			}catch( err:SQLError ){ 
+				trace( err.message );
+			}
+		}
 
-			var createRulesTable:SQLStatement = new SQLStatement();
-			createRulesTable.sqlConnection = _sqlConnection;
-			createRulesTable.text = "CREATE TABLE IF NOT EXISTS Rules " +
-					"(leagueManagerEmail TEXT, " +
-					"leagueName TEXT, " +
-					"strikesAllowed INTEGER, " +
-					"foulsAllowed INTEGER, " +
-					"ballsAllowed INTEGER, " +
-					"numberOfInnings INTEGER, " +
-					"allowsTies BOOL, " +
-					"foulsAreStrikes BOOL, " +
-					"walkOnBalls BOOL, " +
-					"timeLimitInMilliseconds INTEGER)";
-			try{ createRulesTable.execute();
-			}catch( err:Error ) { trace( err.message ); }
-			addRules(_model.leagues);
-		}	
-		
-		private function addTeams( items:ArrayCollection ):void{
+		private function addTeamsIfDoesntExist( items:ArrayCollection ):void{
 			var sqlStatement:SQLStatement = new SQLStatement();
 			sqlStatement.sqlConnection = _sqlConnection;
 			for each( var team:TeamModel in items ){
-				sqlStatement.text = "INSERT INTO Teams (" +
-					"teamName, " +
-					"teamColor, " +
-					"captainEmail) "+
-					"VALUES (?, ?, ?)";
-				sqlStatement.parameters[0] = team.teamName;
-				sqlStatement.parameters[1] = team.teamColor;
-				sqlStatement.parameters[2] = team.captainEmail;
-				try{ sqlStatement.execute();
-				}catch(err:SQLError){ trace(err.message + " Function: addTeams"); }
+				sqlStatement.text = INSERT_INTO_TEAMS_IF_NOT_THERE;
+				sqlStatement.parameters[0] = team.id;
+				sqlStatement.parameters[1] = team.teamName;
+				sqlStatement.parameters[2] = team.teamColor;
+				sqlStatement.parameters[3] = team.captainEmail;
+				try{ 
+					sqlStatement.execute();
+				}catch(err:SQLError){ 
+					var error:SQLError = err;
+					trace(err.message + " Function: addTeams"); 
+				}
+				sqlStatement = null;
+				sqlStatement = new SQLStatement();
+				sqlStatement.sqlConnection = _sqlConnection;
+				sqlStatement.text = "CREATE UNIQUE INDEX "+team.id+" ON `Teams` (`id` ASC)";
+				
+				try{ 
+					sqlStatement.execute();
+				}catch(err:SQLError){ 
+					error = err;
+					trace(err.message + " Cannot Create Unique ID"); 
+				}
 			}
-			sqlStatement = null;
+			
 		}
 		
-		private function addRules( items:ArrayCollection ):void{
+		private function addRulesIfDoesntExist( items:ArrayCollection ):void{
 			var sqlStatement:SQLStatement = new SQLStatement();
 			sqlStatement.sqlConnection = _sqlConnection;
 			for each( var item:LeagueRules in items ){
-				sqlStatement.text = "INSERT INTO Rules " +
-					"(" +
-					"leagueManagerEmail, " +
-					"leagueName, " +
-					"strikesAllowed, " +
-					"foulsAllowed, " +
-					"ballsAllowed, " +
-					"numberOfInnings, " +
-					"allowsTies, " +
-					"foulsAreStrikes, " +
-					"walkOnBalls, " +
-					"timeLimitInMilliseconds" +
-					") "+
-					"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-				sqlStatement.parameters[0] = item.leagueManagerEmail;
+				sqlStatement.text = INSERT_INTO_RULES_IF_NOT_THERE;
+				sqlStatement.parameters[0] = item.id;
 				sqlStatement.parameters[1] = item.leagueName;
-				sqlStatement.parameters[2] = item.strikesAllowed;
-				sqlStatement.parameters[3] = item.foulsAllowed;
-				sqlStatement.parameters[4] = item.ballsAllowed;
-				sqlStatement.parameters[5] = item.numberOfInnings;
-				sqlStatement.parameters[6] = item.allowsTies;
-				sqlStatement.parameters[7] = item.foulsAreStrikes;
-				sqlStatement.parameters[8] = item.walkOnBalls;
-				sqlStatement.parameters[9] = item.timeLimitInMilliseconds;
+				sqlStatement.parameters[2] = item.leagueManagerEmail;
+				sqlStatement.parameters[3] = item.strikesAllowed;
+				sqlStatement.parameters[4] = item.foulsAllowed;
+				sqlStatement.parameters[5] = item.ballsAllowed;
+				sqlStatement.parameters[6] = item.numberOfInnings;
+				sqlStatement.parameters[7] = item.allowsTies;
+				sqlStatement.parameters[8] = item.foulsAreStrikes;
+				sqlStatement.parameters[9] = item.walkOnBalls;
+				sqlStatement.parameters[10] = item.timeLimitInMilliseconds;
 				
-				try{ sqlStatement.execute();
-				}catch(err:Error){ trace(err.message + " Function: addRules"); }
+				try{ 
+					sqlStatement.execute();
+				}catch(err:SQLError){ 
+					var error:SQLError = err;
+					trace(err.message + " Function: addRules"); 
+				}
+				sqlStatement = null;
+				sqlStatement = new SQLStatement();
+				sqlStatement.sqlConnection = _sqlConnection;
+				sqlStatement.text = "CREATE UNIQUE INDEX "+item.id+" ON `Rules` (`id` ASC)";
+				
+				try{ 
+					sqlStatement.execute();
+				}catch(err:SQLError){ 
+					error = err;
+					trace(err.message + " Cannot Create Unique ID"); 
+				}				
 			}
-			sqlStatement = null;
 		}
 		
 		private function closeDatabase():void{
 			_sqlConnection.close();
 		}		
-	
-		public function doesTableExist(connection:SQLConnection, tableName:String):Boolean{
-			connection.loadSchema();
-			var schema:SQLSchemaResult = connection.getSchemaResult();
-			for each (var table:SQLTableSchema in schema.tables){
-				if (table.name.toLowerCase() == tableName.toLowerCase()){
-					return true;
+		
+		private function getTeams():ArrayCollection{
+			var teamsArray:ArrayCollection = new ArrayCollection();
+			createTableIfDoesntExist( TABLE_NAME_TEAMS );
+			var sqlStatement:SQLStatement = new SQLStatement();
+			sqlStatement.sqlConnection = _sqlConnection;
+			sqlStatement.text = GET_TEAMS;
+			sqlStatement.execute();
+			var result:SQLResult = sqlStatement.getResult();
+			if(result.data){
+				var numberOfRows:int = result.data.length;
+				for( var i:int = 0; i < numberOfRows; i++ ){
+					var item:Object 	= result.data[i];
+					var team:TeamModel 	= new TeamModel(item.teamName, item.teamColor);
+					team.captainEmail 	= item.captainEmail;
+					teamsArray.addItem(team);
 				}
 			}
-			return false;
-		}
-	
-		private function getTeams():ArrayCollection{
-			_teamsArray = new ArrayCollection();
-			if( doesTableExist( _sqlConnection, "Teams" ) ){
-				var sqlStatement:SQLStatement = new SQLStatement();
-				sqlStatement.sqlConnection = _sqlConnection;
-				sqlStatement.text = "SELECT * FROM Teams";
-				sqlStatement.addEventListener(SQLEvent.RESULT, setTeamsArray);
-				sqlStatement.execute();
-			}
-			return _teamsArray;	
+			return teamsArray;
 		}
 		
 		private function getRules():ArrayCollection{
-			_rulesArray = new ArrayCollection();
-			if( doesTableExist( _sqlConnection, "Rules" ) ){
-				var sqlStatement:SQLStatement = new SQLStatement();
-				sqlStatement.sqlConnection = _sqlConnection;
-				sqlStatement.text = "SELECT * FROM Rules";
-				sqlStatement.addEventListener(SQLEvent.RESULT, setRulesArray);
-				sqlStatement.execute();
-			}
-			return _rulesArray;			
-		}
-		
-		private function setTeamsArray(event:SQLEvent):void{
-			sqlStatement.removeEventListener(SQLEvent.RESULT, setTeamsArray);
-			var sqlStatement:SQLStatement = event.target as SQLStatement;
+			var rulesArray:ArrayCollection = new ArrayCollection();
+			createTableIfDoesntExist( TABLE_NAME_RULES );
+			var sqlStatement:SQLStatement = new SQLStatement();
+			sqlStatement.sqlConnection = _sqlConnection;
+			sqlStatement.text = GET_RULES
+			sqlStatement.execute();
 			var result:SQLResult = sqlStatement.getResult();
-			if( result == null ) return;
-			var numberOfRows:int = result.data.length;
-			for( var i:int = 0; i < numberOfRows; i++ ){
-				var item:Object 	= result.data[i];
-				var team:TeamModel 	= new TeamModel(item.teamName, item.teamColor);
-				team.captainEmail 	= item.captainEmail;
-				_teamsArray.addItem(team);
+			if(result.data){
+				var numberOfRows:int = result.data.length;
+				for( var i:int = 0; i < numberOfRows; i++ ){
+					var resultObj:Object 		= result.data[i];
+					var item:LeagueRules 		= new LeagueRules();
+					item.allowsTies 			= resultObj.allowties;
+					item.ballsAllowed 			= resultObj.ballsAllowed;
+					item.foulsAllowed 			= resultObj.foulsAllowed;
+					item.foulsAreStrikes		= resultObj.foulsAreStrikes;
+					item.leagueManagerEmail 	= resultObj.leagueManagerEmail;
+					item.leagueName 			= resultObj.leagueName;
+					item.numberOfInnings 		= resultObj.numberOfInnings;
+					item.strikesAllowed			= resultObj.strikesAllowed;
+					item.walkOnBalls 			= resultObj.walkOnBalls;
+					item.timeLimitInMilliseconds= resultObj.timeLimitInMilliseconds;
+					rulesArray.addItem(item);
+				}
 			}
+			return rulesArray;			
 		}
-		
-		private function setRulesArray(event:SQLEvent):void{
-			sqlStatement.removeEventListener(SQLEvent.RESULT, setRulesArray);
-			var sqlStatement:SQLStatement = event.target as SQLStatement;
-			var result:SQLResult = sqlStatement.getResult();
-			if( result == null ) return;
-			var numberOfRows:int = result.data.length;
-			for( var i:int = 0; i < numberOfRows; i++ ){
-				var resultObj:Object 		= result.data[i];
-				var item:LeagueRules 		= new LeagueRules();
-				item.allowsTies 			= resultObj.allowties;
-				item.ballsAllowed 			= resultObj.ballsAllowed;
-				item.foulsAllowed 			= resultObj.foulsAllowed;
-				item.foulsAreStrikes		= resultObj.foulsAreStrikes;
-				item.leagueManagerEmail 	= resultObj.leagueManagerEmail;
-				item.leagueName 			= resultObj.leagueName;
-				item.numberOfInnings 		= resultObj.numberOfInnings;
-				item.strikesAllowed			= resultObj.strikesAllowed;
-				item.walkOnBalls 			= resultObj.walkOnBalls;
-				item.timeLimitInMilliseconds= resultObj.timeLimitInMilliseconds;
-				_rulesArray.addItem(item);
-			}
-		}
-	
 	}
 }
