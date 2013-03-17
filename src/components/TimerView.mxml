@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:VGroup 	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:Group 	xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 	xmlns:s="library://ns.adobe.com/flex/spark" 
-			gap="2" width="75" 
+			width="75" height="43"
 		 	mouseDown="mouseDownHandler(event)">
 	<fx:Metadata>
 		[Event(name="gameTimeExpired", type="events.GameTimeExpiredEvent")]
@@ -20,7 +20,7 @@
 			private var _timeLimit		: Number;			
 			
 			
-			private static const PAUSED_LABEL	: String = "Tap to start";
+			private static const PAUSED_LABEL	: String = "Tap to start timer";
 			private static const RUNNING_LABEL	: String = "Time Remaining:";
 			private static const RUNNING_LABEL2	: String = "Tap to pause";
 
@@ -93,7 +93,7 @@
 			
 		]]>
 	</fx:Script>
-	<s:Label id="descriptionLabel" text="{PAUSED_LABEL}" styleName="timerMetaLabel"/>
-	<s:Label id="timerLabel"  styleName="timerLabel" />
-	<s:Label visible="{_timerIsRunning}" text="{RUNNING_LABEL2}" styleName="timerMetaLabel"/>
-</s:VGroup>
+	<s:Label  id="descriptionLabel" text="{PAUSED_LABEL}" styleName="timerMetaLabel"/>
+	<s:Label y="10" id="timerLabel"  styleName="timerLabel" minHeight="0"/>
+	<s:Label y="32" visible="{_timerIsRunning}" text="{RUNNING_LABEL2}" styleName="timerMetaLabel"/>
+</s:Group>

@@ -2,9 +2,6 @@
 <views:AbstractRefView xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		xmlns:s="library://ns.adobe.com/flex/spark" title="GameView"  
 		xmlns:components="components.*" xmlns:views="views.*">	
-	<views:layout>
-		<s:VerticalLayout gap="0" verticalAlign="top"/>
-	</views:layout>
 	<fx:Script>
 		<![CDATA[
 			import components.CheckGameEndPopUp;
@@ -13,8 +10,6 @@
 			import events.EndGamePopUpButtonEvent;
 			import events.GameCompleteEvent;
 			import events.GameTimeExpiredEvent;
-			
-			import model.TeamModel;
 			
 			import mx.managers.PopUpManager;
 			
@@ -106,8 +101,8 @@
 			}
 			
 			protected function gameTimeExpiredHandler(event:GameTimeExpiredEvent):void{
-				_endPop.optionalMessage = "Time's Up!";
 				deployPopUp();
+				_endPop.optionalMessage = "Time's Up!";
 			}
 			
 			
@@ -123,55 +118,54 @@
 			
 		]]>
 	</fx:Script>
-	<s:HGroup width="100%" verticalAlign="middle">
-		<s:Label text="{headRefModel.gameModel.leagueRules.leagueName} Rules" styleName="ruleTypeLabel" width="100%"/>
-		<s:Button mouseDown="endButtonClickHandler(event)" skinClass="skinClasses.EndGameBtnSkin"/>
-	</s:HGroup>
-	<s:HGroup width="100%" gap="0"  >
-		<components:TeamButton 	id="homeBtn" 
-							   	teamName="{headRefModel.gameModel.homeTeam.teamName}" 
-							   	score="{headRefModel.gameModel.homeTeamScore}"  
-								scoreClick="homeBtnClickHandler()" 
-								teamColor="{headRefModel.gameModel.homeTeam.teamColor}"
-								dataProvider="{headRefModel.teams}"
-								addTeam="addTeamHandler(event)"
-								/>
-		
-		<components:TeamButton 	id="awayBtn" 
-							   	teamName="{headRefModel.gameModel.awayTeam.teamName}" 
-								score="{headRefModel.gameModel.awayTeamScore}" 
-				  				scoreClick="awayBtnClickHandler()"
-								teamColor="{headRefModel.gameModel.awayTeam.teamColor}"
-								dataProvider="{headRefModel.teams}"
-								addTeam="addTeamHandler(event)"
-								/>
-	</s:HGroup>
-	<s:HGroup width="80%" height="30" gap="0" verticalAlign="middle" >
-		<s:Label id="outLbl" text="{headRefModel.gameModel.outs} OUT  " styleName="statusLabel" />
-		<s:Spacer width="100%" />
-		<s:Label id="inningLbl" text="{halfInning} of  " styleName="statusLabel" />	
-		<s:Spacer width="10" />
+
+	<s:Label  x="5"	 	y="5" 	text="{headRefModel.gameModel.leagueRules.leagueName}" styleName="ruleTypeLabel"/>
+	<s:Button right="5"	y="5"	mouseDown="endButtonClickHandler(event)" skinClass="skinClasses.EndGameBtnSkin"/>
+
+	<components:TeamButton 	y="25"
+							id="homeBtn" 
+						   	teamName="{headRefModel.gameModel.homeTeam.teamName}" 
+						   	score="{headRefModel.gameModel.homeTeamScore}"  
+							scoreClick="homeBtnClickHandler()" 
+							teamColor="{headRefModel.gameModel.homeTeam.teamColor}"
+							dataProvider="{headRefModel.teams}"
+							addTeam="addTeamHandler(event)" />
+	
+	<components:TeamButton 	y="25" right="0"
+							id="awayBtn" 
+						   	teamName="{headRefModel.gameModel.awayTeam.teamName}" 
+							score="{headRefModel.gameModel.awayTeamScore}" 
+			  				scoreClick="awayBtnClickHandler()"
+							teamColor="{headRefModel.gameModel.awayTeam.teamColor}"
+							dataProvider="{headRefModel.teams}"
+							addTeam="addTeamHandler(event)" />
+	
+	<s:Label x="5"   y="180" id="outLbl" 	 text="{headRefModel.gameModel.outs} OUT  " styleName="statusLabel" />
+	<s:HGroup right="5" y="180" >
+		<s:Label id="inningLbl"  text="{halfInning} of  " styleName="statusLabel" />	
 		<s:Label id="inningLbl2" text="{headRefModel.gameModel.inning}" styleName="statusLabel" />				
 	</s:HGroup>
-	<s:HGroup width="100%" gap="0" height="100%">
-		<s:VGroup width="100%" gap="0"  >
-			<components:ResultButton id="safeBtn" label="SAFE" click="safeBtnClickHandler(event)" color="{RefConstants.GREEN}" skinClass="skinClasses.SafeButtonSkin" />
-			<components:ResultButton id="outBtn" label="OUT" click="outBtnClickHandler(event)" color="{RefConstants.RED}" skinClass="skinClasses.OutButtonSkin"  />
-		</s:VGroup>
-		<s:VGroup width="100%" gap="0"  >
-			<components:PitchButton id="ballBtn" count="{headRefModel.gameModel.balls}" 
-									click="ballBtnClickHandler(event)" skinClass="skinClasses.BallButtonSkin"  />
-			<components:PitchButton id="strikeBtn" count="{headRefModel.gameModel.strikes}" 
-									click="strikeBtnClickHandler(event)" skinClass="skinClasses.StrikeButtonSkin" />
-			<components:PitchButton id="foulBtn" count="{headRefModel.gameModel.fouls}" 
-									click="foulBtnClickHandler(event)" skinClass="skinClasses.FoulButtonSkin" />
-		</s:VGroup>
-	</s:HGroup>
-	<s:Group width="100%" height="100%">
-		<components:UndoButton id="undoButton" label="UNDO" left="2" bottom="2"
-							   click="undoButtonClickHandler(event)" />
 	
-		<components:TimerView id="gameTimer" gameTimeExpired="gameTimeExpiredHandler(event)" 
-							  timeLimit="{headRefModel.gameModel.leagueRules.timeLimitInMilliseconds}" right="2" bottom="2"/>
-	</s:Group>
+	<components:ResultButton x="5"  y="210" id="safeBtn" label="SAFE" 
+							 click="safeBtnClickHandler(event)" color="{RefConstants.GREEN}" 
+							 skinClass="skinClasses.SafeButtonSkin" />
+	<components:ResultButton x="5"  y="322.5" id="outBtn" label="OUT" 
+							 click="outBtnClickHandler(event)" color="{RefConstants.RED}" 
+							 skinClass="skinClasses.OutButtonSkin"  />
+
+	<components:PitchButton right="5" y="210" id="ballBtn" count="{headRefModel.gameModel.balls}" 
+							click="ballBtnClickHandler(event)" skinClass="skinClasses.BallButtonSkin"  />
+	<components:PitchButton right="5" y="285" id="strikeBtn" count="{headRefModel.gameModel.strikes}" 
+							click="strikeBtnClickHandler(event)" skinClass="skinClasses.StrikeButtonSkin" />
+	<components:PitchButton right="5" y="360" id="foulBtn" count="{headRefModel.gameModel.fouls}" 
+							click="foulBtnClickHandler(event)" skinClass="skinClasses.FoulButtonSkin" />
+	
+	<components:UndoButton x="5" bottom="2" 
+						   id="undoButton" label="UNDO" 
+						   click="undoButtonClickHandler(event)" />
+
+	<components:TimerView right="5" bottom="0"
+						  id="gameTimer" gameTimeExpired="gameTimeExpiredHandler(event)" 
+						  timeLimit="{headRefModel.gameModel.leagueRules.timeLimitInMilliseconds}"/>
+	
 </views:AbstractRefView>

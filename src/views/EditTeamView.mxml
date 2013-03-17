@@ -61,5 +61,4 @@
 		<components:HeadRefTextInput 	x="20" 	y="130" 	id="emailInput" text="@{curTeamModel.captainEmail}" />		
 		<components:ColorPicker 		 		y="200"		change="colorChanged(event)"/>
 		<s:Button 							 	y="350"		label="SAVE" click="saveButtonClickHandler(event)" width="100%" />
-
 </views:AbstractRefView>
