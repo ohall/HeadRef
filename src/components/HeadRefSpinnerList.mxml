@@ -16,7 +16,6 @@
 
 			private var _longPressTimer:Timer;
 			
-//			protected function touchBeginHandler(event:TouchEvent):void{
 			protected function mouseDownHandler(event:MouseEvent):void{
 				_longPressTimer = new Timer(RefConstants.LONGPRESSDELAY,1);
 				_longPressTimer.addEventListener(TimerEvent.TIMER, handleLongPressTimeComplete );
@@ -28,7 +27,6 @@
 				stopAndDisposeTimer();
 			}
 			
-//			protected function touchEndHandler(event:TouchEvent):void{
 			protected function mouseUpHandler(event:MouseEvent):void{
 				stopAndDisposeTimer();
 			}

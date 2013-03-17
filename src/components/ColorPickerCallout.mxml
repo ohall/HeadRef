@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Callout xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		   xmlns:s="library://ns.adobe.com/flex/spark"
-		   creationComplete="init()">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	
+		   creationComplete="init()" xmlns:components="components.*">
 	<fx:Script>
 		<![CDATA[
 			import mx.controls.colorPickerClasses.WebSafePalette;
-			
 			private var wsp:WebSafePalette;
 			
 			/* Define the content fill items that should be colored by the "contentBackgroundColor" style. */
@@ -20,8 +15,7 @@
 				dataGroup.dataProvider = wsp.getList();
 			}
 			
-			private function blank(item:Object):String
-			{
+			private function blank(item:Object):String{
 				return "";
 			}
 			
@@ -31,56 +25,37 @@
 		]]>
 	</fx:Script>
 	
-	<s:VGroup id="swatchpanel" left="0" top="0" right="0" bottom="0" >
+	<s:VGroup id="swatchpanel" horizontalAlign="center"   >
 		<s:HGroup>
 			<s:Rect id="preview" width="50" height="33" >
-				<s:fill>
-					<s:SolidColor id="previewColor" />
-				</s:fill>
+				<s:fill><s:SolidColor id="previewColor" /></s:fill>
 			</s:Rect>
-			<s:TextInput id="ti" width="160" change="previewColor.color = uint('0x' + ti.text)"
-						 enter="handleEnter()" restrict="0123456789abcdefABCDEF"/>
+			<components:HeadRefTextInput 	id="ti" change="previewColor.color = uint('0x' + ti.text)"
+						 					enter="handleEnter()" restrict="0123456789abcdefABCDEF"/>
 		</s:HGroup>
-		<s:Group>
-			<s:Rect left="0" top="0" right="0" bottom="0" width="220" height="132" >
-				<s:fill>
-					<s:SolidColor color="0x0" />
-				</s:fill>
-			</s:Rect>
-			<s:DataGroup id="dataGroup" left="0" top="0" right="0" bottom="0" width="220" height="132" >
-				<s:layout>
-					<s:TileLayout verticalGap="0" horizontalGap="0" requestedColumnCount="20" requestedRowCount="12"/>
-				</s:layout>
-				<s:itemRenderer>
-					<fx:Component>
-						<s:ItemRenderer rollOver="outerDocument.previewColor.color = uint(data); outerDocument.ti.text = data.toString(16)" click="clickHandler(event)">	
-							
-							<fx:Script>
-								<![CDATA[
-									protected function clickHandler(event:MouseEvent):void
-									{
-										outerDocument.close(true, outerDocument.previewColor);
-									}
-								]]>
-							</fx:Script>
-							
-							<s:states>
-								<s:State name="normal" />
-								<s:State name="hovered" />
-								<s:State name="selected" />
-							</s:states>
-							<s:Rect id="swatch" width="10" height="10">
-								<s:fill>
-									<s:SolidColor color="{data}" />
-								</s:fill>
-								<s:stroke>
-									<s:SolidColorStroke color="0xFFFF00" alpha.hovered="1" alpha="0" />
-								</s:stroke>
-							</s:Rect>
-						</s:ItemRenderer>
-					</fx:Component>
-				</s:itemRenderer>
-			</s:DataGroup>                           
+		<s:Group >
+			<s:SpinnerListContainer >
+				<components:HeadRefSpinnerList id="dataGroup" verticalCenter="0" horizontalCenter="0">
+					<components:itemRenderer>
+						<fx:Component>
+							<s:ItemRenderer rollOver="outerDocument.previewColor.color = uint(data); 
+											outerDocument.ti.text = data.toString(16)" click="clickHandler(event)">							
+								<fx:Script>
+									<![CDATA[
+										protected function clickHandler(event:MouseEvent):void{
+											outerDocument.close(true, outerDocument.previewColor);
+										}
+									]]>
+								</fx:Script>
+								<s:Rect id="swatch" width="200" height="40">
+									<s:fill><s:SolidColor color="{data}" /></s:fill>
+									<s:stroke><s:SolidColorStroke color="0xFFFF00" alpha="0" /></s:stroke>
+								</s:Rect>
+							</s:ItemRenderer>
+						</fx:Component>
+					</components:itemRenderer>
+				</components:HeadRefSpinnerList>
+			</s:SpinnerListContainer>
 		</s:Group>
 	</s:VGroup>
 </s:Callout>

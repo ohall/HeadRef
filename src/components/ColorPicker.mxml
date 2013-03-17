@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
-				   xmlns:s="library://ns.adobe.com/flex/spark" width="25" height="25" borderStyle="inset" borderWeight="2"
+				   xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="50" borderStyle="inset" borderWeight="2"
 				   creationComplete="init()" click="callout.open(this)" xmlns:local="*" xmlns:components="components.*">
 	
 	<fx:Metadata>
@@ -40,10 +40,10 @@
 		</fx:Component>
 	</fx:Declarations>
 	
-	
 	<s:Rect width="100%" height="100%">
 		<s:fill>
 			<s:SolidColor id="previewColor" color="{currentColor.color}" />
 		</s:fill>
 	</s:Rect>
+	<s:Label text="Touch to Choose Team Color" styleName="editTeamLabel" horizontalCenter="0" verticalCenter="0" backgroundAlpha=".5"/>
 </s:BorderContainer>
