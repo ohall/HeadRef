@@ -3,13 +3,13 @@
 		<team>
 			<id>NYSH</id>
 			<teamName>NYSH</teamName>
-			<teamColor>#4982D9</teamColor>
+			<teamColor>4982D9</teamColor>
 			<captainEmail>oakley349@gmail.com</captainEmail>
 		</team>
 		<team>
 			<id>LIU</id>
 			<teamName>LIU</teamName>
-			<teamColor>#E98108</teamColor>
+			<teamColor>E98108</teamColor>
 			<captainEmail>lockitup@gmail.com</captainEmail>
 		</team>	
 	</teams>
@@ -25,8 +25,7 @@
 			<allowsTies>true</allowsTies>
 			<foulsAreStrikes>false</foulsAreStrikes>
 			<walkOnBalls>true</walkOnBalls>
-			<timeLimit>3000</timeLimit>
-<!-- 			<timeLimit>3600000</timeLimit> -->
+			<timeLimit>3600000</timeLimit>
 		</leagueRules>
 		<leagueRules>
 			<id>Circuit Elim</id>

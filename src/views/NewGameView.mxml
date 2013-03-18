@@ -48,18 +48,22 @@
 	</fx:Script>
 	
 	
-	<s:VGroup width="100%" verticalAlign="middle" horizontalAlign="center" verticalCenter="0">
+	<s:Label x="10" y="5" 
+			 text="Tap a rule set to use it" 
+			 styleName="newGameViewLabel" />
 	
-		<s:Label text="Choose a Rule Set [Long Press to Edit]" styleName="newGameViewLabel" horizontalCenter="0"/>
-		
-		<s:SpinnerListContainer width="100%">
-			<components:HeadRefSpinnerList id="ruleList" width="100%" longPress="ruleListLongPressHandler(event)" 
-										   click="ruleListClickHandler(event)" styleName="newRulesButton"
-										   dataProvider="{headRefModel.leagues}" labelField="leagueName" />                    
-		</s:SpinnerListContainer>		
-		
-		<s:Button width="100%" label="Add New Rule Set" click="neRulesButtonClickHandler(event)"  />
-
-	</s:VGroup>    
+	<s:Label x="10" y="35" 
+			 text="Long press selection to edit" 
+			 styleName="newGameViewLabel" />
+	
+	<s:SpinnerListContainer y="100"  width="100%">
+		<components:HeadRefSpinnerList id="ruleList" width="100%" longPress="ruleListLongPressHandler(event)" 
+									   click="ruleListClickHandler(event)" styleName="newRulesButton"
+									   dataProvider="{headRefModel.leagues}" labelField="leagueName" />                    
+	</s:SpinnerListContainer>		
+	
+	<s:Button bottom="50" width="100%" 
+			  label="Tap to add a new rule set" 
+			  click="neRulesButtonClickHandler(event)"  />
 	
 </views:AbstractRefView>

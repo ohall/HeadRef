@@ -14,5 +14,5 @@
 			
 		]]>
 	</fx:Script>
-	<s:Image source="@Embed('../style/skins/splash2.png')" height="100%" width="100%" />
+	<s:Image source="@Embed('../style/skins/independent_splash.png')" horizontalCenter="0" verticalCenter="0" height="100%" width="100%"   />
 </views:AbstractRefView>

@@ -3,21 +3,13 @@
 		xmlns:s="library://ns.adobe.com/flex/spark" 
 		title="EditRuleSetView" 
 		xmlns:views="views.*" xmlns:components="components.*">
-	<views:layout>
-		<s:VerticalLayout gap="3"/>
-	</views:layout>
-	
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	
+
 	<fx:Script>
 		<![CDATA[
 			import model.LeagueRules;
 			
 			import mx.collections.ArrayCollection;
 			
-			import spark.components.ButtonBarButton;
 			import spark.events.ViewNavigatorEvent;
 			
 			[Bindable]
@@ -80,71 +72,71 @@
 		]]>
 	</fx:Script>
 	<!--public var leagueName		: String;-->
-
-	<s:Label text="League Name:" styleName="editRulesLabel" />
-	<components:HeadRefTextInput id="nameInput" text="@{_curRuleSet.leagueName}" 
-								 keyDown="nameInputKeyDownHandler(event)" />
+	<s:Label 						x="5" y="5" 	
+									text="League Name:" styleName="editRulesLabel" />
+	<components:HeadRefTextInput 	x="5" y="25" 	
+									id="nameInput" text="@{_curRuleSet.leagueName}" 
+								 	keyDown="nameInputKeyDownHandler(event)" />
 
 	<!--public var leagueManagerEmail : String;-->
-	<s:Label text="League Manager's Email:" styleName="editRulesLabel" />
-	<components:HeadRefTextInput  id="emailInput"  
-								  text="@{_curRuleSet.leagueManagerEmail}"/>
-	
-	<s:Spacer height="100%"/>
+	<s:Label 						x="5" y="70" 	
+									text="League Manager's Email:" styleName="editRulesLabel" />
+	<components:HeadRefTextInput  	x="5" y="90" 	
+									id="emailInput"  
+								  	text="@{_curRuleSet.leagueManagerEmail}"/>
 	
 	<!--public var strikesAllowed	: Number;-->
-	<s:Label text="Strikes Allowed" styleName="editRulesLabel" />
-	<s:ButtonBar id="strikesAllowBar" dataProvider="{_buttonNumsList}" requireSelection="true"
-				 click="strikesAllowBarClickHandler(event)"
-				 right="20" height="20" width="100%" selectedItem="{_curRuleSet.strikesAllowed}"  />
+	<s:Label 						x="5" y="135" 	
+									text="Strikes Allowed" styleName="editRulesLabel" />
+	<components:HeadRefButtonBar 	x="5" y="150" 	
+									id="strikesAllowBar" 
+									dataProvider="{_buttonNumsList}" 
+				 					click="strikesAllowBarClickHandler(event)" 
+									selectedItem="{_curRuleSet.strikesAllowed}"  />
 	
 	<!--public var ballsAllowed		: Number;-->
-	<s:Label text="Balls Allowed" styleName="editRulesLabel" />
-	<s:ButtonBar id="ballsAllowBar" dataProvider="{_buttonNumsList}" requireSelection="true" 
-				 click="ballsAllowBarClickHandler(event)"
-				 right="20" height="20" width="100%" selectedItem="{_curRuleSet.ballsAllowed}"  />
+	<s:Label 						x="5" y="185" 	
+									text="Balls Allowed" styleName="editRulesLabel" />
+	<components:HeadRefButtonBar 	x="5" y="200" 	
+									id="ballsAllowBar" dataProvider="{_buttonNumsList}" 
+				 					click="ballsAllowBarClickHandler(event)" 
+									selectedItem="{_curRuleSet.ballsAllowed}"  />
 	
 	<!--public var foulsAllowed		: Number;-->
-	<s:Label text="Fouls Allowed" styleName="editRulesLabel" />
-	<s:ButtonBar id="foulsAllowBar" dataProvider="{_buttonNumsList}" requireSelection="true"
-				 click="foulsAllowBarClickHandler(event)"
-				 right="20" height="20" width="100%" selectedItem="{_curRuleSet.foulsAllowed}"  />
-	
-	
-	<s:Spacer height="100%"/>
-	
-	
+	<s:Label 						x="5" y="235"  	
+									text="Fouls Allowed" styleName="editRulesLabel" />
+	<components:HeadRefButtonBar 	x="5" y="250" 
+								 	id="foulsAllowBar" dataProvider="{_buttonNumsList}"
+				 			   	 	click="foulsAllowBarClickHandler(event)" 
+									selectedItem="{_curRuleSet.foulsAllowed}"  />
+		
 	<!--public var numberOfInnings	: Number;-->
-	<s:Label text="Number of Innings: {_curRuleSet.numberOfInnings}" styleName="editRulesLabel" />
-	<s:HSlider id="inningsSlider" minimum="1" maximum="16" value="@{_curRuleSet.numberOfInnings}" /> 
-	
-
-	<s:Spacer height="100%"/>
+	<s:Label 						x="5" y="285" 	
+									text="Number of Innings: {_curRuleSet.numberOfInnings}" 
+									styleName="editRulesLabel" />
+	<s:HSlider 						x="5" y="300" 	
+									id="inningsSlider" minimum="1" maximum="16" 
+									value="@{_curRuleSet.numberOfInnings}" /> 
 	
 	<!--public var allowsTies		: Boolean;-->
-	<s:HGroup width="100%" verticalAlign="middle" >	
-		<s:Label text="Allow Ties" styleName="editRulesLabel" />
-		<s:Spacer width="100%" />
-		<s:ToggleSwitch id="tiesToggle" selected="@{_curRuleSet.allowsTies}"/> 
-	</s:HGroup>
+	<s:Label 						x="5" y="330" 		
+									text="Allow Ties" styleName="editRulesLabel" />
+	<s:ToggleSwitch 				right="5" y="330" 	
+									id="tiesToggle" selected="@{_curRuleSet.allowsTies}"/> 
 
 	<!--public var foulsAreStrikes	: Boolean;-->
-	<s:HGroup width="100%" verticalAlign="middle" >
-		<s:Label text="Fouls are Strikes" styleName="editRulesLabel" />
-		<s:Spacer width="100%" />
-		<s:ToggleSwitch id="foulsToggle" selected="@{_curRuleSet.foulsAreStrikes}"/>
-	</s:HGroup>
+	<s:Label 						x="5" y="368" 		
+									text="Fouls are Strikes" styleName="editRulesLabel" />
+	<s:ToggleSwitch 				right="5" y="368" 	
+									id="foulsToggle" selected="@{_curRuleSet.foulsAreStrikes}"/>
 
 	<!--public var walkOnBalls		: Boolean;-->
-	<s:HGroup width="100%" verticalAlign="middle" >
-		<s:Label text="Walk on Balls" styleName="editRulesLabel" />
-		<s:Spacer width="100%" />
-		<s:ToggleSwitch id="ballsToggle" selected="@{_curRuleSet.walkOnBalls}"/>
-	</s:HGroup>
-	
-	<s:Spacer height="100%"/>
+	<s:Label						x="5" y="405" 		
+									text="Walk on Balls" styleName="editRulesLabel" />
+	<s:ToggleSwitch 				right="5" y="405"	
+									id="ballsToggle" selected="@{_curRuleSet.walkOnBalls}"/>
 
-	<s:Button id="saveBtn" label="Exit{_buttonText}" 
+	<s:Button bottom="0" id="saveBtn" label="Exit{_buttonText}" 
 			  width="100%" mouseDown="saveBtnMouseDownHandler(event)" />
 	
 </views:AbstractRefView>

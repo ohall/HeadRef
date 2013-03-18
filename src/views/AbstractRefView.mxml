@@ -45,15 +45,15 @@
 				headRefModel = new HeadRefModel();
 				for each(var rulexml:XML in defaults..leagueRules){
 					var rules:LeagueRules 	= new LeagueRules();
-					rules.strikesAllowed	= rulexml.strikesAllowed;
-					rules.ballsAllowed		= rulexml.ballsAllowed;
-					rules.foulsAllowed		= rulexml.foulsAllowed;
-					rules.foulsAreStrikes	= rulexml.foulsAreStrikes;
-					rules.walkOnBalls 		= rulexml.walkOnBalls;
-					rules.numberOfInnings 	= rulexml.numberOfInnings;
-					rules.leagueName		= rulexml.leagueName;
-					rules.leagueManagerEmail= rulexml.leagueManagerEmail;
-					rules.timeLimitInMilliseconds = rulexml.timeLimit;
+					rules.strikesAllowed	= Number(	rulexml.strikesAllowed	);
+					rules.ballsAllowed		= Number(	rulexml.ballsAllowed	);
+					rules.foulsAllowed		= Number(	rulexml.foulsAllowed	);
+					rules.foulsAreStrikes	= (rulexml.foulsAreStrikes=="true")?true:false;
+					rules.walkOnBalls 		= (rulexml.walkOnBalls=="true")?true:false;
+					rules.numberOfInnings 	= Number(	rulexml.numberOfInnings	);
+					rules.leagueName		= String(	rulexml.leagueName		);
+					rules.leagueManagerEmail= String(	rulexml.leagueManagerEmail);
+					rules.timeLimitInMilliseconds = Number( rulexml.timeLimit	);
 					headRefModel.leagues.addItem(rules);
 				}	
 				

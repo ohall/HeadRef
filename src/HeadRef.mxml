@@ -3,16 +3,5 @@
 							xmlns:s="library://ns.adobe.com/flex/spark" 
 							firstView="views.HeadRefHomeView" 
 							applicationDPI="160">
-	
 	<fx:Style source="style/headRef.css" />
-	<fx:Script>
-		<![CDATA[			
-						
-			
-		]]>
-	</fx:Script>
-	
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
 </s:ViewNavigatorApplication>
