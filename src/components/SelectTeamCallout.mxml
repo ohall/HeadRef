@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Callout xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		   xmlns:s="library://ns.adobe.com/flex/spark"
-		   open="openHandler(event)">
+		   xmlns:components="components.*" width="100%" >
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
 			import events.AddTeamEvent;
+			import events.LongPressEvent;
 			import events.TeamSelectedEvent;
 			
 			import model.TeamModel;
@@ -16,29 +17,16 @@
 			
 			import spark.events.PopUpEvent;
 			
+			[Bindable]
 			public var teamList:IList;
 			
 		
-			protected function teamButtonClicked(event:MouseEvent):void{
+			protected function teamClicked(event:MouseEvent):void{
 				
-				var teamSelected:TeamModel = TeamModel( teamList.getItemAt(  parseInt(Button(event.currentTarget).id ) ) );
+				var teamSelected:TeamModel = TeamModel( teamSpinner.selectedItem );
 				dispatchEvent( new TeamSelectedEvent(teamSelected) );
 				close();
 				
-			}
-			
-			
-			protected function openHandler(event:PopUpEvent):void{
-				for each(var team:TeamModel in teamList){
-					var tButt:Button = new Button();
-					tButt.label = team.teamName;
-					tButt.setStyle("chromeColor",team.teamColor);
-					tButt.id = teamList.getItemIndex(team).toString();
-					tButt.percentWidth = 100;
-					tButt.addEventListener(MouseEvent.CLICK, teamButtonClicked);
-					teamButtonsGroup.addElement(tButt);
-					
-				}
 			}
 			
 			protected function addTeamButtonClickHandler(event:MouseEvent):void{
@@ -47,12 +35,20 @@
 				
 			}
 			
+			protected function teamSpinnerlongPressHandler(event:LongPressEvent):void
+			{
+				// TODO Auto-generated method stub
+				
+			}
+			
 		]]>
 	</fx:Script>
-	
-	
 	<s:VGroup>
-		<s:VGroup id="teamButtonsGroup" width="100%" />
-		<s:Button id="addTeamButton" width="100%" label="AddTeam" click="addTeamButtonClickHandler(event)" />
+		<s:SpinnerListContainer width="100%" >
+			<components:HeadRefSpinnerList id="teamSpinner" width="100%" longPress="teamSpinnerlongPressHandler(event)" 
+										   click="teamClicked(event)" styleName="newRulesButton"
+										   dataProvider="{teamList}" labelField="teamName" />
+		</s:SpinnerListContainer>
+		<s:Button id="addTeamButton" width="100%" label="Add New Team" click="addTeamButtonClickHandler(event)" />
 	</s:VGroup>
 </s:Callout>

@@ -4,7 +4,13 @@
 		   creationComplete="init()" xmlns:components="components.*">
 	<fx:Script>
 		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
 			import mx.controls.colorPickerClasses.WebSafePalette;
+			
+			import spark.collections.Sort;
+			import spark.collections.SortField;
+			import spark.components.List;
 			private var wsp:WebSafePalette;
 			
 			/* Define the content fill items that should be colored by the "contentBackgroundColor" style. */
@@ -12,7 +18,25 @@
 			
 			private function init():void {
 				wsp = new WebSafePalette();
-				dataGroup.dataProvider = wsp.getList();
+				
+				var filteredArray:Array = wsp.getList().toArray().filter(removedDuplicates);
+					
+				var colorList:ArrayCollection = new ArrayCollection( filteredArray ); 
+				colorList.addItem(0);
+				
+				var numericDataSort:Sort = new Sort();
+				
+				colorList.sort = numericDataSort;
+				colorList.refresh();
+				dataGroup.dataProvider = colorList;
+			}
+			
+			private function removedDuplicates(item:Object, idx:uint, arr:Array):Boolean {
+				if( item == 0 ){
+					return false;
+				}else{
+					return true;
+				}
 			}
 			
 			private function blank(item:Object):String{
@@ -35,7 +59,7 @@
 		</s:HGroup>
 		<s:Group >
 			<s:SpinnerListContainer >
-				<components:HeadRefSpinnerList id="dataGroup" verticalCenter="0" horizontalCenter="0">
+				<components:HeadRefSpinnerList id="dataGroup">
 					<components:itemRenderer>
 						<fx:Component>
 							<s:ItemRenderer rollOver="outerDocument.previewColor.color = uint(data); 

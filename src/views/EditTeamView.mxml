@@ -55,10 +55,10 @@
 			
 		]]>
 	</fx:Script>
-		<s:Label 						x="20" 	y="10" 		text="Team Name: " styleName="editTeamLabel"  />
-		<components:HeadRefTextInput 	x="20"	y="40"		id="teamNameInput" text="@{curTeamModel.teamName}" />		
-		<s:Label 					 	x="20" 	y="100"		text="Captain's Email: " styleName="editTeamLabel"  />
-		<components:HeadRefTextInput 	x="20" 	y="130" 	id="emailInput" text="@{curTeamModel.captainEmail}" />		
-		<components:ColorPicker 		 		y="200"		change="colorChanged(event)"/>
+		<components:ColorPicker 		 		y="10"		change="colorChanged(event)"/>
+		<s:Label 						x="20" 	y="80" 		text="Team Name: " styleName="editTeamLabel"  />
+		<components:HeadRefTextInput 	x="20"	y="100"		id="teamNameInput" text="@{curTeamModel.teamName}" />		
+		<s:Label 					 	x="20" 	y="170"		text="Captain's Email: " styleName="editTeamLabel"  />
+		<components:HeadRefTextInput 	x="20" 	y="190" 	id="emailInput" text="@{curTeamModel.captainEmail}" />		
 		<s:Button 							 	y="350"		label="SAVE" click="saveButtonClickHandler(event)" width="100%" />
 </views:AbstractRefView>

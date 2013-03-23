@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
-				   xmlns:s="library://ns.adobe.com/flex/spark" width="100%" height="50" borderStyle="inset" borderWeight="2"
-				   creationComplete="init()" click="callout.open(this)" xmlns:local="*" xmlns:components="components.*">
+				   xmlns:s="library://ns.adobe.com/flex/spark" 
+				   width="100%" 
+				   height="50" 
+				   borderStyle="inset" borderWeight="2"
+				   backgroundColor="{RefConstants.ACTION_GREEN}"
+				   creationComplete="init()" 
+				   click="callout.open(this)" 
+				   xmlns:local="*" 
+				   xmlns:components="components.*">
 	
 	<fx:Metadata>
 		[Event(name="change", type="flash.events.Event")]
@@ -45,5 +52,5 @@
 			<s:SolidColor id="previewColor" color="{currentColor.color}" />
 		</s:fill>
 	</s:Rect>
-	<s:Label text="Touch to Choose Team Color" styleName="editTeamLabel" horizontalCenter="0" verticalCenter="0" backgroundAlpha=".5"/>
+	<s:Label text="Touch Here to Choose Team Color" styleName="editTeamLabel" horizontalCenter="0" verticalCenter="0" backgroundAlpha=".5"/>
 </s:BorderContainer>
