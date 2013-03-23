@@ -5,7 +5,7 @@ package model{
 		private var _teamName 	: String;
 		
 		[Bindable] public var teamColor		: uint;
-		[Bindable] public var captainEmail	: String;
+		[Bindable] public var captainEmail	: String = "";
 		
 		public function set teamName(pName:String):void{
 			_teamName = pName;

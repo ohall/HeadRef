@@ -10,6 +10,7 @@
 			import events.EndGamePopUpButtonEvent;
 			import events.GameCompleteEvent;
 			import events.GameTimeExpiredEvent;
+			import events.TeamSelectedEvent;
 			
 			import mx.managers.PopUpManager;
 			
@@ -77,11 +78,16 @@
 			}
 			
 			protected function continueGame(evt:EndGamePopUpButtonEvent):void{
+				headRefModel.gameModel.ignoreInningLimit = true;
+				headRefModel.gameModel.inning++;
 				PopUpManager.removePopUp(_endPop);
 			}
 			
 			protected function goToEndView(evt:EndGamePopUpButtonEvent):void{
 				PopUpManager.removePopUp(_endPop);
+				if(_endPop){
+					_endPop = null;
+				}
 				goToView(EndView);
 			}
 			
@@ -116,6 +122,15 @@
 				PopUpManager.centerPopUp(_endPop);		
 			}
 			
+			protected function homeTeamSelectedHandler(event:TeamSelectedEvent):void{
+				headRefModel.gameModel.homeTeam = event.teamSelected;
+				
+			}
+			
+			protected function awayTeamSelectedHandler(event:TeamSelectedEvent):void{
+				headRefModel.gameModel.awayTeam = event.teamSelected;
+			}
+			
 		]]>
 	</fx:Script>
 
@@ -129,7 +144,8 @@
 							scoreClick="homeBtnClickHandler()" 
 							teamColor="{headRefModel.gameModel.homeTeam.teamColor}"
 							dataProvider="{headRefModel.teams}"
-							addTeam="addTeamHandler(event)" />
+							addTeam="addTeamHandler(event)" 
+							teamSelected="homeTeamSelectedHandler(event)" />
 	
 	<components:TeamButton 	y="25" right="0"
 							id="awayBtn" 
@@ -138,7 +154,8 @@
 			  				scoreClick="awayBtnClickHandler()"
 							teamColor="{headRefModel.gameModel.awayTeam.teamColor}"
 							dataProvider="{headRefModel.teams}"
-							addTeam="addTeamHandler(event)" />
+							addTeam="addTeamHandler(event)" 
+							teamSelected="awayTeamSelectedHandler(event)" />
 	
 	<s:Label x="5"   y="180" id="outLbl" 	 text="{headRefModel.gameModel.outs} OUT  " styleName="statusLabel" />
 	<s:HGroup right="5" y="180" >

@@ -2,8 +2,7 @@
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   backgroundColor="{RefConstants.COLLEGE_NAVY}"  
-			   borderAlpha="0"
-			   width="100%" height="50%" 
+			   borderAlpha="0" height="300" width="300"
 			   creationComplete="creationCompleteHandler(event)">
 	
 	<fx:Script>
@@ -30,7 +29,19 @@
 			
 		]]>
 	</fx:Script>	
-	<s:VGroup gap="75" horizontalAlign="center" verticalCenter="0" width="100%" 
+	
+	<s:Label horizontalCenter="0" y="10" 
+			 id="optionalText" text="{optionalMessage}" fontSize="20" />
+	
+	<s:Label horizontalCenter="0" y="70" 
+			 text="End game or continue?" fontSize="20" />
+	
+	<s:HGroup bottom="20" width="100%" >
+		<s:Button label="End" click="endButtonClickHandler(event)" width="50%" />
+		<s:Button label="Continue"  click="continueButtonClickHandler(event)" width="50%" />
+	</s:HGroup>
+<!--	
+	<s:VGroup gap="75" horizontalAlign="center" verticalCenter="0"
 			  paddingLeft="20" paddingRight="20" paddingBottom="50" >
 		<s:Spacer height="100%" />
 		<s:Label id="optionalText" text="{optionalMessage}" fontSize="20" />
@@ -40,4 +51,5 @@
 			<s:Button label="Continue"  width="100%" click="continueButtonClickHandler(event)" />
 		</s:HGroup>
 	</s:VGroup>
+-->
 </s:BorderContainer>

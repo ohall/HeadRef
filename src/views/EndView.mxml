@@ -15,35 +15,40 @@
 			import spark.events.ViewNavigatorEvent;
 			
 			[Bindable]
-			private var _emails:String;
+			private var _emailAddresses:String="";
+			[Bindable]
+			private var _emailSubject:String="";
+			[Bindable]
+			private var _emailBody:String="";
 			
 			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{
 				super.viewActivateHandler(event);
 				if(headRefModel){
-					_emails = headRefModel.gameModel.leagueRules.leagueManagerEmail+"\n"
-					_emails+= headRefModel.gameModel.homeTeam.captainEmail+"\n";
-					_emails+= headRefModel.gameModel.awayTeam.captainEmail+"\n";				
+					_emailAddresses = headRefModel.gameModel.leagueRules.leagueManagerEmail+"\n"
+					_emailAddresses+= headRefModel.gameModel.homeTeam.captainEmail+"\n";
+					_emailAddresses+= headRefModel.gameModel.awayTeam.captainEmail+"\n";				
+					
+					_emailSubject += headRefModel.gameModel.homeTeam.teamName+": "+headRefModel.gameModel.homeTeamScore.toString()+" - ";
+					_emailSubject += headRefModel.gameModel.awayTeam.teamName+": "+headRefModel.gameModel.awayTeamScore.toString();
+					
+					_emailBody+= "Final Score  ";
+					_emailBody+= headRefModel.gameModel.homeTeam.teamName+": "+headRefModel.gameModel.homeTeamScore.toString()+" - ";
+					_emailBody+= headRefModel.gameModel.awayTeam.teamName+": "+headRefModel.gameModel.awayTeamScore.toString()+"  ";
+					_emailBody+= " in "+headRefModel.gameModel.inning.toString()+" innings.";
 				}
 			}			
+			
 			protected function emailButtonclickHandler(event:MouseEvent):void{
 				var s:String = "";
 				s+= "mailto:";
-				s+= _emails
+				s+= _emailAddresses
 				s+= "?";
-				s+= "subject=" ;
-				s+= headRefModel.gameModel.homeTeam.teamName+": "+headRefModel.gameModel.homeTeamScore+" - ";
-				s+= headRefModel.gameModel.awayTeam.teamName+": "+headRefModel.gameModel.awayTeamScore;
-				s+= "&";
-				s+= "body=";
-				s+= "Final Score  ";
-				s+= headRefModel.gameModel.homeTeam.teamName+": "+headRefModel.gameModel.homeTeamScore+" - ";
-				s+= headRefModel.gameModel.awayTeam.teamName+": "+headRefModel.gameModel.awayTeamScore+"  ";
-				s+= " in the "+headRefModel.gameModel.inning+" inning.";
-				s+= "\n\n\n\n\n\n\n";
+				s+= "subject="+_emailSubject;
+				s+= "&body="+_emailBody+"\n\n\n\n\n\n\n";
 				s+= "Find the Kickball365 HeadRef App in the iTunes App Store or Google Play Market!";
 				navigateToURL( new URLRequest(s));
-				
 				navigator.popAll();
+				resetGameValues();
 				goToView(HeadRefHomeView);
 			}
 			
@@ -52,7 +57,9 @@
 	<s:Image source="@Embed('../style/skins/gameoverbk.png')" height="100%" width="100%" />
 	<s:VGroup height="75%" horizontalAlign="center" y="100" horizontalCenter="0">
 		<s:Label text="Email scores to:" styleName="scoresLabel"/>
-		<s:TextArea id="emailsDisplayArea" text="@{_emails}" height="100%" horizontalCenter="0" />
+		<s:TextArea id="emailsDisplayArea" 	text="@{_emailAddresses}" 	height="30%" horizontalCenter="0" />
+		<s:TextArea id="subjectDisplayArea" text="@{_emailSubject}" 	height="10%" horizontalCenter="0" />
+		<s:TextArea id="bodyDisplayArea" 	text="@{_emailBody}" 		height="60%" horizontalCenter="0" />
 		<s:Button label="Send Scores Email" click="emailButtonclickHandler(event)" />
 	</s:VGroup>
 </views:AbstractRefView>

@@ -8,9 +8,6 @@ package model{
 	import mx.managers.PopUpManager;
 
 	public class GameModel{
-		
-
-		
 		private var _strikes			: Number = 0;
 		[Bindable] private var _balls			: Number = 0;
 		[Bindable] private var _fouls			: Number = 0;
@@ -21,12 +18,12 @@ package model{
 		
 		[Bindable] private var _homeTeam : TeamModel = new TeamModel("HOME", RefConstants.GENERIC_HOME_COLOR);
 		[Bindable] private var _awayTeam : TeamModel = new TeamModel("AWAY", RefConstants.GENERIC_AWAY_COLOR);
-
-
+		
 		private var _halfInning : String = RefConstants.INNING_TOP;
 		
 		public var dispatcher:EventDispatcher = new EventDispatcher();
-
+		
+		public var ignoreInningLimit:Boolean = false;		
 		
 		[Bindable] public var leagueRules : LeagueRules;		
 		[Bindable] public var allTeams : ArrayCollection = new ArrayCollection();
@@ -35,7 +32,7 @@ package model{
 		[Bindable]
 		public function get strikes():Number{ return _strikes;}
 		public function set strikes(pVal:Number):void{
-			_strikes = pVal;
+			_strikes = (pVal>=0)?pVal:0;
 			if(_strikes >= leagueRules.strikesAllowed){
 				kickerOut();
 			}
@@ -43,7 +40,7 @@ package model{
 		[Bindable]
 		public function get balls():Number{ return _balls;}
 		public function set balls(pVal:Number):void{
-			_balls = pVal;
+			_balls = (_balls>=0)?pVal:0;
 			if(leagueRules.walkOnBalls && _balls >= leagueRules.ballsAllowed){
 				kickerSafe();
 			}
@@ -51,8 +48,8 @@ package model{
 		[Bindable]
 		public function get fouls():Number{ return _fouls;}
 		public function set fouls(pVal:Number):void{
-			_fouls = pVal;
-			if(leagueRules.foulsAreStrikes){
+			_fouls = (pVal>=0)?pVal:0;
+			if(leagueRules.foulsAreStrikes && pVal>=0 ){
 				strikes++;
 			}
 			if(_fouls>=leagueRules.foulsAllowed){
@@ -70,10 +67,11 @@ package model{
 		[Bindable]
 		public function get inning():Number{ return _inning;}
 		public function set inning(pVal:Number):void{
-			_inning = pVal;
-			resetInning();
-			if(_inning > leagueRules.numberOfInnings){
+			if(pVal > leagueRules.numberOfInnings && !ignoreInningLimit){
 				gameOver();
+			}else{
+				_inning = pVal;
+				resetInning();		
 			}
 		}
 		
