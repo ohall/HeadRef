@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Group 	xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 	xmlns:s="library://ns.adobe.com/flex/spark" 
-			width="75" height="43"
+			width="100" height="43"
 		 	mouseDown="mouseDownHandler(event)">
 	<fx:Metadata>
 		[Event(name="gameTimeExpired", type="events.GameTimeExpiredEvent")]
@@ -9,7 +9,7 @@
 	<fx:Script>
 		<![CDATA[			
 			import events.GameTimeExpiredEvent;
-			
+
 			private const MIN_MASK		: String = "00";
 			private const SEC_MASK		: String = "00";
 			private const TIMER_INTERVAL: int = 1000;
@@ -58,18 +58,27 @@
 			}
 			
 			private function getTimeString(pTimeLimit:Number,pTimeElapsed:Number):String{
+
 				var d:Date = new Date( pTimeLimit - pTimeElapsed );
 				var min:String = String(MIN_MASK + d.minutes).substr(-MIN_MASK.length);
 				var sec:String = String(SEC_MASK + d.seconds).substr(-SEC_MASK.length);
 				return String(min + ":" + sec);				
 			}
 			
-			private function startTimer():void {
+			public function startTimer():void {
 				_gameTimer.start();
 			}
 			
-			private function stopTimer():void {
+			public function stopTimer():void {
 				_gameTimer.stop();
+			}
+			
+			public function dispose():void{
+				if(_gameTimer){
+					_gameTimer.stop();
+					_gameTimer.removeEventListener(TimerEvent.TIMER, updateTimer);
+					_gameTimer = null;
+				}
 			}
 			
 			

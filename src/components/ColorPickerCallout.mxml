@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<components:HeadRefCallout xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<s:Callout xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		   xmlns:s="library://ns.adobe.com/flex/spark"
-		   creationComplete="init()" xmlns:components="components.*">
+		   creationComplete="init()" 
+		   xmlns:components="components.*">
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
@@ -49,7 +50,7 @@
 		]]>
 	</fx:Script>
 	
-	<s:VGroup id="swatchpanel" horizontalAlign="center"   >
+	<s:VGroup id="swatchpanel" horizontalAlign="center" width="250"   >
 		<s:HGroup>
 			<s:Rect id="preview" width="50" height="33" >
 				<s:fill><s:SolidColor id="previewColor" /></s:fill>
@@ -83,4 +84,4 @@
 		</s:Group>
 		<s:Button width="100%" label="Close" click="close()" />
 	</s:VGroup>
-</components:HeadRefCallout>
+</s:Callout>

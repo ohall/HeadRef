@@ -21,10 +21,10 @@
 			[Bindable]
 			public var currentColor:SolidColor = new SolidColor();
 			
-			private var callout:HeadRefCallout;
+			private var callout:Callout;
 			
 			private function init():void{
-				callout=new HeadRefCallout();
+				callout=new Callout();
 				callout.addEventListener(PopUpEvent.CLOSE, colorChanged);
 			}
 			

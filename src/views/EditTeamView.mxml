@@ -61,6 +61,7 @@
 							colorPicker.currentColor = new SolidColor(team.teamColor);
 						}
 					}
+					headRefModel.teamSelectedForEditing = ""
 				}
 			}
 			
@@ -68,13 +69,15 @@
 				if(_editingExistingTeam){
 					for(var i:int=0;i<headRefModel.teams.length;i++){     
 						if(curTeamModel.id==TeamModel(headRefModel.teams[i]).id){
+							deleteTeamFromDataBase(curTeamModel.id);
 							headRefModel.teams.removeItemAt(i);
 						}
 					}
 				}
 				teamNameInput.text = "";
 				emailInput.text = "";
-				colorPicker.currentColor = new SolidColor();				
+				colorPicker.currentColor = new SolidColor();
+				goToView(GameView);
 			}
 			
 		]]>

@@ -83,6 +83,7 @@
 			}
 			
 			protected function goToEndView(evt:EndGamePopUpButtonEvent):void{
+				gameTimer.dispose();
 				PopUpManager.removePopUp(_endPop);
 				if(_endPop){
 					_endPop = null;

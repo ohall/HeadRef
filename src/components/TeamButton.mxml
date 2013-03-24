@@ -55,6 +55,7 @@
 				callout.addEventListener(AddTeamEvent.ADD_TEAM,addTeam );
 				callout.addEventListener(EditTeamEvent.EDIT_TEAM,editTeam );
 				callout.open(this,true);
+				dispatchEvent( new MouseEvent(MouseEvent.MOUSE_UP) );
 			}
 			
 			protected function addTeam(event:AddTeamEvent):void{

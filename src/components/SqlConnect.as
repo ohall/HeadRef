@@ -1,14 +1,10 @@
 package components{
 	import flash.data.SQLConnection;
 	import flash.data.SQLResult;
-	import flash.data.SQLSchemaResult;
 	import flash.data.SQLStatement;
-	import flash.data.SQLTableSchema;
 	import flash.display.Sprite;
 	import flash.errors.SQLError;
-	import flash.events.SQLEvent;
 	import flash.filesystem.File;
-	import flash.text.ReturnKeyLabel;
 	
 	import model.HeadRefModel;
 	import model.LeagueRules;
@@ -75,6 +71,31 @@ package components{
 			var dbFile:File = new File( "app:/"+DB_NAME );
 			return dbFile.exists;
 		}
+		
+		public function deleteTeam(pTeamID:String):void{
+			deleteEntry(TABLE_NAME_TEAMS, pTeamID);
+		}
+
+		public function deleteRules(pRulesID:String):void{
+			deleteEntry(TABLE_NAME_RULES, pRulesID);
+		}
+		
+		private function deleteEntry(pType:String,pID:String):void{
+			if(!_sqlConnection){ _sqlConnection = new SQLConnection(); }
+			if( loadDatabase() ){
+				var sqlStatement:SQLStatement = new SQLStatement();
+				sqlStatement.sqlConnection = _sqlConnection;
+				sqlStatement.parameters[0] = pID;
+				sqlStatement.text = "DELETE FROM  "+ pType +"  WHERE id = ?";
+				try{ 
+					sqlStatement.execute();
+				}catch(err:SQLError){ 
+					var error:SQLError = err;
+					trace(err.message + " Function: deleteTeam"); 
+				}
+			}
+		}
+		
 		
 		/////////////////////////
 		// private methods  ////

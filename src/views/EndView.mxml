@@ -45,21 +45,27 @@
 				s+= "?";
 				s+= "subject="+_emailSubject;
 				s+= "&body="+_emailBody+"\n\n\n\n\n\n\n";
-				s+= "Find the Kickball365 HeadRef App in the iTunes App Store or Google Play Market!";
+				s+= "Find the HeadRef App in the iTunes App Store or Google Play Market!";
 				navigateToURL( new URLRequest(s));
+				restartApp();
+			}
+			
+			protected function restartApp():void{
 				navigator.popAll();
 				resetGameValues();
 				goToView(HeadRefHomeView);
 			}
 			
+			
 		]]>
 	</fx:Script>
 	<s:Image source="@Embed('../style/skins/gameoverbk.png')" height="100%" width="100%" />
-	<s:VGroup height="75%" horizontalAlign="center" y="100" horizontalCenter="0">
-		<s:Label text="Email scores to:" styleName="scoresLabel"/>
-		<s:TextArea id="emailsDisplayArea" 	text="@{_emailAddresses}" 	height="30%" horizontalCenter="0" />
-		<s:TextArea id="subjectDisplayArea" text="@{_emailSubject}" 	height="10%" horizontalCenter="0" />
-		<s:TextArea id="bodyDisplayArea" 	text="@{_emailBody}" 		height="60%" horizontalCenter="0" />
-		<s:Button label="Send Scores Email" click="emailButtonclickHandler(event)" />
-	</s:VGroup>
+	<s:Label text="Email scores to:" 	y="50"	styleName="scoresLabel"  horizontalCenter="0"/>
+	<s:TextArea id="emailsDisplayArea" 	y="75" text="@{_emailAddresses}" 	height="20%" horizontalCenter="0" />
+	<s:TextArea id="subjectDisplayArea" y="175" text="@{_emailSubject}" 	height="10%" horizontalCenter="0" />
+	<s:TextArea id="bodyDisplayArea" 	y="225" text="@{_emailBody}" 		height="40%" horizontalCenter="0" />
+	<s:HGroup bottom="5" width="100%" horizontalAlign="center">
+		<s:Button label="Email Scores" click="emailButtonclickHandler(event)" />
+		<s:Button label="Skip and Exit" click="restartApp()" />
+	</s:HGroup>
 </views:AbstractRefView>

@@ -1,23 +1,23 @@
 <app>
-	<teams>
-		<team>
-			<id>NYSH</id>
-			<teamName>NYSH</teamName>
-			<teamColor>4982D9</teamColor>
-			<captainEmail>oakley349@gmail.com</captainEmail>
-		</team>
-		<team>
-			<id>LIU</id>
-			<teamName>LIU</teamName>
-			<teamColor>E98108</teamColor>
-			<captainEmail>lockitup@gmail.com</captainEmail>
-		</team>	
-	</teams>
+<!-- 	<teams> -->
+<!-- 		<team> -->
+<!-- 			<id>NYSH</id> -->
+<!-- 			<teamName>NYSH</teamName> -->
+<!-- 			<teamColor>4982D9</teamColor> -->
+<!-- 			<captainEmail>oakley349@gmail.com</captainEmail> -->
+<!-- 		</team> -->
+<!-- 		<team> -->
+<!-- 			<id>LIU</id> -->
+<!-- 			<teamName>LIU</teamName> -->
+<!-- 			<teamColor>E98108</teamColor> -->
+<!-- 			<captainEmail></captainEmail> -->
+<!-- 		</team>	 -->
+<!-- 	</teams> -->
 	<leagues>
 		<leagueRules>
-			<id>CircuitPoolPlay</id>
-			<leagueName>Circuit Pool Play</leagueName>
-			<leagueManagerEmail>contactus@kickball365.com</leagueManagerEmail>
+			<id>TournamentPoolPlay</id>
+			<leagueName>Tournament Pool Play</leagueName>
+			<leagueManagerEmail></leagueManagerEmail>
 			<strikesAllowed>3</strikesAllowed>
 			<ballsAllowed>4</ballsAllowed>
 			<foulsAllowed>3</foulsAllowed>
@@ -28,13 +28,26 @@
 			<timeLimit>3600000</timeLimit>
 		</leagueRules>
 		<leagueRules>
-			<id>Circuit Elim</id>
-			<leagueName>Circuit Elim</leagueName>
-			<leagueManagerEmail>contactus@kickball365.com</leagueManagerEmail>
+			<id>TournamentElim</id>
+			<leagueName>Tournament Elimination</leagueName>
+			<leagueManagerEmail></leagueManagerEmail>
 			<strikesAllowed>3</strikesAllowed>
 			<ballsAllowed>4</ballsAllowed>
 			<foulsAllowed>3</foulsAllowed>
 			<numberOfInnings>6</numberOfInnings>
+			<allowsTies>false</allowsTies>
+			<foulsAreStrikes>false</foulsAreStrikes>
+			<walkOnBalls>true</walkOnBalls>
+			<timeLimit>3600000</timeLimit>
+		</leagueRules>
+		<leagueRules>
+			<id>Casual</id>
+			<leagueName>Casual</leagueName>
+			<leagueManagerEmail></leagueManagerEmail>
+			<strikesAllowed>3</strikesAllowed>
+			<ballsAllowed>4</ballsAllowed>
+			<foulsAllowed>4</foulsAllowed>
+			<numberOfInnings>5</numberOfInnings>
 			<allowsTies>false</allowsTies>
 			<foulsAreStrikes>false</foulsAreStrikes>
 			<walkOnBalls>true</walkOnBalls>

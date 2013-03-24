@@ -19,11 +19,14 @@
 			private var _buttonNumsList:ArrayCollection = new ArrayCollection([1,2,3,4,5]);
 			
 			[Bindable]
-			private var _buttonText:String = "";			
+			private var _buttonText:String = "";
+			
+			private var _rulesEdited:Boolean;
 			
 			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{
 				super.viewActivateHandler(event);
-				
+				_buttonText = "";
+				_rulesEdited = false;
 				for each(var rules:LeagueRules in headRefModel.leagues){
 					if(rules.leagueName == headRefModel.rulesSelectedForEditing){
 						_curRuleSet = rules;
@@ -41,7 +44,7 @@
 						return;
 					}
 				}
-				if(rulesAdded()){
+				if(_rulesEdited){
 					headRefModel.leagues.addItem(_curRuleSet);
 				}
 				goToView(NewGameView);
@@ -50,14 +53,17 @@
 			}
 			
 			protected function foulsAllowBarClickHandler(event:MouseEvent):void{
+				changeButtonText();
 				_curRuleSet.foulsAllowed = event.target.data as Number;
 			}
 			
 			protected function strikesAllowBarClickHandler(event:MouseEvent):void{
+				changeButtonText();
 				_curRuleSet.strikesAllowed = event.target.data as Number;
 			}
 			
 			protected function ballsAllowBarClickHandler(event:MouseEvent):void{
+				changeButtonText();
 				_curRuleSet.ballsAllowed = event.target.data as Number;
 			}
 			
@@ -65,8 +71,25 @@
 				return nameInput.text != ""; 
 			}
 			
-			protected function nameInputKeyDownHandler(event:KeyboardEvent):void{
-				if(rulesAdded()){ _buttonText = " and Save"; }
+			protected function inputKeyDownHandler(event:KeyboardEvent):void{
+				if( HeadRefTextInput(event.currentTarget).text != "" ){
+					changeButtonText();
+				}
+			}
+			
+			private function changeButtonText():void{
+				_rulesEdited = true;
+				_buttonText = " and Save";
+			}
+			
+			protected function deleteMouseDownHandler(event:MouseEvent):void{
+				for(var i:int=0;i<headRefModel.leagues.length;i++){     
+					if(_curRuleSet.id==LeagueRules(headRefModel.leagues[i]).id){
+						deleteRulesFromDataBase(_curRuleSet.id);
+						headRefModel.leagues.removeItemAt(i);
+					}
+				}
+				goToView(NewGameView);
 			}
 			
 		]]>
@@ -76,14 +99,15 @@
 									text="League Name:" styleName="editRulesLabel" />
 	<components:HeadRefTextInput 	x="5" y="25" 	
 									id="nameInput" text="@{_curRuleSet.leagueName}" 
-								 	keyDown="nameInputKeyDownHandler(event)" />
+								 	keyDown="inputKeyDownHandler(event)" />
 
 	<!--public var leagueManagerEmail : String;-->
 	<s:Label 						x="5" y="70" 	
 									text="League Manager's Email:" styleName="editRulesLabel" />
 	<components:HeadRefTextInput  	x="5" y="90" 	
 									id="emailInput"  
-								  	text="@{_curRuleSet.leagueManagerEmail}"/>
+								  	text="@{_curRuleSet.leagueManagerEmail}"
+									keyDown="inputKeyDownHandler(event)"/>
 	
 	<!--public var strikesAllowed	: Number;-->
 	<s:Label 						x="5" y="135" 	
@@ -135,8 +159,11 @@
 									text="Walk on Balls" styleName="editRulesLabel" />
 	<s:ToggleSwitch 				right="5" y="405"	
 									id="ballsToggle" selected="@{_curRuleSet.walkOnBalls}"/>
-
-	<s:Button bottom="0" id="saveBtn" label="Exit{_buttonText}" 
-			  width="100%" mouseDown="saveBtnMouseDownHandler(event)" />
+	
+	<s:HGroup  bottom="0" width="100%" horizontalAlign="center" >
+		<s:Button label="Exit{_buttonText}" 
+				  width="100%" mouseDown="saveBtnMouseDownHandler(event)" />
+		<s:Button width="100%" label="Delete" mouseDown="deleteMouseDownHandler(event)" />
+	</s:HGroup>
 	
 </views:AbstractRefView>

@@ -46,7 +46,9 @@
 				
 				//we'll save data on every view change
 				sqlConnect.saveModel(headRefModel);
-				navigator.pushView(pNextViewClass, headRefModel);
+				if(navigator){
+					navigator.pushView(pNextViewClass, headRefModel);
+				}
 			}
 			
 			private function parseDefaultValues():void{
@@ -80,6 +82,14 @@
 				headRefModel.gameModel = null;
 				headRefModel.gameModel = new GameModel();
 				
+			}
+			
+			protected function deleteTeamFromDataBase(pTeamID:String):void{
+				sqlConnect.deleteTeam(pTeamID);
+			}
+			
+			protected function deleteRulesFromDataBase(pRulesID:String):void{
+				sqlConnect.deleteRules(pRulesID);
 			}
 			
 			
