@@ -16,18 +16,15 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import mx.events.CloseEvent;
-			
 			import spark.events.PopUpEvent;
 			
 			[Bindable]
 			public var currentColor:SolidColor = new SolidColor();
 			
-			private var callout:Callout;
+			private var callout:HeadRefCallout;
 			
-			private function init():void
-			{
-				callout=new Callout();
+			private function init():void{
+				callout=new HeadRefCallout();
 				callout.addEventListener(PopUpEvent.CLOSE, colorChanged);
 			}
 			

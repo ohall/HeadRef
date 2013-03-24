@@ -11,6 +11,7 @@
 	</fx:Declarations>
 	<fx:Metadata>
 		[Event(name="addTeam", type="events.AddTeamEvent")] 
+		[Event(name="editTeam", type="events.EditTeamEvent")] 
 		[Event(name="longPress", type="events.LongPressEvent")] 
 		[Event(name="scoreClick", type="events.ScoreClickEvent")]
 		[Event(name="teamSelected", type="events.TeamSelectedEvent")]
@@ -18,15 +19,12 @@
 	<fx:Script>
 		<![CDATA[
 			import events.AddTeamEvent;
+			import events.EditTeamEvent;
 			import events.LongPressEvent;
 			import events.ScoreClickEvent;
 			import events.TeamSelectedEvent;
 			
-			import mx.collections.IList;
-			import mx.events.FlexEvent;
-			
-			import spark.components.supportClasses.DropDownController;
-			import spark.events.DropDownEvent;			
+			import mx.collections.IList;			
 			
 			private var _longPressTimer:Timer;
 			private var _isLongPressed:Boolean = false;
@@ -55,11 +53,16 @@
 				callout.teamList = dataProvider;
 				callout.addEventListener(TeamSelectedEvent.TEAM_SELECTED,teamSelected );
 				callout.addEventListener(AddTeamEvent.ADD_TEAM,addTeam );
+				callout.addEventListener(EditTeamEvent.EDIT_TEAM,editTeam );
 				callout.open(this,true);
 			}
 			
 			protected function addTeam(event:AddTeamEvent):void{
 				dispatchEvent( event as AddTeamEvent );
+			}
+			
+			protected function editTeam(event:EditTeamEvent):void{
+				dispatchEvent( event as EditTeamEvent );
 			}
 			
 			protected function teamSelected(event:TeamSelectedEvent):void{

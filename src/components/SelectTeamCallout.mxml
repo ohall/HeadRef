@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Callout xmlns:fx="http://ns.adobe.com/mxml/2009" 
+<components:HeadRefCallout xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		   xmlns:s="library://ns.adobe.com/flex/spark"
 		   xmlns:components="components.*" width="100%" >
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
 			import events.AddTeamEvent;
+			import events.EditTeamEvent;
 			import events.LongPressEvent;
 			import events.TeamSelectedEvent;
 			
@@ -15,18 +13,14 @@
 			
 			import mx.collections.IList;
 			
-			import spark.events.PopUpEvent;
-			
 			[Bindable]
 			public var teamList:IList;
 			
 		
 			protected function teamClicked(event:MouseEvent):void{
-				
 				var teamSelected:TeamModel = TeamModel( teamSpinner.selectedItem );
 				dispatchEvent( new TeamSelectedEvent(teamSelected) );
 				close();
-				
 			}
 			
 			protected function addTeamButtonClickHandler(event:MouseEvent):void{
@@ -35,20 +29,20 @@
 				
 			}
 			
-			protected function teamSpinnerlongPressHandler(event:LongPressEvent):void
-			{
-				// TODO Auto-generated method stub
-				
+			protected function teamSpinnerlongPressHandler(event:LongPressEvent):void{
+				dispatchEvent( new EditTeamEvent( TeamModel( teamSpinner.selectedItem ).teamName ) );
+				close();			
 			}
 			
 		]]>
 	</fx:Script>
-	<s:VGroup>
-		<s:SpinnerListContainer width="100%" >
+	<s:VGroup height="400" >
+		<s:SpinnerListContainer width="100%" height="150"  >
 			<components:HeadRefSpinnerList id="teamSpinner" width="100%" longPress="teamSpinnerlongPressHandler(event)" 
 										   click="teamClicked(event)" styleName="newRulesButton"
 										   dataProvider="{teamList}" labelField="teamName" />
 		</s:SpinnerListContainer>
-		<s:Button id="addTeamButton" width="100%" label="Add New Team" click="addTeamButtonClickHandler(event)" />
+		<s:Button width="100%" height="50" label="Close" click="close()" />
+		<s:Button id="addTeamButton" height="50" width="100%" label="Add New Team" click="addTeamButtonClickHandler(event)" />
 	</s:VGroup>
-</s:Callout>
+</components:HeadRefCallout>
