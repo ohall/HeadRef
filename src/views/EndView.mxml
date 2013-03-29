@@ -24,9 +24,9 @@
 			override protected function viewActivateHandler(event:ViewNavigatorEvent):void{
 				super.viewActivateHandler(event);
 				if(headRefModel){
-					_emailAddresses = headRefModel.gameModel.leagueRules.leagueManagerEmail+"\n"
-					_emailAddresses+= headRefModel.gameModel.homeTeam.captainEmail+"\n";
-					_emailAddresses+= headRefModel.gameModel.awayTeam.captainEmail+"\n";				
+					_emailAddresses = (headRefModel.gameModel.leagueRules.leagueManagerEmail!="")?headRefModel.gameModel.leagueRules.leagueManagerEmail+", ":"";
+					_emailAddresses+= (headRefModel.gameModel.homeTeam.captainEmail!="")?headRefModel.gameModel.homeTeam.captainEmail+", ":"";
+					_emailAddresses+= (headRefModel.gameModel.awayTeam.captainEmail!="")?headRefModel.gameModel.awayTeam.captainEmail+", ":"";				
 					
 					_emailSubject += headRefModel.gameModel.homeTeam.teamName+": "+headRefModel.gameModel.homeTeamScore.toString()+" - ";
 					_emailSubject += headRefModel.gameModel.awayTeam.teamName+": "+headRefModel.gameModel.awayTeamScore.toString();
@@ -59,11 +59,16 @@
 			
 		]]>
 	</fx:Script>
-	<s:Image source="@Embed('../style/skins/gameoverbk.png')" height="100%" width="100%" />
-	<s:Label text="Email scores to:" 	y="50"	styleName="scoresLabel"  horizontalCenter="0"/>
-	<s:TextArea id="emailsDisplayArea" 	y="75" text="@{_emailAddresses}" 	height="20%" horizontalCenter="0" />
-	<s:TextArea id="subjectDisplayArea" y="175" text="@{_emailSubject}" 	height="10%" horizontalCenter="0" />
-	<s:TextArea id="bodyDisplayArea" 	y="225" text="@{_emailBody}" 		height="40%" horizontalCenter="0" />
+	<s:Image source="@Embed('../style/skins/gameoverbk.png')" height="100%" width="100%"  scaleMode="zoom" />
+	<s:Group verticalCenter="0" width="100%">
+		<s:layout>
+			<s:VerticalLayout horizontalAlign="center"/>
+		</s:layout>
+		<s:Label text="Email scores to:" 	styleName="scoresLabel"  horizontalCenter="0"/>
+		<s:TextArea id="emailsDisplayArea" 	text="@{_emailAddresses}" />
+		<s:TextArea id="subjectDisplayArea" text="@{_emailSubject}" 	height="40" />
+		<s:TextArea id="bodyDisplayArea" 	text="@{_emailBody}" 		height="200" />
+	</s:Group>
 	<s:HGroup bottom="5" width="100%" horizontalAlign="center">
 		<s:Button label="Email Scores" click="emailButtonclickHandler(event)" />
 		<s:Button label="Skip and Exit" click="restartApp()" />

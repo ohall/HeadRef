@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:View xmlns:fx="http://ns.adobe.com/mxml/2009" viewActivate="viewActivateHandler(event)" 
 		xmlns:s="library://ns.adobe.com/flex/spark" 
-		actionBarVisible="false">
-	<fx:Declarations>
-		<fx:XML id="defaults" source="defaults.xml" />
-	</fx:Declarations>	
+		actionBarVisible="false" creationComplete="creationCompleteHandler(event)">
 	<fx:Script>
 		<![CDATA[
+			import components.HeadRefDefaults;
 			import components.SqlConnect;
 			
 			import model.GameModel;
 			import model.HeadRefModel;
-			import model.LeagueRules;
-			import model.TeamModel;
 			
-			import mx.core.FlexGlobals;
 			import mx.core.IFlexDisplayObject;
+			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			
+			import spark.components.BusyIndicator;
 			import spark.events.ViewNavigatorEvent;
 			
 			[Bindable]
 			public var headRefModel:HeadRefModel;
 			
 			public var sqlConnect:SqlConnect = new SqlConnect();
+			
+			protected var busyIndicator:BusyIndicator;
 			
 			//we've arrived in a new view, let's check on the model
 			protected function viewActivateHandler(event:ViewNavigatorEvent):void{
@@ -32,12 +31,16 @@
 				}else if( sqlConnect.databaseExists() ){//otherwish, create a new model
 					headRefModel = sqlConnect.getSavedModelFromDatabase();
 				}else{
-					parseDefaultValues();
+					addDefaultValues();
+				}
+				if(busyIndicator){
+					busyIndicator.visible = false;
 				}
 			}
 			
 			//we're leaving this view.  Take the model with us
 			protected function goToView(pNextViewClass:Class):void{
+				busyIndicator.visible = true;
 				//close any popups we may have open.
 				for (var i:int = systemManager.popUpChildren.numChildren - 1; i >= 0; i--){
 					var popup:IFlexDisplayObject = IFlexDisplayObject(systemManager.popUpChildren.getChildAt(i));
@@ -51,30 +54,9 @@
 				}
 			}
 			
-			private function parseDefaultValues():void{
+			private function addDefaultValues():void{
 				headRefModel = new HeadRefModel();
-				for each(var rulexml:XML in defaults..leagueRules){
-					var rules:LeagueRules 	= new LeagueRules();
-					rules.strikesAllowed	= Number(	rulexml.strikesAllowed	);
-					rules.ballsAllowed		= Number(	rulexml.ballsAllowed	);
-					rules.foulsAllowed		= Number(	rulexml.foulsAllowed	);
-					rules.foulsAreStrikes	= (rulexml.foulsAreStrikes=="true")?true:false;
-					rules.walkOnBalls 		= (rulexml.walkOnBalls=="true")?true:false;
-					rules.numberOfInnings 	= Number(	rulexml.numberOfInnings	);
-					rules.leagueName		= String(	rulexml.leagueName		);
-					rules.leagueManagerEmail= String(	rulexml.leagueManagerEmail);
-					rules.timeLimitInMilliseconds = Number( rulexml.timeLimit	);
-					headRefModel.leagues.addItem(rules);
-				}	
-				
-				for each(var teamXML:XML in defaults..team){
-					var team:TeamModel 	= new TeamModel(teamXML.teamName,teamXML.teamColor);
-					team.captainEmail	= teamXML.captainEmail;
-					team.teamName = teamXML.teamName;
-					team.teamColor = uint("0x" + teamXML.teamColor);
-					headRefModel.teams.addItem(team);
-				}	
-				
+				headRefModel.leagues = new HeadRefDefaults().defaultRules();				
 				sqlConnect.saveModel(headRefModel);
 			}
 			
@@ -92,6 +74,15 @@
 				sqlConnect.deleteRules(pRulesID);
 			}
 			
+			
+			protected function creationCompleteHandler(event:FlexEvent):void{
+				busyIndicator  = new BusyIndicator();
+				busyIndicator.verticalCenter = 0;
+				busyIndicator.horizontalCenter = 0;
+				busyIndicator.setStyle("symbolColor", 0xFFFFFF);
+				this.addElement(busyIndicator);
+				busyIndicator.visible = false;
+			}
 			
 		]]>
 	</fx:Script>

@@ -6,11 +6,12 @@
 	<fx:Script>
 		<![CDATA[			
 			protected function splashClickHandler():void{
+				busyIndicator.visible = true;
 				goToView(NewGameView);
 			}
 		]]>
 	</fx:Script>
 	<s:Image source="@Embed('../style/skins/amy_splash.png')" 
 			 horizontalCenter="0" verticalCenter="0" 
-			 height="100%" width="100%"   />
+			 height="100%" width="100%" scaleMode="zoom"   />
 </views:AbstractRefView>

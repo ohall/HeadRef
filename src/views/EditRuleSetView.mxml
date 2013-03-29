@@ -92,72 +92,88 @@
 				goToView(NewGameView);
 			}
 			
+			private function roundToNearest(roundTo:Number, value:Number):Number{
+				return Math.round(value/roundTo)*roundTo;
+			}
+			
+			protected function timeSliderchangeHandler(event:Event):void{
+				_curRuleSet.timeLimitInMilliseconds = roundToNearest(60000,_curRuleSet.timeLimitInMilliseconds );				
+			}
+			
 		]]>
 	</fx:Script>
 	<!--public var leagueName		: String;-->
-	<s:Label 						x="5" y="5" 	
+	<s:Label 						x="5" y="2" 	
 									text="League Name:" styleName="editRulesLabel" />
-	<components:HeadRefTextInput 	x="5" y="25" 	
+	<components:HeadRefTextInput 	x="5" y="20" 	
 									id="nameInput" text="@{_curRuleSet.leagueName}" 
 								 	keyDown="inputKeyDownHandler(event)" />
 
 	<!--public var leagueManagerEmail : String;-->
-	<s:Label 						x="5" y="70" 	
+	<s:Label 						x="5" y="62" 	
 									text="League Manager's Email:" styleName="editRulesLabel" />
-	<components:HeadRefTextInput  	x="5" y="90" 	
+	<components:HeadRefTextInput  	x="5" y="80" 	
 									id="emailInput"  
 								  	text="@{_curRuleSet.leagueManagerEmail}"
 									keyDown="inputKeyDownHandler(event)"/>
 	
 	<!--public var strikesAllowed	: Number;-->
-	<s:Label 						x="5" y="135" 	
+	<s:Label 						x="5" y="125" 	
 									text="Strikes Allowed" styleName="editRulesLabel" />
-	<components:HeadRefButtonBar 	x="5" y="150" 	
+	<components:HeadRefButtonBar 	x="5" y="140" 	
 									id="strikesAllowBar" 
 									dataProvider="{_buttonNumsList}" 
 				 					click="strikesAllowBarClickHandler(event)" 
 									selectedItem="{_curRuleSet.strikesAllowed}"  />
 	
 	<!--public var ballsAllowed		: Number;-->
-	<s:Label 						x="5" y="185" 	
+	<s:Label 						x="5" y="170" 	
 									text="Balls Allowed" styleName="editRulesLabel" />
-	<components:HeadRefButtonBar 	x="5" y="200" 	
+	<components:HeadRefButtonBar 	x="5" y="185" 	
 									id="ballsAllowBar" dataProvider="{_buttonNumsList}" 
 				 					click="ballsAllowBarClickHandler(event)" 
 									selectedItem="{_curRuleSet.ballsAllowed}"  />
 	
 	<!--public var foulsAllowed		: Number;-->
-	<s:Label 						x="5" y="235"  	
+	<s:Label 						x="5" y="220"  	
 									text="Fouls Allowed" styleName="editRulesLabel" />
-	<components:HeadRefButtonBar 	x="5" y="250" 
+	<components:HeadRefButtonBar 	x="5" y="235" 
 								 	id="foulsAllowBar" dataProvider="{_buttonNumsList}"
 				 			   	 	click="foulsAllowBarClickHandler(event)" 
 									selectedItem="{_curRuleSet.foulsAllowed}"  />
 		
 	<!--public var numberOfInnings	: Number;-->
-	<s:Label 						x="5" y="285" 	
+	<s:Label 						x="5" y="270" 	
 									text="Number of Innings: {_curRuleSet.numberOfInnings}" 
 									styleName="editRulesLabel" />
-	<s:HSlider 						x="5" y="300" 	
+	<s:HSlider 						x="5" y="280" 	
 									id="inningsSlider" minimum="1" maximum="16" 
 									value="@{_curRuleSet.numberOfInnings}" /> 
+
+	<!--public var timeLimitInMilliseconds	: Number;-->
+	<s:Label 						x="5" y="310" 	
+									text="Time Limit: {Math.floor(_curRuleSet.timeLimitInMilliseconds / 60000)} Minutes" 
+									styleName="editRulesLabel" />
+	<s:HSlider 						x="5" y="320" showDataTip="true" change="timeSliderchangeHandler(event)" 	
+									id="timeSlider" minimum="1" maximum="7200000" 
+									value="@{_curRuleSet.timeLimitInMilliseconds}" /> 
 	
 	<!--public var allowsTies		: Boolean;-->
-	<s:Label 						x="5" y="330" 		
+	<s:Label 						x="5" y="350" 		
 									text="Allow Ties" styleName="editRulesLabel" />
-	<s:ToggleSwitch 				right="5" y="330" 	
+	<s:ToggleSwitch 				right="5" y="350" 	
 									id="tiesToggle" selected="@{_curRuleSet.allowsTies}"/> 
 
 	<!--public var foulsAreStrikes	: Boolean;-->
-	<s:Label 						x="5" y="368" 		
+	<s:Label 						x="5" y="380" 		
 									text="Fouls are Strikes" styleName="editRulesLabel" />
-	<s:ToggleSwitch 				right="5" y="368" 	
+	<s:ToggleSwitch 				right="5" y="380" 	
 									id="foulsToggle" selected="@{_curRuleSet.foulsAreStrikes}"/>
 
 	<!--public var walkOnBalls		: Boolean;-->
-	<s:Label						x="5" y="405" 		
+	<s:Label						x="5" y="410" 		
 									text="Walk on Balls" styleName="editRulesLabel" />
-	<s:ToggleSwitch 				right="5" y="405"	
+	<s:ToggleSwitch 				right="5" y="410"	
 									id="ballsToggle" selected="@{_curRuleSet.walkOnBalls}"/>
 	
 	<s:HGroup  bottom="0" width="100%" horizontalAlign="center" >

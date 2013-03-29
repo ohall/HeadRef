@@ -19,8 +19,6 @@
 			[Bindable]
 			private var selectingHomeOrAway:String = RefConstants.HOME;
 			
-			[Embed(source="defaults.xml", mimeType="text/xml")]
-			protected const EmbeddedXML:Class;
 			
 			protected function startGameButtonClickHandler(event:MouseEvent):void{
 				// TODO Auto-generated method stub
