@@ -29,7 +29,7 @@
 				goToView(GameView);			
 			}
 			
-			protected function ruleListLongPressHandler(event:LongPressEvent):void{
+			protected function editSelctedClick(event:MouseEvent):void{
 				headRefModel.rulesSelectedForEditing = LeagueRules(ruleList.selectedItem).leagueName;
 				goToView(EditRuleSetView);				
 			}
@@ -38,7 +38,7 @@
 				super.viewActivateHandler(event);
 			}
 			
-			protected function neRulesButtonClickHandler(event:MouseEvent):void{
+			protected function newRulesButtonClickHandler(event:MouseEvent):void{
 				headRefModel.rulesSelectedForEditing = "";
 				goToView(EditRuleSetView);
 			}
@@ -46,22 +46,20 @@
 	</fx:Script>
 	
 	
-	<s:Label x="10" y="5" 
-			 text="Tap a rule set to use it" 
-			 styleName="newGameViewLabel" />
-	
-	<s:Label x="10" y="35" 
-			 text="Long press selection to edit" 
+	<s:Label horizontalCenter="0" y="5" 
+			 text="Choose Rules" 
 			 styleName="newGameViewLabel" />
 	
 	<s:SpinnerListContainer y="100"  width="100%">
-		<components:HeadRefSpinnerList id="ruleList" width="100%" longPress="ruleListLongPressHandler(event)" 
+		<components:HeadRefSpinnerList id="ruleList" width="100%"  
 									   click="ruleListClickHandler(event)" styleName="newRulesButton"
 									   dataProvider="{headRefModel.leagues}" labelField="leagueName" />                    
 	</s:SpinnerListContainer>		
-	
-	<s:Button bottom="50" width="100%" 
-			  label="Tap to add a new rule set" 
-			  click="neRulesButtonClickHandler(event)"  />
+	<s:Button bottom="100" width="100%" 
+			  label="Tap to edit selected rules" 
+			  click="editSelctedClick(event)"  />
+	<s:Button bottom="20" width="100%" 
+			  label="Tap to add new rules" 
+			  click="newRulesButtonClickHandler(event)"  />
 	
 </views:AbstractRefView>

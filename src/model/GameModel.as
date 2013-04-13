@@ -16,8 +16,8 @@ package model{
 		[Bindable] private var _homeTeamScore	: Number = 0;
 		[Bindable] private var _awayTeamScore	: Number = 0;
 		
-		[Bindable] private var _homeTeam : TeamModel = new TeamModel("HOME", RefConstants.GENERIC_HOME_COLOR);
-		[Bindable] private var _awayTeam : TeamModel = new TeamModel("AWAY", RefConstants.GENERIC_AWAY_COLOR);
+		[Bindable] private var _homeTeam : TeamModel = new TeamModel("", RefConstants.GENERIC_HOME_COLOR);
+		[Bindable] private var _awayTeam : TeamModel = new TeamModel("", RefConstants.GENERIC_AWAY_COLOR);
 		
 		private var _halfInning : String = RefConstants.INNING_TOP;
 		

@@ -144,7 +144,8 @@
 
 	<components:TeamButton 	y="25"
 							id="homeBtn" 
-						   	teamName="{headRefModel.gameModel.homeTeam.teamName}" 
+							homeOrAway="{TeamButton.HOME}"
+							teamName="{headRefModel.gameModel.homeTeam.teamName}" 
 						   	score="{headRefModel.gameModel.homeTeamScore}"  
 							scoreClick="homeBtnClickHandler()" 
 							teamColor="{headRefModel.gameModel.homeTeam.teamColor}"
@@ -155,6 +156,7 @@
 	
 	<components:TeamButton 	y="25" right="0"
 							id="awayBtn" 
+							homeOrAway="{TeamButton.AWAY}"
 						   	teamName="{headRefModel.gameModel.awayTeam.teamName}" 
 							score="{headRefModel.gameModel.awayTeamScore}" 
 			  				scoreClick="awayBtnClickHandler()"
