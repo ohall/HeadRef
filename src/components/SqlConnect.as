@@ -68,7 +68,7 @@ package components{
 		}
 		
 		public function databaseExists():Boolean{
-			var dbFile:File = new File( "app:/"+DB_NAME );
+			var dbFile:File = File.applicationStorageDirectory.resolvePath(DB_NAME);
 			return dbFile.exists;
 		}
 		
@@ -102,14 +102,13 @@ package components{
 		////////////////////////
 
 		private function loadDatabase():Boolean{
-			var dbFile:File = new File( "app:/"+DB_NAME );
-			var didExist:Boolean = dbFile.exists;
+			var dbFile:File = File.applicationStorageDirectory.resolvePath(DB_NAME);
 			try	{ 
 				_sqlConnection.open(dbFile)
 			}catch(err:Error){ 
 				trace(err.message + "Function: loadDatabase"); 
 			}
-			return didExist;
+			return dbFile.exists;
 		}
 		
 		private function createTableIfDoesntExist(pTableName:String):void{
@@ -202,7 +201,7 @@ package components{
 			sqlStatement.text = GET_TEAMS;
 			sqlStatement.execute();
 			var result:SQLResult = sqlStatement.getResult();
-			if(result.data){
+			if(result && result.data){
 				var numberOfRows:int = result.data.length;
 				for( var i:int = 0; i < numberOfRows; i++ ){
 					var item:Object 	= result.data[i];
@@ -222,7 +221,7 @@ package components{
 			sqlStatement.text = GET_RULES
 			sqlStatement.execute();
 			var result:SQLResult = sqlStatement.getResult();
-			if(result.data){
+			if(result && result.data){
 				var numberOfRows:int = result.data.length;
 				for( var i:int = 0; i < numberOfRows; i++ ){
 					var resultObj:Object 		= result.data[i];
